@@ -1,0 +1,25 @@
+body {
+ 
+    background-color: #272727;
+    
+}
+
+#container{
+ 
+    margin: 0px;
+    
+}
+
+.tags {
+ 
+    margin: 0px;
+    background-color: #1D1D1D;
+    color: #929497;
+    font-family: Tahoma;
+    font-size: 14px;
+    
+}
+
+.tags-left{ margin: 0px; float: left; width: 120px; }
+.tags-center{ margin: 0px; float: left; width: 120px; }
+.tags-right{ margin: 0px; display: inline-block; width: 360px; }

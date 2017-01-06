@@ -1,0 +1,79 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf600
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 MinionPro-Regular;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;\csgray\c100000;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww24140\viewh13880\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Hi, Michael!\
+\pard\pardeftab720\ri-1446\sl288\slmult1\partightenfactor0
+
+\f1 \cf0 \
+
+\f0 Two dynamic nature phenomenons \'97 water ripples and breaking (tidal) waves \'97 \
+could be efficiently simulated by dozen of algorithms and physical models. But, as far as I can understand the project concept right now \'97 the tricky thing is that scene would be updated once in 15-30 seconds (literally 0.06 - 0.03 frames per second), so we couldn\'92t use motions and animations in its classical way. \
+\
+Have to find solution how to do it in stills without loosing dynamic nature.\
+\
+There are lots of models for simulating breaking waves and, it\'92s my suggestion, \
+should pick one of these algorithms, and simply tweak it. All these models are well described, there are lots of articles and open-source codes, so I could develop\
+my own one just for this project. \
+\
+By now, I have stopped on \'93position-based fluid\'94 ({\field{\*\fldinst{HYPERLINK "https://www.youtube.com/watch?v=oahdiYqEFtY"}}{\fldrslt https://www.youtube.com/watch?v=oahdiYqEFtY}}) and need a few days (3-5) to get into its math and code my own library for JavaScript/D3.js or any other SVG frameworks we would choose. \
+\
+What about ripples? It looks very simple to made, but it could be even harder as \
+developing breaking waves. \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Pasted Graphic.tiff \width11340 \height5880
+}¬}\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\ri-1446\sl288\slmult1\partightenfactor0
+\cf0 \
+This scheme has a clue how scenario should be. New nodes would flow from the left side to the right, while older would be reflected by right wall interacting with \'91new-comers\'92 and fading away.\
+\
+While, there are to many options for ripples. The new nodes could be dropped in the centre and then spreading from epicentre or could be placed arbitrary within certain radius interacting with \
+\'91invisible waves\'92. And there are much more starting scenarios rather than these two. \
+\
+You can find some very short videos for the second example by these links:\
+\
+http://sendvid.com/exrx7w73\
+http://sendvid.com/yy1s2yvy\
+{\field{\*\fldinst{HYPERLINK "https://sendvid.com/o8wa0ord"}}{\fldrslt https://sendvid.com/o8wa0ord}}\
+\
+I have much more ideas on ripples, but also need time to test in codes. By now, I preferred to use Processing environment, if you don\'92t mind.I would share videos and short description. \
+\
+By now I have only one main question. Do you have some ideas on thing that data flow\
+wouldn\'92t be consistent? Users could send dozen of text messages and could do nothing\
+in the same period of time. If it would be less than max nodes on screen we could make \
+\'91false\'92/\'91empty\'92 nodes (could be hidden) to keep simulation homogenous and stable, but\
+what if max would be exceeded? What we should do in stress peak situation?\
+\
+This intensity, by the way, could be used as parameter for simulation, as well as, it \
+would be a good idea, to consider every meta data as potential parameters,\
+including IP address, date, time, mobile numbers and etc. \
+\
+In terms on frameworks, to be honest, I couldn\'92t position my self as an expertise\
+in D3.js, however in the same time, the project would be more centred on\
+physical models and particles rather than on D3.js functionality.\
+\
+I have more experiences with WebGL and, if we are talking about vector graphics,\
+with Paper.JS and Rapha\'e9l.JS (now Snap.JS) frameworks. \
+\
+And yeah, I don\'92t have any other projects right now so I am planning to do coding\
+on a daily basis with sharing of \'91diaries\'92, including videos and illustrations. \
+\
+It would be ideally to use GitHub platform for this purposes. It could be private\
+repository (in this case I should switch to paid account) or we could use open\
+one. It\'92s basically up to you.\
+\
+PS: Upwork sometimes goes crazy, so we should have backup channels.\
+ My primary email is helloworld@vkuchinov.co.uk\
+\
+\
+\
+\
+\
+\
+\
+}

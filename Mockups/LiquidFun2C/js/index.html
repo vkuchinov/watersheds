@@ -1,0 +1,64 @@
+<html>
+  <style>
+    #canvas {
+      border: 1px solid #000;
+      float: left;
+    }
+
+    #controls {
+      float: left;
+      margin-left: 10px;
+    }
+
+    #container {
+      overflow: hidden;
+    }
+  </style>
+  <body>
+
+    <script src="kdtree.min.js"></script>
+      
+    <script>
+  
+var points0 = [
+  {x: 1, y: 2},
+  {x: 3, y: 4},
+  {x: 5, y: 6},
+  {x: 7, y: 8},
+  {x: 0, y: 5},
+  {x: 2, y: 4},
+  {x: 9, y: 9},
+  {x: 2, y: 2}
+            
+];
+        
+  var points = [
+  {x: 1, y: 2},
+  {x: 3, y: 4},
+  {x: 5, y: 6},
+  {x: 7, y: 8},
+  {x: 0, y: 5},
+  {x: 2, y: 4},
+  {x: 9, y: 9},
+  {x: 2, y: 2}
+            
+];
+
+var distance = function(a, b){
+  return Math.pow(a.x - b.x, 2) +  Math.pow(a.y - b.y, 2);
+}
+
+console.log(points);
+var tree = new kdTree(points, distance, ["x", "y"]);
+tree.balanceFactor();
+        
+        
+var nearest = tree.nearest(points0[0], 2);
+
+console.log(nearest[0][0]);
+console.log(points);       
+        
+    </script>
+      
+  </body>
+</html>
