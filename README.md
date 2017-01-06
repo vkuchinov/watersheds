@@ -8,7 +8,10 @@
 <br>
 <h3>Tidal Waves Mockup <i>[03/01/2017]</i></h3>
 
-[![TIDAL WAVES](https://img.youtube.com/vi/pQE2KMbGi9M/0.jpg)]
+[![TIDAL WAVES #1](https://img.youtube.com/vi/WZ-hD1UAbcU/0.jpg)]
+(https://www.youtube.com/watch?v=WZ-hD1UAbcU)
+<br><br>
+[![TIDAL WAVES #2](https://img.youtube.com/vi/pQE2KMbGi9M/0.jpg)]
 (https://www.youtube.com/watch?v=pQE2KMbGi9M)
 <br>
 <b>CONCEPT</b><br>
