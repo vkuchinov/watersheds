@@ -48,6 +48,9 @@ by a newer node from XML by its death. The new node would have its own unique po
 <h3>D3.RENDERER <i>[04/01/2017]</i></h3>
 ![D3.RENDERER](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/screenshotA.png?raw=true)
 <br>
+<br>
+<[![link](https://github.com/vkuchinov/watersheds/blob/master/localhost)]
+<br>
 <b>CONCEPT</b><br>
 For this particular project I have to build my own flexible D3 renderer for both models — breaking waves and ripples.
 While both systems are build on **particles system**, renderer should deal with nodes array.
