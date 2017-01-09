@@ -59,32 +59,34 @@ While both systems are build on **particles system**, renderer should deal with 
 <i>https://github.com/vkuchinov/watersheds/blob/master/localhost/json/tags.json</i>
 <br><i>could be easily re-engineered to XML format</i><br>
 <br>
-{
-    "name" : "columns", "children" : [
-        { "name" : "locations", "children" : 
-            [
-                { "id" : 0, "name" : "Canada", "visible" : true },
-                { "id" : 1, "name" : "Toronto", "visible" : true },
-                { "id" : 2, "name" : "Ottawa", "visible" : true },
-                { "id" : 3, "name" : "Oakville", "visible" : true },
-                { "id" : 4, "name" : "Montreal", "visible" : true }
-            ]
-        },
-       { "name" : "topics", "children" : 
-            [
-                { "id" : 5, "name" : "#health", "visible" : true },
-                { "id" : 6, "name" : "#culture", "visible" : true },
-                { "id" : 7, "name" : "#ecology", "visible" : false }
-            ]
-        },
-        { "name" : "questions", "children" : 
-            [
-                { "id" : 8, "name" : "Tell us your vision about mental health?", "visible" : true },
-                { "id" : 9, "name" : "Tell us your vision for 2034?", "visible" : true },
-                { "id" : 10, "name" : "What is your wish for clean water?", "visible" : true },
-                { "id" : 11, "name" : "What is your wish for 2017?", "visible" : true }
-            ]
-        }
-    ]
-}
+<i>
+{<br>
+    "name" : "columns", "children" : [<br>
+        { "name" : "locations", "children" : <br>
+            [ <br>
+                { "id" : 0, "name" : "Canada", "visible" : true },<br>
+                { "id" : 1, "name" : "Toronto", "visible" : true },<br>
+                { "id" : 2, "name" : "Ottawa", "visible" : true },<br>
+                { "id" : 3, "name" : "Oakville", "visible" : true },<br>
+                { "id" : 4, "name" : "Montreal", "visible" : true }<br>
+            ]<br>
+        },<br>
+       { "name" : "topics", "children" :<br>
+            [<br>
+                { "id" : 5, "name" : "#health", "visible" : true },<br>
+                { "id" : 6, "name" : "#culture", "visible" : true },<br>
+                { "id" : 7, "name" : "#ecology", "visible" : false }<br>
+            ]<br>
+        },<br>
+        { "name" : "questions", "children" : <br>
+            [<br>
+                { "id" : 8, "name" : "Tell us your vision about mental health?", "visible" : true },<br>
+                { "id" : 9, "name" : "Tell us your vision for 2034?", "visible" : true },<br>
+                { "id" : 10, "name" : "What is your wish for clean water?", "visible" : true },<br>
+                { "id" : 11, "name" : "What is your wish for 2017?", "visible" : true }<br>
+            ]<br>
+        }<br>
+    ]<br>
+}<br>
 <br>
+</i>
