@@ -96,7 +96,6 @@ While both systems are build on **particles system**, renderer should deal with 
 [-] D3Renderer.Timelapse() function
 [-] D3Renderer.updateData() function
 [-] D3Renderer.highlightNode() function
-    <i>showing HUD box over selected node</i>
 ```
 <br><br>
 [-] planning, [!] in progress, [x] done
