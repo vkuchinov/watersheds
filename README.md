@@ -99,6 +99,7 @@ While both systems are build on **particles system**, renderer should deal with 
 ```
 <h6><i>It seems that there are only 230 items at http://research.tigweb.org/wishes/raw.html by now
 or script is limiting it to this number. Have to sort it out, because for now I need a least 
-several thousands for testing.<i></h6>
+several thousands for testing.<br>For now, I have copy-pasted same elements locally, although 
+it would be better to work with real XML data from your server.<i></h6>
 <br><br>
 [-] planning, [!] in progress, [x] done
