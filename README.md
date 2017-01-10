@@ -91,10 +91,11 @@ While both systems are build on **particles system**, renderer should deal with 
 ```
 <br>
 <h2>DAILY TODO LIST</h2><br><br>
-<h3>January 10th, 2017</h3>
+<h3>January 10th, 2017</h3><br>
+```
 [-] D3Renderer.Timelapse() function
 [-] D3Renderer.updateData() function
 [-] D3Renderer.highlightNode() function
-
+```
 <br><br>
 [-] planning, [!] in progress, [x] done
