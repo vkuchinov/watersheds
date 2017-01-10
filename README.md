@@ -90,7 +90,7 @@ While both systems are build on **particles system**, renderer should deal with 
 }
 ```
 <br>
-<h2>DAILY TODO LIST</h2><br><br>
+<h2>DAILY TODO LIST</h2>
 <h3>January 10th, 2017</h3>
 ```
 [-] D3Renderer.Timelapse() function
