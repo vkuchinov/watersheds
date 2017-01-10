@@ -95,7 +95,7 @@ While both systems are build on **particles system**, renderer should deal with 
 ```
 [-] D3Renderer.timelapse() function
 [-] D3Renderer.updateData() function
-[-] D3Renderer.highlightNode() function
+[x] D3Renderer.highlightNode(system_, id_) function
 ```
 <br><br>
 [-] planning, [!] in progress, [x] done
