@@ -97,5 +97,9 @@ While both systems are build on **particles system**, renderer should deal with 
 [-] D3Renderer.updateData() function
 [x] D3Renderer.highlightNode(system_, id_) function
 ```
+<br>
+It seems that there are only 230 items at http://research.tigweb.org/wishes/raw.html by now
+or script is limiting it to this number. Have to sort it out, because for now I need a least 
+several thousands for testing.
 <br><br>
 [-] planning, [!] in progress, [x] done
