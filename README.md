@@ -94,7 +94,7 @@ While both systems are build on **particles system**, renderer should deal with 
 <h3>January 10th, 2017</h3>
 ```
 [-] D3Renderer.timelapse() function
-[-] D3Renderer.updateData() function
+[x] D3Renderer.updateData() function
 [x] D3Renderer.highlightNode(system_, id_) function
 ```
 <h6><i>It seems that there are only 230 items at http://research.tigweb.org/wishes/raw.html by now
