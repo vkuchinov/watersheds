@@ -98,8 +98,8 @@ While both systems are build on **particles system**, renderer should deal with 
 [x] D3Renderer.highlightNode(system_, id_) function
 ```
 <br>
-It seems that there are only 230 items at http://research.tigweb.org/wishes/raw.html by now
+<h5><i>It seems that there are only 230 items at http://research.tigweb.org/wishes/raw.html by now
 or script is limiting it to this number. Have to sort it out, because for now I need a least 
-several thousands for testing.
+several thousands for testing.<i></h5>
 <br><br>
 [-] planning, [!] in progress, [x] done
