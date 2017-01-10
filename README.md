@@ -97,6 +97,11 @@ While both systems are build on **particles system**, renderer should deal with 
 [x] D3Renderer.updateData() function
 [x] D3Renderer.highlightNode(system_, id_) function
 ```
+<h6><i>timelapse() should be actually custom easing transition for experimenting on the edge of still and motion.
+There is a good example of D3.js easing, however we have to do our own method very close to exponential growth.
+<br>See https://bl.ocks.org/mbostock/248bac3b8e354a9103c4 [expIn, backIn, expInOut, backInOut]
+<i></h6>
+<br>
 <h6><i>It seems that there are only 230 items at http://research.tigweb.org/wishes/raw.html by now
 or script is limiting it to this number. Have to sort it out, because for now I need a least 
 several thousands for testing.<br>For now, I have copy-pasted same elements locally, although 
