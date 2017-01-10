@@ -99,7 +99,11 @@ While both systems are build on **particles system**, renderer should deal with 
 ```
 <h6><i>timelapse() should be actually custom easing transition for experimenting on the edge of still and motion.
 <br>There is a good example of D3.js easing, however we have to do our own method very close to exponential growth.
-<br>See https://bl.ocks.org/mbostock/248bac3b8e354a9103c4 [expIn, backIn, expInOut, backInOut]
+<br>See https://bl.ocks.org/mbostock/248bac3b8e354a9103c4 [expIn, backIn, expInOut, backInOut]<br>
+<br>or https://github.com/d3/d3-ease
+<br>
+expIn > exponential growth > x{t}=x{0}(1+r)^{t}, where r is a growth rate, e.g. r = 5% = 0.05 per interval<br>
+backIn > anticipatory easing > x{t}=1-(1 - t)
 <i></h6>
 <h6><i>It seems that there are only 230 items at http://research.tigweb.org/wishes/raw.html by now
 or script is limiting it to this number. Have to sort it out, because for now I need a least 
@@ -111,3 +115,7 @@ it would be better to work with real XML data from your server.<i></h6>
 ```
 
 [-] planning, [!] in progress, [x] done
+<br><br>
+ADDITIONAL REFERENCES:<br>
+http://easings.net/<br>
+http://www.timotheegroleau.com/Flash/experiments/easing_function_generator.htm<br>
