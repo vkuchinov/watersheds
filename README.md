@@ -46,7 +46,7 @@ by a newer node from XML by its death. The new node would have its own unique po
 
 <br>
 <h3>D3.RENDERER <i>[04/01/2017]</i></h3>
-![D3.RENDERER](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/screenshotA.png?raw=true)
+![D3.RENDERER](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/screenshotB.png?raw=true)
 <br>
 <br>
 <i>https://github.com/vkuchinov/watersheds/blob/master/localhost</i><br>
