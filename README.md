@@ -130,5 +130,6 @@ it would be better to work with real XML data from your server.<i></h6>
 ADDITIONAL REFERENCES:<br>
 http://easings.net/<br>
 http://www.timotheegroleau.com/Flash/experiments/easing_function_generator.htm<br>
+https://github.com/jesusgollonet/processing-penner-easing/<br>
 <br>
 http://darsa.in/fpsmeter/
