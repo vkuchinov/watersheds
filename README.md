@@ -105,7 +105,7 @@ Purple: #925E8E
 <h2>DAILY TODO LIST</h2>
 <h3>January 10th, 2017</h3>
 ```
-[-] D3Renderer.timelapse() function
+[!] D3Renderer.timelapse() function
 [x] D3Renderer.updateData() function
 [x] D3Renderer.highlightNode(system_, id_) function
 ```
@@ -123,7 +123,7 @@ several thousands for testing.<br>For now, I have copy-pasted same elements loca
 it would be better to work with real XML data from your server.<i></h6>
 <h3>January 11th, 2017</h3>
 ```
-[-] -------------------
+[-] Timer() function
 ```
 
 [-] planning, [!] in progress, [x] done
