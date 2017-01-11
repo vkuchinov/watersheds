@@ -91,10 +91,8 @@ While both systems are build on **particles system**, renderer should deal with 
 ```
 <br>
 <h2>COLOUR PALLETE</h2>
-LARGE RED CIRCLE (&#xFF00FF;)
-```
-<style="color:red">O</style> <font color="red">O</font>
-```
+![Alt text](https://raw.githubusercontent.com/vkuchinov/watersheds/master/Documentation/assets/colours.svg)
+<img src="https://raw.githubusercontent.com/vkuchinov/watersheds/master/Documentation/assets/colours.svg">
 |                    |                      |                 |
 | ------------------ |:--------------------:| ---------------:|
 | Pink: #F59DAE      | Red: #D43D31         | Brown: #815A3D  |
