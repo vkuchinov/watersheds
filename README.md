@@ -91,6 +91,7 @@ While both systems are build on **particles system**, renderer should deal with 
 ```
 <br>
 <h2>COLOUR PALLETE</h2>
+LARGE RED CIRCLE (&#x1F534;)
 ```
 <style="color:red">O</style> <font color="red">O</font>
 ```
