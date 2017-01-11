@@ -121,7 +121,7 @@ several thousands for testing.<br>For now, I have copy-pasted same elements loca
 it would be better to work with real XML data from your server.<i></h6>
 <h3>January 11th, 2017</h3>
 ```
-[x] predefined color palette, by names or as array Object.values(palette).slice(0, Object.values(palette).length - 1) excluding black
+[x] predefined color palette, by names or as array
 [-] Timer() function
 ```
 
