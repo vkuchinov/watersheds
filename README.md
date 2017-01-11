@@ -103,7 +103,7 @@ While both systems are build on **particles system**, renderer should deal with 
 <h2>DAILY TODO LIST</h2>
 <h3>January 10th, 2017</h3>
 ```
-[!] D3Renderer.timelapse() function
+[!] D3Renderer.bulletTime() function
 [x] D3Renderer.updateData() function
 [x] D3Renderer.highlightNode(system_, id_) function
 ```
@@ -122,7 +122,7 @@ it would be better to work with real XML data from your server.<i></h6>
 <h3>January 11th, 2017</h3>
 ```
 [x] predefined color palette, by names or as array
-[-] Timer() function
+[-] Timer() function for bulletTiime()
 ```
 
 [-] planning, [!] in progress, [x] done
