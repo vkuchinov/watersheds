@@ -91,16 +91,12 @@ While both systems are build on **particles system**, renderer should deal with 
 ```
 <br>
 <h2>COLOUR PALLETE</h2>
-Pink: #F59DAE
-Green: #92CA70
-Teal: #6AC5B3
-Blue: #397BA3
-Red: #D43D31
-Orange: #F19436
-Black: #241F1F
-Yellow: #ECBE42
-Brown: #815A3D
-Purple: #925E8E
+|                    |                      |                 |
+| ------------------ |:--------------------:| ---------------:|
+| Pink: #F59DAE      | Red: #D43D31         | Brown: #815A3D  |
+| Green: #92CA70     | Orange: #F19436      | Purple: #925E8E |
+| Teal: #6AC5B3      | Black: #241F1F       |                 |
+| Blue: #397BA3      | Yellow: #ECBE42      |                 |
 <br>
 <h2>DAILY TODO LIST</h2>
 <h3>January 10th, 2017</h3>
