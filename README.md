@@ -90,7 +90,7 @@ While both systems are build on **particles system**, renderer should deal with 
 }
 ```
 <br>
-<h2>COLOUR PALLETE</h2>
+<h2>COLOUR PALETTE</h2>
 |                    |                      |                 |
 | ------------------ |:--------------------:| ---------------:|
 | Pink: #F59DAE      | Red: #D43D31         | Brown: #815A3D  |
