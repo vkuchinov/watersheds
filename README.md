@@ -92,7 +92,7 @@ While both systems are build on **particles system**, renderer should deal with 
 <br>
 <h2>COLOUR PALLETE</h2>
 <img src="https://raw.githubusercontent.com/vkuchinov/watersheds/master/Documentation/assets/colours.svg">
-[Alt text](https://raw.githubusercontent.com/vkuchinov/watersheds/master/Documentation/assets/colours.svg)
+![Alt text](https://raw.githubusercontent.com/vkuchinov/watersheds/master/Documentation/assets/colours.svg)
 <img src="https://raw.githubusercontent.com/vkuchinov/watersheds/master/Documentation/assets/colours.svg">
 <br>
 |                    |                      |                 |
