@@ -99,7 +99,6 @@ While both systems are build on **particles system**, renderer should deal with 
 | Blue: #397BA3      | Yellow: #ECBE42      |                 |
 <br>
 ![alt tag](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/colours.png)
-![alt tag](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/colours.svg)
 <br>
 <h2>DAILY TODO LIST</h2>
 <h3>January 10th, 2017</h3>
