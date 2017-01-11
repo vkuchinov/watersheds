@@ -122,7 +122,7 @@ it would be better to work with real XML data from your server.<i></h6>
 <h3>January 11th, 2017</h3>
 ```
 [x] predefined color palette, by names or as array
-[-] Timer() function for bulletTiime()
+[-] Timer() function for bulletTime()
 ```
 
 [-] planning, [!] in progress, [x] done
