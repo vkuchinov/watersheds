@@ -91,8 +91,6 @@ While both systems are build on **particles system**, renderer should deal with 
 ```
 <br>
 <h2>COLOUR PALLETE</h2>
-<img src="https://olivermak.es/resources/icons/favicon144.svg" width="100%" height="144">
-<br>
 |                    |                      |                 |
 | ------------------ |:--------------------:| ---------------:|
 | Pink: #F59DAE      | Red: #D43D31         | Brown: #815A3D  |
