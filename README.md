@@ -93,6 +93,9 @@ While both systems are build on **particles system**, renderer should deal with 
 <h2>COLOUR PALLETE</h2>
 ![Alt text](https://raw.githubusercontent.com/vkuchinov/watersheds/master/Documentation/assets/colours.svg)
 <img src="https://raw.githubusercontent.com/vkuchinov/watersheds/master/Documentation/assets/colours.svg">
+[Alt text](https://rawgithub.com/potherca/StackOverflow/gh-pages/question.13808020.include-an-svg-hosted-on-github-in-markdown/controllers_brief.svg)
+<img src="https://rawgithub.com/potherca/StackOverflow/gh-pages/question.13808020.include-an-svg-hosted-on-github-in-markdown/controllers_brief.svg">
+<br>
 |                    |                      |                 |
 | ------------------ |:--------------------:| ---------------:|
 | Pink: #F59DAE      | Red: #D43D31         | Brown: #815A3D  |
