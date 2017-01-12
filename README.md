@@ -126,6 +126,7 @@ it would be better to work with real XML data from your server.<i></h6>
 ```
 <h3>January 12th, 2017</h3>
 ```
+[-] each moving object should have composite speed parameter { step: f/θ, interval: t, ratio: μ }
 [-] Ripple() function for 'ripples concept'
 ```
 <h3>January 13th, 2017</h3>
