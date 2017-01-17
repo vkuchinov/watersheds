@@ -180,7 +180,6 @@ function setBulletTime(object_, parameters0_, parameters1_, duration_, type_, lo
     console.log(variable + " " + typeof variable)
     
     because if you see 1.234 it doesn't mean that you're dealing with number.
-
 ```
 [-] planning, [!] in progress, [x] done
 <br><br>
