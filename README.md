@@ -175,7 +175,10 @@ function setBulletTime(object_, parameters0_, parameters1_, duration_, type_, lo
 [x] Basically I've lost several days solving glitchy behaivour. Don't be lazy to double check for variable type.
     It seems that D3 has some problems with taking String to numbers smoothly.
    
-    if you're using debugging console, don't be shy to do it like this console.log(variable + " " + typeof variable)
+    if you're using debugging console, don't be shy to do it like this 
+    
+    console.log(variable + " " + typeof variable)
+    
     because if you see 1.234 it doesn't mean that you're dealing with number.
     
     
