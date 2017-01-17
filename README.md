@@ -126,14 +126,41 @@ it would be better to work with real XML data from your server.<i></h6>
 ```
 <h3>January 12th, 2017</h3>
 ```
-[-] each moving object should have composite speed parameter { step: f/θ, interval: t, ratio: μ }
-[-] Ripple() function for <i>ripples concept</i>
-[-] Generator() function
+[!] each moving object should have composite speed parameter { step: f/θ, interval: t, ratio: μ }
+[!] Ripple() function for <i>ripples concept</i>
+[!] Generator() function
 ```
 <h3>January 13th, 2017</h3>
 ```
 [-] fully functional 'ripples' mock-up 
+[x] all bulletTime() concept have to be done on native D3.js transitions rather on my own class and methods
 ```
+<h6><i>Developing my own paradigm of time controll was a waste of time. Instead of this I shoud use native D3 transitions.<i></h6>
+```
+//method(d3_element, {"r" : 32, "cx" : width/2... }, {"r" : 128, "cx" : 0, ... }, millis, "exp" or any D3 easing, true/false)
+//where parameters could be any set of attrbutes
+
+function setBulletTime(object_, parameters0_, parameters1_, duration_, type_, loop_){
+
+            if(Object.keys(parameters0_).length==Object.keys(parameters1_).length 
+               && Object.keys(parameters0_).every(function(v,i) { return v === Object.keys(parameters1_)[i]})) {
+      
+                object_.attr(parameters0_)
+                .transition()
+                .ease(type_)
+                .duration(duration_)
+                .attr(parameters1_)
+                .each("end", function(d) { if(loop_) { setBulletTime(object_, parameters0_, parameters1_, duration_, type_, loop_); } else { this.remove(); } } ); 
+                
+            } else { console.log("Oooops, something wrong!"); }
+
+        }
+        
+        function removeBulletTime(object_, parameters_){ object_.transition(); }
+```
+<br>
+<h3>January 11th, 2017</h3>
+
 <h3>January 14th, 2017</h3>
 ```
 [-] - 
