@@ -158,9 +158,7 @@ function setBulletTime(object_, parameters0_, parameters1_, duration_, type_, lo
         
         function removeBulletTime(object_, parameters_){ object_.transition(); }
 ```
-<br>
 <h6><i>This solution is very elegant to my own.<i></h6>
-<br>
 <h3>January 14th, 2017</h3>
 ```
 [-] - 
