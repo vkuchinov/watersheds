@@ -181,6 +181,9 @@ function setBulletTime(object_, parameters0_, parameters1_, duration_, type_, lo
     
     because if you see 1.234 it doesn't mean that you're dealing with number.
 ```
+[![RIPPLES #3](https://img.youtube.com/vi/92dTMAvsd6E/0.jpg)]
+(https://www.youtube.com/watch?v=92dTMAvsd6E)
+
 [-] planning, [!] in progress, [x] done
 <br><br>
 ADDITIONAL REFERENCES:<br>
