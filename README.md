@@ -98,8 +98,6 @@ While both systems are build on **particles system**, renderer should deal with 
 | Teal: #6AC5B3      | Black: #241F1F       |                 |
 | Blue: #397BA3      | Yellow: #ECBE42      |                 |
 <br>
-![alt tag](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/colours.png)
-<br>
 ![alt tag](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/colours2.png)
 <br>
 <h2>DAILY TODO LIST</h2>
