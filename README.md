@@ -169,7 +169,9 @@ function setBulletTime(object_, parameters0_, parameters1_, duration_, type_, lo
 <h3>January 17th, 2017</h3>
 [x] upgrading console method for checking variable typeof
 ```
-
+<h3>January 18th, 2017</h3>
+![alt tag](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/prebuildA.png)<br>
+![alt tag](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/prebuildB.png)<br>
 
 [x] Basically I've lost several days solving glitchy behaivour. Don't be lazy to double check for variable type.
     It seems that D3 has some problems with taking String to numbers smoothly.
