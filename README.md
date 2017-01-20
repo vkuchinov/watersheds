@@ -190,7 +190,7 @@ function setBulletTime(object_, parameters0_, parameters1_, duration_, type_, lo
 
 [-] planning, [!] in progress, [x] done
 <br><br>
-TIMING<br>
+<h2>TIMING</h2><br>
 Adult literate people don't read by the character. They do that only for foreign languages in the first stages of learning that language, and even that mostly for languages using a script very different from the languages they do know (as an English speaker would for Arabic, but not for German). Otherwise the word registers in the brain as a whole, pretty much immediately. Perhaps for the word "encyclopedia" it would take longer than for the word "ant", but the difference is a matter of milliseconds at best, and probably not even that. Also, it's both extremely subjective (based on how frequently that person uses that word) and extremely difficult to measure.
 <br>
 According to Wikipedia the average reading speed from coumputer/tablet screen(English) is ~160-180 words per minute [wpm].
