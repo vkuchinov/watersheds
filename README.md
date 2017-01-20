@@ -196,14 +196,14 @@ Adult literate people don't read by the character. They do that only for foreign
 According to Wikipedia the average reading speed from coumputer/tablet screen(English) is ~160-180 words per minute [wpm].
 Let's say that comfortable rate would be even smaller — 120 wpm.
 <br>
-By now there are around 240 wishes available for analyses.<br>
+By now there are around 240 wishes available for analyses.<br><br>
 <b>The minimal length is 8 characters or 2 words. [filtered empty wishes]<br>
 Average wish is 152 characters or 24 words.<br>
-The biggest message is 1402!!! characters or 228 words!!! [looks like anomaly]<br><br>
+The biggest message is 1402!!! characters or 228 words!!! [looks like anomaly]</b><br><br>
 So, if we are dealing with average, in 20 seconds (1/3 of minute) we could confortably<br>
 show up to 5 wishes.<br><br>
 <b>Ideally, there should be extended analyses algorithm for calculating showing time for every<br>
-single wish based on its content length. 
+single wish based on its content length.</b>
 
 ADDITIONAL REFERENCES:<br>
 http://easings.net/<br>
