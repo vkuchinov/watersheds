@@ -228,6 +228,9 @@ Meanwhile, we are doing data-driven visualisation, so it's ridiculous to use ran
 For example, node radius could reference wish length and, for at least rippling concept, node could have XY<br>
 position based on other metadata, let's say cities or its attitute/lattitude due its polar coordinate<br>
 system, which is ideally fitted to radial positioning.<br><br>
+<br><br>
+There are some more metadata like name and age. The latter could be used as node lifetime of could affect<br>
+particle speed. 
 
 
 ADDITIONAL REFERENCES:<br>
