@@ -190,9 +190,27 @@ function setBulletTime(object_, parameters0_, parameters1_, duration_, type_, lo
 
 [-] planning, [!] in progress, [x] done
 <br><br>
+TIMING<br>
+Adult literate people don't read by the character. They do that only for foreign languages in the first stages of learning that language, and even that mostly for languages using a script very different from the languages they do know (as an English speaker would for Arabic, but not for German). Otherwise the word registers in the brain as a whole, pretty much immediately. Perhaps for the word "encyclopedia" it would take longer than for the word "ant", but the difference is a matter of milliseconds at best, and probably not even that. Also, it's both extremely subjective (based on how frequently that person uses that word) and extremely difficult to measure.
+<br>
+According to Wikipedia the average reading speed from coumputer/tablet screen(English) is ~160-180 words per minute [wpm].
+Let's say that comfortable rate would be even smaller — 120 wpm.
+<br>
+By now there are around 240 wishes available for analyses.<br>
+<b>The minimal length is 8 characters or 2 words. [filtered empty wishes]<br>
+Average wish is 152 characters or 24 words.<br>
+The biggest message is 1402!!! characters or 228 words!!! [looks like anomaly]<br><br>
+So, if we are dealing with average, in 20 seconds (1/3 of minute) we could confortably<br>
+show up to 5 wishes.<br><br>
+<b>Ideally, there should be extended analyses algorithm for calculating showing time for every<br>
+single wish based on its content length. 
+
 ADDITIONAL REFERENCES:<br>
 http://easings.net/<br>
 http://www.timotheegroleau.com/Flash/experiments/easing_function_generator.htm<br>
 https://github.com/jesusgollonet/processing-penner-easing/<br>
 <br>
 http://darsa.in/fpsmeter/
+<br>
+https://en.wikipedia.org/wiki/Words_per_minute<br>
+https://en.wikipedia.org/wiki/Reading_(process)#Reading_rate<br>
