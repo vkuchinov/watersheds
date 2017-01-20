@@ -239,7 +239,7 @@ particle speed.
     There are 10 categories as well as there are 10 colors, so I could suggest
     that I should keep the same order Inclusivity>pink ... Personal>black
   
-    var category = [
+    var categories = [
     
         {id: 1, en: "Inclusivity & Accessibility", fr: "Inclusivité et accessibilite"},
         {id: 3, en: "Cultural & Historical Conservation", fr: "Conservation culturelle et historique"},
