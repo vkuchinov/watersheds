@@ -3,7 +3,7 @@
 
 <b>REFERENCES:</b><br>
 <i>https://google.github.io/liquidfun</i><br>
-<i>https://github.com/google/liquidfun/releases</i>
+<i>https://github.com/google/liquidfun/releases</i><br>
 <i>https://github.com/ubilabs/kd-tree-javascript</i><br>
 
 <br>
