@@ -201,7 +201,21 @@ By now there are around 240 wishes available for analyses.<br><br>
 Average wish is 152 characters or 24 words.<br>
 The biggest message is 1402!!! characters or 228 words!!! [looks like anomaly]</b><br>
 ```
-There are several issues that I would like to see resolved within my lifetime, much earlier than 150 years from now, but I will discuss two. The number one issue that needs immediate attention is the unacceptable conditions of Indigenous communities across the country. Today, we still have many communities struggling with epidemics of youth suicide and domestic violence, substance abuse, a vast lack of employment opportunities, among many other issues. Culminating in the height of the emergency status that many Indigenous communities and individuals have existed in for decades is the issue of Missing and Murdered Indigenous women - an issue that I relate to, to an extent, as a young, racialized, female survivor of sexual assault. My feelings on the topic of Indigenous issues in our country are so powerful that I believe we need to actively work towards reconciliation and solutions as soon as possible, in order to be a genuine global leader on social justice issues. The second issue I find most pressing in Canada, vital to change within 150 years, is electoral reform. Our current First-Past-The-Post system is outdated, limited, and unfair to the diversity of issues and interests that communities have throughout the country. A move away from such a system that encourages strategic voting will ensure that our key democratic processes are renewed and that our votes start to truly count.
+There are several issues that I would like to see resolved within my lifetime, much earlier than 150 <br>
+years from now, but I will discuss two. The number one issue that needs immediate attention is <br>
+the unacceptable conditions of Indigenous communities across the country. 
+<br>Today, we still have many communities struggling with epidemics of youth suicide and domestic violence,<br>
+substance abuse, a vast lack of employment opportunities, among many other issues.
+<br>Culminating in the height of the emergency status that many Indigenous communities and individuals <br>
+have existed in for decades is the issue of Missing and Murdered Indigenous women - an issue that <br>
+I relate to, to an extent, as a young, racialized, female survivor of sexual assault. <br>
+My feelings on the topic of Indigenous issues in our country are so powerful that I believe <br>
+we need to actively work towards reconciliation and solutions as soon as possible, in order <br>
+to be a genuine global leader on social justice issues. The second issue I find most pressing in Canada,<br>
+vital to change within 150 years, is electoral reform. Our current First-Past-The-Post system is outdated,<br>
+limited, and unfair to the diversity of issues and interests that communities have throughout the country.<br>
+A move away from such a system that encourages strategic voting will ensure that our key democratic processes<br>
+are renewed and that our votes start to truly count.
 ```
 <br>
 So, if we are dealing with average, in 20 seconds (1/3 of minute) we could confortably<br>
