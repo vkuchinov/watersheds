@@ -297,7 +297,7 @@ particle speed.
 ```
     URGENT ISSUES TO SOLVE
 [!] Flocking subparticles for tidal visualisation
-
+    https://github.com/vkuchinov/watersheds/blob/master/README.md#update-january-2017
 ```
 
 <h3>January 27th, 2017</h3>
