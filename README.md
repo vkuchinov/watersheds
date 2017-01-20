@@ -227,8 +227,8 @@ single wish based on its content length.</b>
 Meanwhile, we are doing data-driven visualisation, so it's ridiculous to use randomness everywhere.<br>
 For example, node radius could reference wish length and, for at least rippling concept, node could have XY<br>
 position based on other metadata, let's say cities or its attitute/lattitude due its polar coordinate<br>
-system, which is ideally fitted to radial positioning.<br><br>
-<br><br>
+system, which is ideally fitted to radial positioning.<br>
+<br>
 There are some more metadata like name and age. The latter could be used as node lifetime of could affect<br>
 particle speed. 
 
