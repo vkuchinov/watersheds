@@ -232,8 +232,36 @@ system, which is ideally fitted to radial positioning.<br>
 There are some more metadata like name and age. The latter could be used as node lifetime of could affect<br>
 particle speed. 
 
+<h3>January 19th, 2017</h3>
+[x] applying categories
+    
+    There are 10 categories as well as there are 10 colors, so I could suggest
+    that I should keep the same order Inclusivity>pink ... Personal>black
+    
+    var category = [
+    
+        {id: 1, en: "Inclusivity & Accessibility", fr: "Inclusivité et accessibilite"},
+        {id: 3, en: "Cultural & Historical Conservation", fr: "Conservation culturelle et historique"},
+        {id: 5, en: "Environmental Sustainability", fr: "Viabilité de l’environnement"},
+        {id: 7, en: "Human Rights", fr: "Droits humains"},
+        {id: 9, en: "Physical & Mental Health", fr: "Santé physique et mentale"},
+        {id: 11, en: "LGBTQ2A Rights", fr: "Droits LGBTQ2A"},
+        {id: 13, en: "Political Representation", fr: "Représentation politique"},
+        {id: 15, en: "New Canadian & Immigration Integration", fr: "Intégration canadienne et immigration"},
+        {id: 17, en: "Indigenous Rights", fr: "Droits autochtones"},
+        {id: 19, en: "Personal & Community Development", fr: "Développement de soi et de la communauté"}
+        
+    ]
+    
+```
+
 
 ADDITIONAL REFERENCES:<br>
+<br>
+http://research.tigweb.org/wishes/raw.html<br>
+<i>?limit=value desired amount of wishes from beginning<br>
+
+<br>
 http://easings.net/<br>
 http://www.timotheegroleau.com/Flash/experiments/easing_function_generator.htm<br>
 https://github.com/jesusgollonet/processing-penner-easing/<br>
