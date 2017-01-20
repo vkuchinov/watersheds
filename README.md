@@ -233,11 +233,12 @@ There are some more metadata like name and age. The latter could be used as node
 particle speed. 
 
 <h3>January 19th, 2017</h3>
+```
 [x] applying categories
     
     There are 10 categories as well as there are 10 colors, so I could suggest
     that I should keep the same order Inclusivity>pink ... Personal>black
-    
+  
     var category = [
     
         {id: 1, en: "Inclusivity & Accessibility", fr: "Inclusivité et accessibilite"},
@@ -252,9 +253,7 @@ particle speed.
         {id: 19, en: "Personal & Community Development", fr: "Développement de soi et de la communauté"}
         
     ]
-    
 ```
-
 
 ADDITIONAL REFERENCES:<br>
 <br>
