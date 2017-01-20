@@ -33,8 +33,8 @@ it would be the same object, but with different data, colour and radius.
 a flock due it should be controlled by classical Boids algorithm.<i>
 <br><br>
 ![D3.RENDERER](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/flock.png?raw=true)<br><br>
-It's not so clear in terms of visual communications, because this foamy flock could be considered as several nodes,<br>
-however it could be worth. 
+There is a danger that in terms of visual communications, because this foamy flock could be considered as several nodes,<br>
+however it could visually engaging. 
 <br><br>
 <h3>Ripples Mockup <i>[03/01/2017]</i></h3>
 
