@@ -223,6 +223,12 @@ So, if we are dealing with average, in 20 seconds (1/3 of minute) we could confo
 show up to 5 wishes.<br><br>
 <b>Ideally, there should be extended analyses algorithm for calculating showing time for every<br>
 single wish based on its content length.</b>
+<br>
+<b>Meanwhile, we are doing data-driven visualisation, so it's ridiculous to use randomness everywhere.<br>
+For example, radius could reference wish length and, for at least rippling concept, node could have XY<br>
+position based on other meta data, let's say cities or its attitute/lattitude due its polar coordinate<br>
+system, which is ideally fitted to radial positioning.<br>
+</b>
 
 ADDITIONAL REFERENCES:<br>
 http://easings.net/<br>
