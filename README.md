@@ -32,8 +32,9 @@ it would be the same object, but with different data, colour and radius.
 <i> * foam could be potentially visualised by splitting node into a pack of subparticles or, it's better to say,<br>
 a flock due it should be controlled by classical Boids algorithm.<i>
 <br><br>
-![D3.RENDERER](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/flock.png?raw=true)
-
+![D3.RENDERER](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/flock.png?raw=true)<br><br>
+It's not so clear in terms of visual communications, because this foamy flock could be considered as several nodes,<br>
+however it could be worth. 
 <br><br>
 <h3>Ripples Mockup <i>[03/01/2017]</i></h3>
 
