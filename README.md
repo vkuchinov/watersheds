@@ -28,6 +28,9 @@ it would be the same object, but with different data, colour and radius.
 <br>
 <h4>UPDATE January, 2017</h4><br>
 ![D3.RENDERER](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/foam.png?raw=true)
+<br>
+<i> * foam could be potentially visualised by splitting node into a pack of subparticles or, it's better to say,<br>
+a flock due it should be controlled by classical Boids algorithm.<i>
 <br><br>
 <h3>Ripples Mockup <i>[03/01/2017]</i></h3>
 
