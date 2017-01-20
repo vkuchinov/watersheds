@@ -36,7 +36,7 @@ a flock due it should be controlled by classical Boids algorithm.<i>
 There is a danger that in terms of visual communications, because this foamy flock could be considered<br>
 as several nodes, however it could visually engaging. 
 <br><br>
-![D3.RENDERER](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/foam_v2.png?raw=true)
+![D3.RENDERER](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/flock_v2.png?raw=true)
 <br><br>
 <h3>Ripples Mockup <i>[03/01/2017]</i></h3>
 
