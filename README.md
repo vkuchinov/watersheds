@@ -218,7 +218,7 @@ A move away from such a system that encourages strategic voting will ensure that
 are renewed and that our votes start to truly count.
 ```
 Looks like a small essay. Is it real or a 'stress-test' mock-up?
-<br>
+<br><br>
 So, if we are dealing with average, in 20 seconds (1/3 of minute) we could confortably<br>
 show up to 5 wishes.<br><br>
 <b>Ideally, there should be extended analyses algorithm for calculating showing time for every<br>
