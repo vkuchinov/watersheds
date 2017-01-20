@@ -293,6 +293,14 @@ particle speed.
     URGENT ISSUES TO SOLVE
 [!] Eliminate bugs on windows resizing, make it 100% stable and proof.
 [x] Add DAT.GUI.js or controlKit.js for adjusting parameters
+[x] Fully integrate bulletTime() for both visualization
+    Let's say we have updates every 20 seconds. By this time visualisation
+    shoud behave like slow-mo movie, stretching only a few second movement 
+    along this interval.
+    
+    But, with a little trick — it wouldn't be a linear slow-motion, but with
+    exponential or anticipatory easing, making scene still-like but with rapid
+    and smooth transition to next step at the end of each period.
 ```
 <h3>January 2xth, 2017</h3>
 ```
