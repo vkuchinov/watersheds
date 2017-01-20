@@ -43,7 +43,18 @@ rocking them, making particles visually closer or distancing.
 By now it is the most sucessfull model for this project. Each particles would have its own lifetime and would be changes
 by a newer node from XML by its death. The new node would have its own unique position.
 <br><br>
-
+<h3>XML DATA STRUCTURE [WISHES]</h3>
+```
+<wish>
+	<id>483</id>
+	<partnerid>4006</partnerid>
+	<featured>0</featured>
+	<name>Benmoussa</name>
+	<age>65</age>
+	<city></city>
+	<text><![CDATA[Hello Canada!]]></text>
+</wish>
+```
 <br>
 <h3>D3.RENDERER <i>[04/01/2017]</i></h3>
 ![D3.RENDERER](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/screenshotB.png?raw=true)
