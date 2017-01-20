@@ -6,8 +6,9 @@ function Node(id_, cx_, cy_, parent_){
     this.cy = cy_;
     
 
-    this.radius = 6.0 + Math.random() * 8.0;
+    this.radius = particleStyle.min + Math.random() * (particleStyle.max - particleStyle.min);
     this.hue = Math.floor(Math.random() * 360);
+    this.color = colors[Math.round(Math.random() * 8)];
 
 }
 
