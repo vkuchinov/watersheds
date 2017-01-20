@@ -287,6 +287,12 @@ particle speed.
     In both cases, old nodes would be replaced with new ones automatically
     with only two parameters timeinterval/number of nodes to replace
 ```
+<h3>January 21th, 2017</h3>
+```
+    URGENT ISSUES TO SOLVE
+[!] Eliminate bugs on windows resizing, make it 100% stable and proof.
+[x] Add DAT.GUI.js or controlKit.js for adjusting parameters
+```
 <br>
 ADDITIONAL REFERENCES:<br>
 <br>
