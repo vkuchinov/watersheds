@@ -25,8 +25,10 @@ in a k-dimensional space and making neighbours search more efficient. The librar
 <br><br>
 Each node would have its own lifetime value and by its death would be replaced by a new one from XML feed. Virtually
 it would be the same object, but with different data, colour and radius.
+<br>
+<h4>UPDATE January, 2017</h4><br>
+![D3.RENDERER](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/foam.png?raw=true)
 <br><br>
-
 <h3>Ripples Mockup <i>[03/01/2017]</i></h3>
 
 [![RIPPLES #1](https://img.youtube.com/vi/ITazx-Qvt2M/0.jpg)]
