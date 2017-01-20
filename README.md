@@ -301,6 +301,10 @@ particle speed.
     But, with a little trick — it wouldn't be a linear slow-motion, but with
     exponential or anticipatory easing, making scene still-like but with rapid
     and smooth transition to next step at the end of each period.
+    
+    I hope it will work well, otherwise we should switch to less spectacular
+    series of stills.
+    
 ```
 <h3>January 2xth, 2017</h3>
 ```
