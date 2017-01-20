@@ -3,9 +3,8 @@
 
 <b>REFERENCES:</b><br>
 <i>https://google.github.io/liquidfun</i><br>
-<i>https://github.com/google/liquidfun/releases</i><br><br>
-&<br><br>
-<i>https://github.com/ubilabs/kd-tree-javascript</i>
+<i>https://github.com/google/liquidfun/releases</i>
+<i>https://github.com/ubilabs/kd-tree-javascript</i><br>
 
 <br>
 <h3>Tidal Waves Mockup <i>[03/01/2017]</i></h3>
