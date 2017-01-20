@@ -254,7 +254,18 @@ particle speed.
         
     ]
 ```
-
+<h3>January 20th, 2017</h3>
+```
+[!] Two modes: self-running/autonomous [for projecting] & interactive [for users]
+    ?type=rippling/tidal & mode="autonomous/interactive
+    
+    autonomous: shows node by node information automatically
+    interactive: user could click on desired node to get its information
+    
+    In both cases, old nodes would be replaced with new ones automatically
+    with only two parameters timeinterval/number of nodes to replace
+```
+<br>
 ADDITIONAL REFERENCES:<br>
 <br>
 http://research.tigweb.org/wishes/raw.html<br>
