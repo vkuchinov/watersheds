@@ -35,16 +35,16 @@ var PARTICLE_SIZE = 0.05; //for simulatio
 
 //wave machine parameters
 var machine;
-var MAX_ANGLE = 0.5;
+var MAX_ANGLE = 0.6;
 var ang = 0.0;
-var ang_inc = 0.0048;
+var ang_inc = 0.0038;
 var timeStep = 1.0 / 60.0, velocityIterations = 8, positionIterations = 3;
 var globalPos, globalAngle;
 
 var world = null;   //LiquidFun.js requires world as global
 var worldBody, worldShape;
 
-var worldEnds = [[-4.5, 0], [4.5, 0], [4.5, -4], [-4.5, -4]]; 
+var worldEnds = [[-4.5, 0], [4.5, 0], [4.5, -9], [-4.5, -9]]; 
 
 var mass = [ {nodes:[[-4.4, -1.0], [-4.4, -0.1], [4.4, -1.0], [4.4, -0.1]]} ];
 
