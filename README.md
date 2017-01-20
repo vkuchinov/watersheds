@@ -293,6 +293,17 @@ particle speed.
 [!] Eliminate bugs on windows resizing, make it 100% stable and proof.
 [x] Add DAT.GUI.js or controlKit.js for adjusting parameters
 ```
+<h3>January 2xth, 2017</h3>
+```
+    URGENT ISSUES TO SOLVE
+[!] Flocking subparticles for tidal visualisation
+
+```
+
+<h3>January 27th, 2017</h3>
+```
+FINAL DEADLINE
+```
 <br>
 ADDITIONAL REFERENCES:<br>
 <br>
