@@ -258,7 +258,9 @@ system, which is ideally fitted to radial positioning.<br>
 <br>
 There are some more metadata like name and age. The latter could be used as node lifetime of could affect<br>
 particle speed. 
-
+<br>
+![alt tag](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/timeStretching.png)<br>
+<br>
 <h3>January 19th, 2017</h3>
 ```
 [x] applying categories
