@@ -16,12 +16,15 @@
 
 "use strict"
 
+var GENERATOR_INTERVAL = 3500;
+var TRANSITION_INTERVAL = 15000;
+
 var ripplingSystem = {
 
     inits: function() {
 
         this.timer = new Timer();
-        this.generator = new Generator(3500);
+        this.generator = new Generator(GENERATOR_INTERVAL);
         
         for(var i = 0; i < MAX_NODES; i++){
 
@@ -172,7 +175,7 @@ function Generator(theta_) {
                 .attr("stroke-width", 0.0)
                 .attr("fill", "none");
 
-            D3Renderer.bulletTime(circle, {"r": 16}, {"r": 320}, 15000, "sine", false);
+            D3Renderer.bulletTime(circle, {"r": 16}, {"r": 320}, TRANSITION_INTERVAL, "sine", false);
         
     }
     

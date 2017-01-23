@@ -433,12 +433,17 @@ var D3Renderer = {
     },
 
     resize: function() {
+        
+        var translate;
+        
         var w = window.innerWidth,
             h = window.innerHeight;
         var scale = 1.0;
         var scene = d3.select("svg#scene");
         scene.style("width", "100%").style("height", h + "px");
-        var translate = "translate(" + (w / 2) + ", " + (h / 2 + scale * 2) + ")";
+        
+        translate = (gup("type") == "rippling") ? "translate(" + (w / 2) + ", " + (h / 2 + scale * 2) + ")":"translate(" + w/2  + ", " + h + ")";
+        
         var scale = "scale(" + scale + ", " + (scale) + ")";
         scene.select("g").attr("transform", [translate, scale].join());
     }

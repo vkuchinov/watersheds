@@ -28,6 +28,7 @@
 
 "use strict"
 var SCALE_RATIO = 150;
+var ZERO;
 
 var NUM_OF_NEIGHBOURS = 8;
 var REST_DISTANCE = 0.132;
@@ -53,6 +54,8 @@ var kdtree;         //KD-Tree
 var tidalSystem = {
     
     inits : function(){
+        
+        ZERO = window.innerHeight;
         
         //translate group
         particles.attr("transform", "translate(" + width / 2 + ", " + (height + 16) + ")");
@@ -110,7 +113,7 @@ var tidalSystem = {
     },
     
     update: function(){
-        
+
         world.Step(timeStep, velocityIterations, positionIterations);
         machine.time += 1 / 60;
         machine.joint.SetMotorSpeed(0.05 * Math.cos(machine.time) * Math.PI);
@@ -121,9 +124,11 @@ var tidalSystem = {
         if(ang > 0.35 || ang < -0.35) {  ang_inc *= -1; }
         ang += ang_inc;
         
-        globalPos = worldBody.GetPosition(), globalAngle = worldBody.GetAngle() * 180 / Math.PI;
-        
-                
+        //adjusting the sun
+        globalPos = worldBody.GetPosition();
+        //globalPos.y += window.innerHeight - ZERO;
+        globalAngle = worldBody.GetAngle() * 180 / Math.PI;
+              
         var system = world.particleSystems[0];
         
         var points = [];
@@ -188,8 +193,8 @@ var tidalSystem = {
         particleGroup.attr("transform", 'translate(' + globalPos.x + ', ' + globalPos.y + '), rotate(' + (-globalAngle) + ')');
  
 		particleGroup.exit().remove();
-        
-   
+
 	}
+    
     
 }
