@@ -290,9 +290,9 @@ particle speed.
 <h3>January 21th, 2017</h3>
 ```
     URGENT ISSUES TO SOLVE
-[!] Eliminate bugs on window resizing, make it 100% stable and proof.
+[x] Eliminate bugs on window resizing, make it 100% stable and proof.
 [x] Add DAT.GUI.js or controlKit.js for adjusting parameters
-[x] Fully integrate bulletTime() for both visualization
+[-] Fully integrate bulletTime() for both visualization
     Let's say we have updates every 20 seconds. By this time visualisation
     shoud behave like slow-mo movie, stretching only a few second movement 
     along this interval.
