@@ -73,6 +73,16 @@ by a newer node from XML by its death. The new node would have its own unique po
 </wish>
 ```
 <br>
+Data could be hardly sticked to each node by<br>
+```
+var desc = element.append("circle")
+  // set attributes
+  .append("desc")
+  .attr("xmlns", "http://www.w3.org/1999/xhtml");
+  desc.append("mydoc:name").html("John Snow");
+  desc.append("mydoc:para").html("Winter<mydoc:emph>is</mydoc:emph> coming.");
+```
+<br>
 <h3>D3.RENDERER <i>[04/01/2017]</i></h3>
 ![D3.RENDERER](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/screenshotB.png?raw=true)
 <br>
