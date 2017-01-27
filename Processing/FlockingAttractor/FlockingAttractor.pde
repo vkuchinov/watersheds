@@ -9,6 +9,7 @@
 // Click mouse to add boids into the system
 
 Flock flock;
+Attractor attractor;
 
 void setup() {
   size(640,360);
@@ -19,11 +20,14 @@ void setup() {
     flock.addBoid(b);
   }
   smooth();
+  attractor = new Attractor(width/2, height/2);
 }
 
 void draw() {
   background(255);
-  flock.run();
+  attractor.draw();
+  flock.run(attractor);
+  
   
     // Instructions
   fill(0);
