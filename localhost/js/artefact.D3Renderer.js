@@ -269,26 +269,21 @@ var D3Renderer = {
 
         d3.selectAll("g.HUD").remove();
 
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+        
+        var params = {x: x_, y: y_};
+        
+        //top left
+        if(x_ <= w/2 && y_ <= h/2) { params = {x: 0, y: 0, tx: 0} }
+        else if(x_ <= w/2 && y_ > h/2) { params = {x: 0, y: 92, tx: 0} }
+        else if(x_ > w/2 && y_ <= h/2) { params = {x: 344, y: 0,  tx: 312} }
+        else { params = {x: 344, y: 92, tx: 312} }
+        
         var HUD = scene_.append("g")
             .attr("id", "HUD")
-            .attr("transform", "translate(" + x_ + "," + y_ + ")");
-        
-        HUD.append("rect")
-            .attr("x", 0)
-            .attr("y", 0)
-            .attr("width", "32px")
-            .attr("height", "92px")
-            .style("fill", hudStyle.tag)
-            .style("fill-opacity", 0.9);
+            .attr("transform", "translate(" + (x_ - params.x) + "," + (y_ - params.y) + ")");
 
-        HUD.append("circle")
-               .attr("cx", 0)
-               .attr("cy", 0)
-               .attr("r", object_.attr("r"))
-               .attr("fill", object_.attr("fill"))
-               .attr("stroke", "#FFFFFF")
-               .attr("stroke-width", 2.5);
-        
         HUD.append("rect")
             .attr("x", 0)
             .attr("y", 0)
@@ -298,12 +293,35 @@ var D3Renderer = {
             .style("fill", hudStyle.textarea)
             .style("fill-opacity", 0.9);
 
+        HUD.append("rect")
+            .attr("x", params.tx)
+            .attr("y", 0)
+            .attr("width", "32px")
+            .attr("height", "92px")
+            .style("fill", hudStyle.tag)
+            .style("fill-opacity", 0.9);
+
+        HUD.append("circle")
+               .attr("cx", params.x)
+               .attr("cy", params.y)
+               .attr("r", object_.attr("r"))
+               .attr("fill", object_.attr("fill"))
+               .attr("stroke", "#FFFFFF")
+               .attr("stroke-width", 2.5);
+        
+        
         var label = HUD.append("g")
             .attr("id", "placeholder")
             .attr("transform", "translate(" + 40 + "," + 16 + ")");
 
-        D3Renderer.wrapLabel(label, message_, 286);
+        D3Renderer.wrapLabel(label, message_, 268);
 
+            HUD.attr("opacity", 0.0)
+            .transition()
+            .duration(1000)
+            .attr("opacity", 1.0);
+        
+        
         if (!visible_) {
             d3.selectAll("g.HUD").remove();
         }
@@ -331,9 +349,6 @@ var D3Renderer = {
         }
         
         this.HUD(scene, obj, message, translateX, translateY, true);
-        
-        //object.moveToFront();
-
 
     },
 
@@ -382,14 +397,19 @@ var D3Renderer = {
 
     wrapLabel: function(group_, text_, length_) {
 
+        var MESSAGE_LIMIT = 48; //0: bypassing this feature
+        
         var text = group_.append("text")
             .attr("fill", hudStyle.message)
             .attr("font-family", hudStyle.typeface)
             .attr("font-size", hudStyle.size)
             .attr("font-weight", hudStyle.weight);
 
-        var words = text_.split(/\s+/).reverse(),
-            word,
+        var words = text_.split(/\s+/).reverse();
+        
+        //limiting option
+        if(words.length > MESSAGE_LIMIT && MESSAGE_LIMIT != 0) { words = words.slice(words.length - MESSAGE_LIMIT); words[0] = "..."; }
+        var word,
             line = [],
             lineNumber = 0,
             lineHeight = hudStyle.spacing,

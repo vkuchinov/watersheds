@@ -22,8 +22,8 @@ var Interface = function() {
  
   this.wpm = 150;
   this.average = 24;
-  this.interval = Math.floor(60.0 / this.wpm * this.average);
-  this.pause = 6; //Math.floor(60.0 / this.wpm * this.average);
+  this.interval = 3; //Math.floor(60.0 / this.wpm * this.average);
+  this.pause = 3; //by default 6 Math.floor(60.0 / this.wpm * this.average);
   this.start = false;
   //this.dynamic = false;
 
@@ -105,13 +105,16 @@ function inits(){
 
 function render(){
 
-    //t.update();
+    t.update();
+    system.update(t);
     
-    if(g0.__controllers[4].initialValue) {
-        t.setLimit(parseInt(g0.__controllers[2].initialValue * 1000)); 
-        if(currentFrame % 60 == 0) { system.update(); } 
-    }
-    else { t.setLimit(50); system.update(); }
+    //not active for a while
+    
+    //    if(g0.__controllers[4].initialValue) {
+    //        t.setLimit(parseInt(g0.__controllers[2].initialValue * 1000)); 
+    //        if(currentFrame % 60 == 0) { system.update(t); } 
+    //    }
+    //    else { t.setLimit(50); system.update(t); }
         
     D3Renderer.render(scene);
     window.requestAnimationFrame(render);
@@ -148,7 +151,7 @@ function Timer() {
         this.limit = (this.state == -1) ? parseInt(g0.__controllers[2].initialValue * 1000): parseInt(g0.__controllers[3].initialValue * 1000);
         this.passed = 0;
         this.state *= -1;
-            
+        
         (this.state == -1) ? system.display(): system.pause();
             
         } else {

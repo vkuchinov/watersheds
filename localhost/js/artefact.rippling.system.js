@@ -23,7 +23,7 @@ var ripplingSystem = {
 
     inits: function(dataset_) {
 
-        this.timer = new Timer();
+        //this.timer = new Timer();
         this.generator = new Generator(GENERATOR_INTERVAL);
         
         this.feed(dataset_);
@@ -32,10 +32,13 @@ var ripplingSystem = {
 
     },
 
-    update: function() {
+    update: function(timer_) {
 
-        this.timer.update();
-        this.generator.update(this.timer.getInterval());
+        //dublicated instance from main class
+        //conflicts
+        
+        //this.timer.update();
+        this.generator.update(timer_.getInterval());
         
         if(nodes.length == MAX_NODES){
             
@@ -145,14 +148,8 @@ var ripplingSystem = {
 
             var c = colors[this.findByKey(categories, "id", data_.category, 0)];
 
-            nodes[index_] = {"id" : next, "radius": r, "depth" : 0, "color" : c};
+            nodes[index_] = {"id" : next, "radius": r, "depth" : 0, "color" : c, "state" : 0};
 
-    },
-    
-    click : function(d_){
-        
-        console.log("clicked");
-        
     },
     
     display : function() {
@@ -164,17 +161,21 @@ var ripplingSystem = {
         //show only its svg instance by transition
 
         //taking over
+        ///FUCK!!!!!!
+        ///it is not about lowest
+        //!!!!!!!!!!!!!!!!!!!!
         var index = this.findByKey(nodes, "state", 1, 0)
-        
-        
+        console.log("check it: " + index);
         //!!!!!!!!!!!
         //copy circle to HUD!!!!
         //it would be perfect
         //function(particles_, id_)
-        
+        //console.log(particles);
+        //<g> [[Array[1]]
         D3Renderer.highlight(particles, index);
         
         //WHAT ABOUT ID ?? particle_id????
+        //MIXED UP
         this.takeover(index, dataset[next]);                          
         
         //next increment
@@ -185,12 +186,24 @@ var ripplingSystem = {
 
     pause : function(){
         
-        d3.selectAll("g.HUD").remove();
-        d3.selectAll("#HUD").remove();
+        //d3.selectAll("g.HUD").remove();
+        
+        
+        d3.select("#HUD").attr("opacity", 1.0)
+        .transition()
+        .duration(1000)
+        .attr("opacity", 0.0)
+        .each("end", function(d) { this.remove(); });
         
         //hide HUD, clear its circle
         
         //all nodes to next update
+        
+    },
+    
+     click : function(d_){
+        
+        console.log("clicked");
         
     },
     
@@ -238,8 +251,17 @@ var ripplingSystem = {
             }
         }
         return default_;
-    }
+    },
 
+    findByKeySorted: function(array_, key_, value_, default_) {
+        
+        for (var i = 0; i < array_.length; i++) {
+            if (array_[i][key_] === value_) {
+                return array_[i].id;
+            }
+        }
+        return default_;
+    }
 }
 
 function Generator(theta_) {

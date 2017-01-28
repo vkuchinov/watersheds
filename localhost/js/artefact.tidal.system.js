@@ -31,6 +31,8 @@ var NUM_OF_NEIGHBOURS = 8;
 var REST_DISTANCE = 0.132;
 var PARTICLE_SIZE = 0.05; //for simulatio
 
+var GROUND_OFFSET = 32;
+
 //wave machine parameters
 var machine;
 var MAX_ANGLE = 0.6;
@@ -55,7 +57,7 @@ var tidalSystem = {
         ZERO = window.innerHeight;
         
         //translate group
-        particles.attr("transform", "translate(" + width / 2 + ", " + (height + 16) + ")");
+        particles.attr("transform", "translate(" + width / 2 + ", " + (height + GROUND_OFFSET) + ")");
         
         var gravity = new b2Vec2(0, 9.8);
         var psd, particleSystem;
@@ -105,7 +107,7 @@ var tidalSystem = {
 
     },
     
-    update: function(){
+    update: function(timer_){
 
         world.Step(timeStep, velocityIterations, positionIterations);
         machine.time += 1 / 60;
@@ -148,7 +150,8 @@ var tidalSystem = {
 			var offset = pg.GetBufferIndex();
         
             
-			dataSet.enter().append("circle");
+			dataSet.enter().append("circle")
+                           .attr("id", function(d, i) { return "particle_" + nodes[i].id; });
             
             if(gup("mode") == "interactive") { 
                 
@@ -253,8 +256,11 @@ var tidalSystem = {
             var c = colors[this.findByKey(categories, "id", dataset_[i].category, 0)];
             var f = foam[this.findByKey(categories, "id", dataset_[i].category, 0)];
             
-            nodes.push({"id":i, "radius": r, "depth" : 0, "color" : c, "foam" : f});
+            nodes.push({"id": i, "radius": r, "depth" : 0, "color" : c, "foam" : f, "state" : 1});
         }
+        
+        console.log("# of particels in this setup: " + nodes.length);
+        next = nodes.length;
         
     },
         
@@ -265,8 +271,57 @@ var tidalSystem = {
 
             var c = colors[this.findByKey(categories, "id", data_.category, 0)];
 
-            nodes[index_] = {"id" : i, "radius": r, "depth" : 0, "color" : c};
+            nodes[index_] = {"id" : next, "radius": r, "depth" : 0, "color" : c, "state" : 1};
 
+    },
+    
+    display : function() {
+        
+        //console.log("DISPLAY WTF?");
+        //how I could keep next id to take from XML?
+        
+        //pick first available node
+        //takover it
+        //show only its svg instance by transition
+
+        //taking over
+        var index = this.findByKey(nodes, "state", 1, 0)
+        
+        //!!!!!!!!!!!
+        //copy circle to HUD!!!!
+        //it would be perfect
+        //function(particles_, id_)
+        //var ps = particles.selectAll("g.particle");
+        //console.log(particles);
+        //[ok] particles is [[Array[1]]
+        //[-]  check IDs "particle_index"
+        D3Renderer.highlight(particles, index);
+        
+        //WHAT ABOUT ID ?? particle_id????
+        this.takeover(index, dataset[next]);                          
+        
+        //next increment
+        if(next < dataset.length) { next++; } else { next = 0; }
+        console.log("index: " + index + " " + " next: " + next);
+        
+    },
+
+    pause : function(){
+        
+        console.log("PAUSE WTF?");
+        //d3.selectAll("g.HUD").remove();
+        
+        
+        d3.select("#HUD").attr("opacity", 1.0)
+        .transition()
+        .duration(1000)
+        .attr("opacity", 0.0)
+        .each("end", function(d) { this.remove(); });
+        
+        //hide HUD, clear its circle
+        
+        //all nodes to next update
+        
     },
     
     click : function(d_){
