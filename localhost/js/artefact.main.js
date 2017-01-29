@@ -194,3 +194,5 @@ function toggleFullScreen(bool_) {
   }
     
 }
+
+Array.prototype.min = function() { return Math.min.apply(null, this); };

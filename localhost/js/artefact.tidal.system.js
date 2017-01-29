@@ -32,6 +32,7 @@ var REST_DISTANCE = 0.132;
 var PARTICLE_SIZE = 0.05; //for simulatio
 
 var GROUND_OFFSET = 32;
+var SCRREN_MARGINS = 64;
 
 //wave machine parameters
 var machine;
@@ -183,8 +184,14 @@ var tidalSystem = {
              })
             .attr("r", function(d, i){ return nodes[i].radius; })
             .attr("cx", function(d, i){
+          
+                //check if it's off-screen
+                //...
+                if(positionBuf[(i + offset) * 2] * SCALE_RATIO < SCRREN_MARGINS || positionBuf[(i + offset) * 2] * SCALE_RATIO > window.innerWidth - SCRREN_MARGINS) { nodes[i].state = 0; }
 				return positionBuf[(i + offset) * 2] * SCALE_RATIO;
 			}).attr("cy", function(d, i){
+                //check if it's off-screen
+                if(positionBuf[(i + offset) * 2 + 1] * SCALE_RATIO < SCRREN_MARGINS || positionBuf[(i + offset) * 2 + 1] * SCALE_RATIO > window.innerHeight - SCRREN_MARGINS) { nodes[i].state = 0; }
 				return positionBuf[(i + offset) * 2 + 1] * SCALE_RATIO;
 			})
             .attr("stroke", "#FFFFFF")
@@ -225,8 +232,10 @@ var tidalSystem = {
              })
             .attr("r", function(d, i){ return nodes[i].radius; })
             .attr("cx", function(d, i){
+//                if(positionBuf[(i + offset) * 2] * SCALE_RATIO < SCRREN_MARGINS || positionBuf[(i + offset) * 2] * SCALE_RATIO > window.innerWidth - SCRREN_MARGINS) { nodes[i].state = 0; }
 				return positionBuf[(i + offset) * 2] * SCALE_RATIO;
 			}).attr("cy", function(d, i){
+//                if(positionBuf[(i + offset) * 2 + 1] * SCALE_RATIO < SCRREN_MARGINS || positionBuf[(i + offset) * 2 + 1] * SCALE_RATIO > window.innerHeight - SCRREN_MARGINS) { nodes[i].state = 0; }
 				return positionBuf[(i + offset) * 2 + 1] * SCALE_RATIO;
 			})
             .attr("stroke", "#FFFFFF")
@@ -256,7 +265,7 @@ var tidalSystem = {
             var c = colors[this.findByKey(categories, "id", dataset_[i].category, 0)];
             var f = foam[this.findByKey(categories, "id", dataset_[i].category, 0)];
             
-            nodes.push({"id": i, "radius": r, "depth" : 0, "color" : c, "foam" : f, "state" : 1});
+            nodes.push({"id": i, "xml" : i, "radius": r, "depth" : 0, "color" : c, "foam" : f, "state" : 1});
         }
         
         console.log("# of particels in this setup: " + nodes.length);
@@ -264,53 +273,20 @@ var tidalSystem = {
         
     },
         
-    takeover: function(index_, data_){
-        
-            var words = data_.message.replace(/<!\[CDATA\[(.*?)\]\]>/g, "$1").trim().split(" ").length;
-            var r = this.map(Math.min(Math.max(parseInt(words), 1), 48), 1, 48, 6, 20);
-
-            var c = colors[this.findByKey(categories, "id", data_.category, 0)];
-
-            nodes[index_] = {"id" : next, "radius": r, "depth" : 0, "color" : c, "state" : 1};
-
-    },
-    
     display : function() {
         
-        //console.log("DISPLAY WTF?");
-        //how I could keep next id to take from XML?
-        
-        //pick first available node
-        //takover it
-        //show only its svg instance by transition
-
-        //taking over
-        var index = this.findByKey(nodes, "state", 1, 0)
-        
-        //!!!!!!!!!!!
-        //copy circle to HUD!!!!
-        //it would be perfect
-        //function(particles_, id_)
-        //var ps = particles.selectAll("g.particle");
-        //console.log(particles);
-        //[ok] particles is [[Array[1]]
-        //[-]  check IDs "particle_index"
+        ///returns composite object {nodeID: n, xmlID: n}
+        var index = this.findLowestIDByKey(nodes, "state", 1);
+    
         D3Renderer.highlight(particles, index);
-        
-        //WHAT ABOUT ID ?? particle_id????
         this.takeover(index, dataset[next]);                          
         
-        //next increment
+        console.log("node: " + index.nodeID + " xml: " + index.xmlID + " " + next);
         if(next < dataset.length) { next++; } else { next = 0; }
-        console.log("index: " + index + " " + " next: " + next);
         
     },
 
     pause : function(){
-        
-        console.log("PAUSE WTF?");
-        //d3.selectAll("g.HUD").remove();
-        
         
         d3.select("#HUD").attr("opacity", 1.0)
         .transition()
@@ -323,6 +299,33 @@ var tidalSystem = {
         //all nodes to next update
         
     },
+    
+    takeover: function(index_, data_){
+        
+        var a = Math.random() * 360.0;
+        var r = Math.random() * MAX_RADIUS;
+
+        var xy = ripplingSystem.uniform();
+        var x = xy.x * MAX_RADIUS;
+        var y = xy.y * MAX_RADIUS;
+
+
+        var words = data_.message.replace(/<!\[CDATA\[(.*?)\]\]>/g, "$1").trim().split(" ").length;
+        var r = this.map(Math.min(Math.max(parseInt(words), 1), 48), 1, 48, 6, 20);
+
+        var c = colors[this.findByKey(categories, "id", data_.category, 0)];
+        var f = foam[this.findByKey(categories, "id", data_.category, 0)];
+
+        var node = d3.select("#particle_" + index_.xmlID);
+        node.attr("cx", x)
+        .attr("cy", y);
+
+        nodes[index_.nodeID] = {"id" : index_.nodeID, "xml" : next, "radius": r, "depth" : 0, "color" : c, "foam" : f, "state" : 0};
+        //this.delete(nodes, index_.nodeID);
+        //nodes.push({"id" : next, "radius": r, "depth" : 0, "color" : c, "state" : 0});
+
+    },
+    
     
     click : function(d_){
         
@@ -342,6 +345,20 @@ var tidalSystem = {
             }
         }
         return default_;
+    },
+    
+    findLowestIDByKey: function(array_, key_, value_) {
+        
+        var available = [];
+        var keys = [];
+        
+        for (var i = array_.length - 1; i >= 0; i--) {
+            if (array_[i][key_] === value_) { available.push({ nodeID: i, xmlID : array_[i]["xml"]}); 
+                                              keys.push( array_[i]["xml"]); }
+        }
+        
+        var lowest = Math.min.apply(null, keys);
+        return available[this.findByKey(available, "xmlID", lowest, 0)];
     }
     
     

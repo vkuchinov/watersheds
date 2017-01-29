@@ -85,7 +85,7 @@ var ripplingSystem = {
 
             if(gup("mode") == "interactive") { 
             var node = particles.append("circle")
-            .attr("id", "nodes_" + i, true)
+            .attr("id", "particle_" + i, true)
             .attr("class", "nodes")
             .attr("cx", x)
             .attr("cy", y)
@@ -122,7 +122,8 @@ var ripplingSystem = {
 
             var c = colors[this.findByKey(categories, "id", dataset_[i].category, 0)];
             
-            nodes.push({"id" : i, "radius": r, "depth" : 0, "color" : c, "state" : 0});
+            //id is a reference to xml
+            nodes.push({"id" : i, "xml": i, "radius": r, "depth" : 0, "color" : c, "state" : 0});
 
         }
         
@@ -130,57 +131,16 @@ var ripplingSystem = {
 
     },
     
-    takeover: function(index_, data_){
-        
-            var a = Math.random() * 360.0;
-            var r = Math.random() * MAX_RADIUS;
-
-            var xy = ripplingSystem.uniform();
-            var x = xy.x * MAX_RADIUS;
-            var y = xy.y * MAX_RADIUS;
-        
-            var nodes = d3.select("#particle_" + index_);
-            nodes.attr("cx", x)
-                 .attr("cy", y);
-            
-            var words = data_.message.replace(/<!\[CDATA\[(.*?)\]\]>/g, "$1").trim().split(" ").length;
-            var r = this.map(Math.min(Math.max(parseInt(words), 1), 48), 1, 48, 6, 20);
-
-            var c = colors[this.findByKey(categories, "id", data_.category, 0)];
-
-            nodes[index_] = {"id" : next, "radius": r, "depth" : 0, "color" : c, "state" : 0};
-
-    },
-    
     display : function() {
-        
-        //how I could keep next id to take from XML?
-        
-        //pick first available node
-        //takover it
-        //show only its svg instance by transition
 
-        //taking over
-        ///FUCK!!!!!!
-        ///it is not about lowest
-        //!!!!!!!!!!!!!!!!!!!!
-        var index = this.findByKey(nodes, "state", 1, 0)
-        console.log("check it: " + index);
-        //!!!!!!!!!!!
-        //copy circle to HUD!!!!
-        //it would be perfect
-        //function(particles_, id_)
-        //console.log(particles);
-        //<g> [[Array[1]]
+        //returns composite object {nodeID: n, xmlID: n}
+        var index = this.findLowestIDByKey(nodes, "state", 1);
+    
         D3Renderer.highlight(particles, index);
-        
-        //WHAT ABOUT ID ?? particle_id????
-        //MIXED UP
         this.takeover(index, dataset[next]);                          
         
-        //next increment
+        console.log("node: " + index.nodeID + " xml: " + index.xmlID + " " + next);
         if(next < dataset.length) { next++; } else { next = 0; }
-        console.log(next);
         
     },
 
@@ -201,9 +161,46 @@ var ripplingSystem = {
         
     },
     
+    takeover: function(index_, data_){
+        
+        var a = Math.random() * 360.0;
+        var r = Math.random() * MAX_RADIUS;
+
+        var xy = ripplingSystem.uniform();
+        var x = xy.x * MAX_RADIUS;
+        var y = xy.y * MAX_RADIUS;
+
+
+        var words = data_.message.replace(/<!\[CDATA\[(.*?)\]\]>/g, "$1").trim().split(" ").length;
+        var r = this.map(Math.min(Math.max(parseInt(words), 1), 48), 1, 48, 6, 20);
+
+        var c = colors[this.findByKey(categories, "id", data_.category, 0)];
+
+        var node = d3.select("#particle_" + index_.xmlID);
+        node.attr("cx", x)
+        .attr("cy", y);
+
+        nodes[index_.nodeID] = {"id" : index_.nodeID, "xml" : next, "radius": r, "depth" : 0, "color" : c, "state" : 0};
+        //this.delete(nodes, index_.nodeID);
+        //nodes.push({"id" : next, "radius": r, "depth" : 0, "color" : c, "state" : 0});
+
+    },
+    
      click : function(d_){
         
         console.log("clicked");
+        
+    },
+    
+    delete : function(array_, indices_){
+        
+        for(var j = 0; j < indices_.length; j++){
+          
+            for(var i = 0; i < array_.length; i++) { if(i === indices_[j]) { array_.splice(i, 1); } }
+            
+        }
+        
+        return array_;
         
     },
     
@@ -253,14 +250,19 @@ var ripplingSystem = {
         return default_;
     },
 
-    findByKeySorted: function(array_, key_, value_, default_) {
+    findLowestIDByKey: function(array_, key_, value_) {
         
-        for (var i = 0; i < array_.length; i++) {
-            if (array_[i][key_] === value_) {
-                return array_[i].id;
-            }
+
+        var available = [];
+        var keys = [];
+        
+        for (var i = array_.length - 1; i >= 0; i--) {
+            if (array_[i][key_] === value_) { available.push({ nodeID: i, xmlID : array_[i]["xml"]}); 
+                                              keys.push( array_[i]["xml"]); }
         }
-        return default_;
+        
+        var lowest = Math.min.apply(null, keys);
+        return available[this.findByKey(available, "xmlID", lowest, 0)];
     }
 }
 

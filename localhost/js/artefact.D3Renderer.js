@@ -330,9 +330,7 @@ var D3Renderer = {
 
     highlight: function(particles_, id_) {
 
-        console.log("id " + id_);
-        
-        var obj = particles_.select("#particle_" + id_);
+        var obj = particles_.select("#particle_" + id_.nodeID);
 
         //obj.attr("stroke-width", particleStyle.weight);
         
@@ -343,7 +341,7 @@ var D3Renderer = {
         var translateX = parseInt(values[0]) + parseInt(obj.attr("cx"));
         var translateY = parseInt(values[1]) + parseInt(obj.attr("cy"));
 
-        var message = dataset[id_].message.replace(/<!\[CDATA\[(.*?)\]\]>/g, '$1').trim();
+        var message = dataset[id_.xmlID].message.replace(/<!\[CDATA\[(.*?)\]\]>/g, '$1').trim();
         if (message == "" || message == undefined || message == null ) {
             message = "there is no comments";
         }
@@ -397,7 +395,7 @@ var D3Renderer = {
 
     wrapLabel: function(group_, text_, length_) {
 
-        var MESSAGE_LIMIT = 48; //0: bypassing this feature
+        var MESSAGE_LIMIT = 42; //0: bypassing this feature
         
         var text = group_.append("text")
             .attr("fill", hudStyle.message)
