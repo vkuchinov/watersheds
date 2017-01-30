@@ -1,16 +1,15 @@
-URL PARAMETERS
-url?type={String0}&mode={Integer1}
+<h2>URL PARAMETERS</h2>
+url?type=<i>String0</i>&mode=<i>Integer1</i>
 
-String0 could be 'rippling' or 'tidal'
+<i>String0</i> could be 'rippling' or 'tidal'
 By default, if it's not specified the script
 select 'tidal'
 
-Integer1 could be rather 'autonomous' or 'interactive'
+<i>Integer1</i> could be rather 'autonomous' or 'interactive'
 By default — 'autonomous'
 
 
-
-MAIN PARAMETERS
+<h2>MAIN PARAMETERS</h2>
 artefact.main.js
 
 There are basically two timing parameters here — interval
@@ -32,8 +31,7 @@ modes as well as turning on 'full screen'. Without this code runs in
 !!!!!!!!!!
 
 
-
-TIDAL SYSTEM
+<h2>TIDAL SYSTEM</h2>
 artefact.tidal.system.js
 
 
@@ -55,7 +53,7 @@ var SCALE_RATIO = 150;    //ideally shoud be set for projection manualy
                           //but for now you can tweak in through dat.gui
                           
 
-TYPOGRAPHY
+<h2>TYPOGRAPHY</h2>
 
 You can turn on/off message length [words] by defining
 MESSAGE_LIMIT @ artefact.D3Renderer.js
