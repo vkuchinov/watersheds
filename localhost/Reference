@@ -1,4 +1,28 @@
+URL PARAMETERS
+url?type={String0}&mode={Integer1}
+
+String0 could be 'rippling' or 'tidal'
+By default, if it's not specified the script
+select 'tidal'
+
+Integer1 could be rather 'autonomous' or 'interactive'
+By default — 'autonomous'
+
 MAIN PARAMETERS
+artefact.main.js
+
+There are basically two timing parameters here — interval
+and pause. First one has been calculated by formula and
+equals to 8 seconds — the interval for showing information
+pop-up. The second variable determines pauses between wishes.
+
+These pauses could be described as 'explosive' motions and,
+it's only my subjective feeling, the most sucessfull scenario
+and makes everything visually enganging. 
+
+TIDAL SYSTEM
+artefact.tidal.system.js
+
 
 TYPOGRAPHY
 
