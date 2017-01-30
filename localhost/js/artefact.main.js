@@ -22,7 +22,7 @@ var Interface = function() {
  
   this.wpm = 150;
   this.average = 24;
-  this.interval = 8; //Math.floor(60.0 / this.wpm * this.average);
+  this.interval = Math.floor(60.0 / this.wpm * this.average);
   this.pause = 3; //by default 6 Math.floor(60.0 / this.wpm * this.average);
   this.start = false;
   //this.dynamic = false;
