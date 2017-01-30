@@ -10,7 +10,6 @@
  * @email  helloworld@vkuchinov.co.uk
  *
  */
-
 /*
 
 <wish>
@@ -44,7 +43,6 @@ var text_element = plot.select("text");
 var textWidth = text_element.node().getBBox().width
 
 */
-
 var XML_LIMIT = 512;
 var XML_URL = "xml/data.xml";
 
@@ -92,45 +90,53 @@ var D3Renderer = {
         d3.json(TAGS_URL, function(error, tags_) {
 
             if (error) throw error;
-            
+
             var max = [0, 0, 0];
-            var mult = function(array_, index_){ var sum = 0; for(var i = 0; i < index_; i++) { sum += array_[i]; } return sum; };
-            
-            tags_.forEach(function (d) { max[d.column] = Math.max(max[d.column], D3Renderer.getTextWidth(d.name)); });
-            
-            tags_.forEach(function (d) {
-                
+            var mult = function(array_, index_) {
+                var sum = 0;
+                for (var i = 0; i < index_; i++) {
+                    sum += array_[i];
+                }
+                return sum;
+            };
+
+            tags_.forEach(function(d) {
+                max[d.column] = Math.max(max[d.column], D3Renderer.getTextWidth(d.name));
+            });
+
+            tags_.forEach(function(d) {
+
                 var tag = scene.append("g")
-                          .attr("id", d.name, true)
-                          .attr("transform", "translate(" + (32 + mult(max, d.column) * 1.25) + ", " + (32 + d.index * 28) + ")")
-                .on("mouseover", function(d) {
-                    d3.select(this).select("rect").attr("fill", tagStyle.over);
-                })
-                .on("mouseout", function(d) {
-              
+                    .attr("id", d.name, true)
+                    .attr("transform", "translate(" + (32 + mult(max, d.column) * 1.25) + ", " + (32 + d.index * 28) + ")")
+                    .on("mouseover", function(d) {
+                        d3.select(this).select("rect").attr("fill", tagStyle.over);
+                    })
+                    .on("mouseout", function(d) {
+
                         d3.select(this).select("rect").attr("fill", tagStyle.active);
-                })
-    
-                    
+                    })
+
+
                 var background = tag.append("rect")
-                                .attr("x", -6)
-                                .attr("y", -12)
-                                .attr("width", D3Renderer.getTextWidth(d.name) + 6)
-                                .attr("height", 22)
-                                .attr("fill", tagStyle.active)
-                
-                    var label = tag.append("text")
-                                .attr("fill", tagStyle.label)
-                                .style("font-size", tagStyle.size)
-                                .style("font-family", tagStyle.typeface)
-                                .style("text-anchor", "left")
-                                .style("alignment-baseline", "middle")
-                                .text(d.name);
-                
+                    .attr("x", -6)
+                    .attr("y", -12)
+                    .attr("width", D3Renderer.getTextWidth(d.name) + 6)
+                    .attr("height", 22)
+                    .attr("fill", tagStyle.active)
+
+                var label = tag.append("text")
+                    .attr("fill", tagStyle.label)
+                    .style("font-size", tagStyle.size)
+                    .style("font-family", tagStyle.typeface)
+                    .style("text-anchor", "left")
+                    .style("alignment-baseline", "middle")
+                    .text(d.name);
+
             });
 
 
-//
+            //
         });
 
         //PARTICLES particles
@@ -142,76 +148,57 @@ var D3Renderer = {
 
             if (error) throw error;
 
-              dataset = [].map.call(data.querySelectorAll("wish"), function(wish) {
+            dataset = [].map.call(data.querySelectorAll("wish"), function(wish) {
 
                 return {
 
-                  id: parseInt(wish.querySelector("id").textContent),
-                  partner: wish.querySelector("partnerid").textContent,
-                  featured: wish.querySelector("featured").textContent,
-                  name: wish.querySelector("name").textContent,
-                  age: parseInt(wish.querySelector("age").textContent),
-                  city: wish.querySelector("city").textContent,
-                  category: parseInt(wish.querySelector("categoryid").textContent),
-                  message: wish.querySelector("text").textContent
+                    id: parseInt(wish.querySelector("id").textContent),
+                    partner: wish.querySelector("partnerid").textContent,
+                    featured: wish.querySelector("featured").textContent,
+                    name: wish.querySelector("name").textContent,
+                    age: parseInt(wish.querySelector("age").textContent),
+                    city: wish.querySelector("city").textContent,
+                    category: parseInt(wish.querySelector("categoryid").textContent),
+                    message: wish.querySelector("text").textContent
 
                 };
-              });   
+            });
 
-        D3Renderer.analyse(dataset);
-        D3Renderer.feed(particles);
+            D3Renderer.analyse(dataset);
+            //D3Renderer.feed(particles);
 
         });
 
         //D3Renderer.HUD(scene, 0, 46, 200, true);
         D3Renderer.resize();
-        
-        //TEST RIPPLE
-        //D3Renderer.drawCircle(d3.select("svg#scene"), window.innerWidth/2, window.innerHeight/2, 300);
-        
-    },
-
-    render: function(scene_) {
-
-
-        scene = d3.select("svg#scene");
-
-        //if(currentFrame % 20 == 0) { d3.selectAll("g.nodes").remove(); D3Renderer.drawNodes(viz); }
-        //D3Renderer.processNodes(scene_);
-
-        //d3.selectAll("g.HUD").moveToFront();
 
     },
 
-    feed: function(particles_) {
+    render: function(scene_) { scene = d3.select("svg#scene"); },
 
-        //var t0 = performance.now();
-        //var min = Math.min(MAX_NODES, dataset.length);
+    analyse: function(data_) {
 
-        //ripplingSystem.feed(min);
-
-        //console.log("Initial XML data was processed in " + (performance.now() - t0) + " milliseconds.");
-        
-    },
-
-    analyse: function (data_){
-        
         var total = 0;
-        var result = {min: -1, max: 0, average: 0, id: 0};
+        var result = {
+            min: -1,
+            max: 0,
+            average: 0,
+            id: 0
+        };
 
         console.log("There are " + data_.length + " wishes");
-        
-        for(var i = 0; i < data_.length; i++){
-            
+
+        for (var i = 0; i < data_.length; i++) {
+
             var parsed = data_[i].message.replace(/<!\[CDATA\[(.*?)\]\]>/g, '$1').trim();
             total += parsed.length;
             result.max = Math.max(result.max, parsed.length);
         }
-        
+
         result.average = Math.floor(total / data_.length);
-    
+
     },
-    
+
     updateData: function(particles_) {
 
         var indices = [];
@@ -235,17 +222,17 @@ var D3Renderer = {
     },
 
     drawCircle: function(scene_, x_, y_, radius_) {
-        
+
         scene_.append("circle")
-              .attr("cx", x_)
-              .attr("cy", y_)
-              .attr("r", radius_)
-              .attr("stroke", "#DEDEDE")
-              .attr("stroke-width", 1.0)
-              .attr("fill", "none");
-        
+            .attr("cx", x_)
+            .attr("cy", y_)
+            .attr("r", radius_)
+            .attr("stroke", "#DEDEDE")
+            .attr("stroke-width", 1.0)
+            .attr("fill", "none");
+
     },
-    
+
     drawParticle: function(group_, id_, x_, y_, radius_, color_) {
 
         group_.append("circle")
@@ -265,26 +252,49 @@ var D3Renderer = {
 
     },
 
-    HUD: function(scene_, object_, message_ , x_, y_, visible_) {
+    HUD: function(scene_, object_, message_, x_, y_, visible_) {
 
         d3.selectAll("g.HUD").remove();
 
         var w = window.innerWidth;
         var h = window.innerHeight;
         
-        var systemX = 0; //Number(d3.transform(d3.select("#particles").attr("transform")).translate[0]);
-        var systemY = 0; //Number(d3.transform(d3.select("#particles").attr("transform")).translate[1]);
+        //Number(d3.transform(d3.select("#particles").attr("transform")).translate[0]);                   //Number(d3.transform(d3.select("#particles").attr("transform")).translate[1]);
+
+        var systemX = 0, systemY = 0;
         
-        //console.log(systemX + " " + systemY);
-        
-        var params = {x: x_, y: y_};
-        
+        var params = {
+            x: x_,
+            y: y_
+        };
+
         //top left
-        if(x_ <= w/2 && y_ <= h/2) { params = {x: 0, y: 0, tx: 0} }
-        else if(x_ <= w/2 && y_ > h/2) { params = {x: 0, y: 92, tx: 0} }
-        else if(x_ > w/2 && y_ <= h/2) { params = {x: 344, y: 0,  tx: 312} }
-        else { params = {x: 344, y: 92, tx: 312} }
-        
+        if (x_ <= w / 2 && y_ <= h / 2) {
+            params = {
+                x: 0,
+                y: 0,
+                tx: 0
+            }
+        } else if (x_ <= w / 2 && y_ > h / 2) {
+            params = {
+                x: 0,
+                y: 92,
+                tx: 0
+            }
+        } else if (x_ > w / 2 && y_ <= h / 2) {
+            params = {
+                x: 344,
+                y: 0,
+                tx: 312
+            }
+        } else {
+            params = {
+                x: 344,
+                y: 92,
+                tx: 312
+            }
+        }
+
         var HUD = scene_.append("g")
             .attr("id", "HUD")
             .attr("transform", "translate(" + (x_ - params.x + systemX) + "," + (y_ - params.y + systemY) + ")");
@@ -307,26 +317,26 @@ var D3Renderer = {
             .style("fill-opacity", 0.9);
 
         HUD.append("circle")
-               .attr("cx", params.x)
-               .attr("cy", params.y)
-               .attr("r", object_.attr("r"))
-               .attr("fill", object_.attr("fill"))
-               .attr("stroke", "#FFFFFF")
-               .attr("stroke-width", 2.5);
-        
-        
+            .attr("cx", params.x)
+            .attr("cy", params.y)
+            .attr("r", object_.attr("r"))
+            .attr("fill", object_.attr("fill"))
+            .attr("stroke", "#FFFFFF")
+            .attr("stroke-width", 2.5);
+
+
         var label = HUD.append("g")
             .attr("id", "placeholder")
             .attr("transform", "translate(" + 40 + "," + 16 + ")");
 
         D3Renderer.wrapLabel(label, message_, 268);
 
-            HUD.attr("opacity", 0.0)
+        HUD.attr("opacity", 0.0)
             .transition()
             .duration(1500)
             .attr("opacity", 1.0);
-        
-        
+
+
         if (!visible_) {
             d3.selectAll("g.HUD").remove();
         }
@@ -338,7 +348,7 @@ var D3Renderer = {
         var obj = particles_.select("#particle_" + id_.nodeID);
 
         //obj.attr("stroke-width", particleStyle.weight);
-        
+
         d3.selectAll("g.HUD").remove();
 
         var values = particles_.attr("transform").replace("translate(", "").replace(")", "").trim().split(",");
@@ -347,32 +357,44 @@ var D3Renderer = {
         var translateY = parseInt(values[1]) + parseInt(obj.attr("cy"));
 
         var message = dataset[id_.xmlID].message.replace(/<!\[CDATA\[(.*?)\]\]>/g, '$1').trim();
-        if (message == "" || message == undefined || message == null ) {
+        if (message == "" || message == undefined || message == null) {
             message = "there is no comments";
         }
-        
+
         this.HUD(scene, obj, message, translateX, translateY, true);
 
     },
 
-    bulletTime: function(object_, parameters0_, parameters1_, duration_, type_, loop_){
+    bulletTime: function(object_, parameters0_, parameters1_, duration_, type_, loop_) {
 
-            if(Object.keys(parameters0_).length==Object.keys(parameters1_).length 
-               && Object.keys(parameters0_).every(function(v,i) { return v === Object.keys(parameters1_)[i]})) {
-          
-                object_.attr(parameters0_)
+        if (Object.keys(parameters0_).length == Object.keys(parameters1_).length &&
+            Object.keys(parameters0_).every(function(v, i) {
+                return v === Object.keys(parameters1_)[i]
+            })) {
+
+            object_.attr(parameters0_)
                 .transition()
                 .ease(type_)
                 .duration(duration_)
                 .attr(parameters1_)
-                .each("end", function(d) { if(loop_) { D3Renderer.BulletTime(object_, parameters0_, parameters1_, duration_, type_, loop_); } else { this.remove(); } } ); 
+                .each("end", function(d) {
+                    if (loop_) {
+                        D3Renderer.BulletTime(object_, parameters0_, parameters1_, duration_, type_, loop_);
+                    } else {
+                        this.remove();
+                    }
+                });
 
-            } else { console.log("Oooops, something wrong!"); }
+        } else {
+            console.log("Oooops, something wrong!");
+        }
 
-        },
-        
-    removeBulletTime(object_, parameters_){ object_.transition(); },
-    
+    },
+
+    removeBulletTime(object_, parameters_) {
+        object_.transition();
+    },
+
     getTextWidth: function(text_) {
 
         var template = d3.select("body").append("svg").attr("id", "template").attr("width", "100%").attr("height", "100%");
@@ -401,7 +423,7 @@ var D3Renderer = {
     wrapLabel: function(group_, text_, length_) {
 
         var MESSAGE_LIMIT = 42; //0: bypassing this feature
-        
+
         var text = group_.append("text")
             .attr("fill", hudStyle.message)
             .attr("font-family", hudStyle.typeface)
@@ -409,9 +431,12 @@ var D3Renderer = {
             .attr("font-weight", hudStyle.weight);
 
         var words = text_.split(/\s+/).reverse();
-        
+
         //limiting option
-        if(words.length > MESSAGE_LIMIT && MESSAGE_LIMIT != 0) { words = words.slice(words.length - MESSAGE_LIMIT); words[0] = "..."; }
+        if (words.length > MESSAGE_LIMIT && MESSAGE_LIMIT != 0) {
+            words = words.slice(words.length - MESSAGE_LIMIT);
+            words[0] = "...";
+        }
         var word,
             line = [],
             lineNumber = 0,
@@ -420,7 +445,7 @@ var D3Renderer = {
             dy = 0,
 
             tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
-            while (word = words.pop()) {
+        while (word = words.pop()) {
 
             line.push(word);
             tspan.text(line.join(" "));
@@ -435,17 +460,17 @@ var D3Renderer = {
     },
 
     resize: function() {
-        
+
         var translate;
-        
+
         var w = window.innerWidth,
             h = window.innerHeight;
         var scale = 1.0;
         var scene = d3.select("svg#scene");
         scene.style("width", "100%").style("height", h + "px");
-        
-        translate = (gup("type") == "rippling") ? "translate(" + (w / 2) + ", " + (h / 2 + scale * 2) + ")":"translate(" + w/2  + ", " + h + ")";
-        
+
+        translate = (gup("type") == "rippling") ? "translate(" + (w / 2) + ", " + (h / 2 + scale * 2) + ")" : "translate(" + w / 2 + ", " + h + ")";
+
         var scale = "scale(" + scale + ", " + (scale) + ")";
         scene.select("g").attr("transform", [translate, scale].join());
     }
@@ -457,12 +482,12 @@ d3.selection.prototype.moveToFront = function() {
     });
 };
 
-d3.layout.tagmenu = function(dimensions_){
-    
+d3.layout.tagmenu = function(dimensions_) {
+
     this.width = dimensions_[0];
     this.height = dimensions_[1];
-    
-    
+
+
 };
 
 

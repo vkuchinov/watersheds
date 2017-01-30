@@ -9,6 +9,11 @@ select 'tidal'
 By default — 'autonomous'
 
 
+<h2>GLOBAL PARAMETER</h2>
+artefact.global.js
+
+Colour palettes and other complex variables
+
 <h2>MAIN PARAMETERS</h2>
 artefact.main.js
 

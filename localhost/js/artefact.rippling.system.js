@@ -219,8 +219,6 @@ var ripplingSystem = {
 
     uniform : function(){
         
-       //http://stats.stackexchange.com/questions/120527/how-to-generate-random-points-uniformly-distributed-in-a-circle
-        
         var n = 1e4;
         var rho = Math.sqrt(Math.random(n));
         var theta = Math.random() * 2.0 * Math.PI;
@@ -285,17 +283,6 @@ function Generator(theta_) {
 
         this.passed += interval_;
         if(this.passed > this.theta) { this.passed = 0; this.generate(particles) }
-        
-        //        var candidates = [];
-        //        
-        //        for(var i = 0; i < this.children.length; i++){
-        //         
-        //            if(this.children.radius < MAX_RADIUS) { this.children[i].radius += this.speed.step; }
-        //            else { candidates.push(i); }
-        //            
-        //        }
-        //        
-        //        this.children = this.delete(this.children, candidates);
 
     }
 
