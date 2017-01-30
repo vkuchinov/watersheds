@@ -7,6 +7,8 @@ http://vkuchinov.github.io/watersheds/index.html?type=rippling&mode=autonomus
 http://vkuchinov.github.io/watersheds/index.html?type=tidal&mode=autonomus
 <br><br><br>
 ![alt tag](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/tidalThumbs.png)<br>
+<br>
+![alt tag](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/ripplingThumbs.png)
 <br><br>
 <b>3rd PARTY LIBRARIES:</b><br>
 <i>https://google.github.io/liquidfun</i><br>
