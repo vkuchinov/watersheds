@@ -1,0 +1,69 @@
+URL PARAMETERS
+url?type={String0}&mode={Integer1}
+
+String0 could be 'rippling' or 'tidal'
+By default, if it's not specified the script
+select 'tidal'
+
+Integer1 could be rather 'autonomous' or 'interactive'
+By default — 'autonomous'
+
+
+
+MAIN PARAMETERS
+artefact.main.js
+
+There are basically two timing parameters here — interval
+and pause. First one has been calculated by formula and
+equals to 8 seconds — the interval for showing information
+pop-up. The second variable determines pauses between wishes.
+
+These pauses could be described as 'explosive' motions and,
+it's only my subjective feeling, the most sucessfull scenario
+and makes everything visually enganging. 
+
+Some of the most essential parameters you could find at dat.gui
+menu, which wold be hidden at final release.
+
+!!!!!!!!!!
+You have to click on start checkbox to initialize autonomous/interactive
+modes as well as turning on 'full screen'. Without this code runs in
+'blank' mode.
+!!!!!!!!!!
+
+
+
+TIDAL SYSTEM
+artefact.tidal.system.js
+
+
+var NUM_OF_NEIGHBOURS = 7; //this value controls how many neighbours 
+                           //would be counted in terms of getting minimal
+                           //distance. The optimal range is [3...9]
+                           
+var REST_DISTANCE = 0.132; //the rest distance, by playing with it you can 
+                           //regulate the amount of foamy particles
+
+var PARTICLE_SIZE = 0.05; //virtual particle size, fotms fluid density.
+                          //The most desirable range is [0.05..0.08]
+                          
+
+var MAX_ANGLE = 0.6;      //wave machine parameters — maximum angle and
+var ANG_INC = 0.0038;     //linear rotation speed 
+
+var SCALE_RATIO = 150;    //ideally shoud be set for projection manualy
+                          //but for now you can tweak in through dat.gui
+                          
+
+TYPOGRAPHY
+
+You can turn on/off message length [words] by defining
+MESSAGE_LIMIT @ artefact.D3Renderer.js
+
+0: turns it off, any other value is number of words allowed 
+   the last word would be replaced by ellipsis [...]
+   
+   Extra tweaking: ellipsis shouldn't have space ahead.
+   
+   
+   
