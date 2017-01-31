@@ -313,7 +313,7 @@ var D3Renderer = {
             .attr("y", 0)
             .attr("width", "32px")
             .attr("height", "92px")
-            .style("fill", hudStyle.tag)
+            .style("fill", object_.attr("fill"))
             .style("fill-opacity", 0.9);
 
         HUD.append("circle")

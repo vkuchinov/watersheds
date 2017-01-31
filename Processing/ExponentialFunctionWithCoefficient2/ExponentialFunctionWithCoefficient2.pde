@@ -19,11 +19,11 @@ void setup(){
  
    size(500, 500); 
    
-   for(float y = 0; y < 3000; y++){
+   for(float y = 0; y < 3000; y+= 5){
 
       float x = exp(map(y, 0.0, 3000.0, 0.0, 1.0) * b); 
 
-      println(map(x, 0, exp(1.0 * b), 0, 3000));
+      println(map(x, 0, exp(1.0 * b), 0, 1500));
      
    }
    
