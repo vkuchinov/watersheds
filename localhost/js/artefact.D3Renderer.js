@@ -56,6 +56,8 @@ var tagStyle = {
     size: 12
 };
 
+var HUD_SCALE = 1.2;
+
 var hudStyle = {
     tag: "#1293DC",
     textarea: "#DCDCDC",
@@ -84,7 +86,6 @@ var D3Renderer = {
 
         var width = 600;
         var height = 400;
-        //var menu = d3.layout.tagmenu([height, width]);
         var val = 0;
 
         d3.json(TAGS_URL, function(error, tags_) {
@@ -135,8 +136,6 @@ var D3Renderer = {
 
             });
 
-
-            //
         });
 
         //PARTICLES particles
@@ -224,6 +223,7 @@ var D3Renderer = {
     drawCircle: function(scene_, x_, y_, radius_) {
 
         scene_.append("circle")
+            .attr("id", "test", true)
             .attr("cx", x_)
             .attr("cy", y_)
             .attr("r", radius_)
@@ -265,7 +265,7 @@ var D3Renderer = {
         
         var params = {
             x: x_,
-            y: y_
+            y: y_,
         };
 
         //top left
@@ -273,36 +273,46 @@ var D3Renderer = {
             params = {
                 x: 0,
                 y: 0,
-                tx: 0
+                rx: 32,
+                tx: 0,
+                lx: 40,
+                ly: 16
             }
         } else if (x_ <= w / 2 && y_ > h / 2) {
             params = {
                 x: 0,
                 y: 92,
-                tx: 0
+                rx: 32,
+                tx: 0,
+                lx: 40,
+                ly: 16
             }
         } else if (x_ > w / 2 && y_ <= h / 2) {
             params = {
                 x: 344,
                 y: 0,
-                tx: 312
+                rx: 0,
+                tx: 312,
+                lx: 8,
+                ly: 16
             }
         } else {
             params = {
                 x: 344,
                 y: 92,
-                tx: 312
+                rx: 0,
+                tx: 312,
+                lx: 8,
+                ly: 16
             }
         }
 
         var HUD = scene_.append("g")
-            .attr("id", "HUD")
-            .attr("transform", "translate(" + (x_ - params.x + systemX) + "," + (y_ - params.y + systemY) + ")");
-
+            .attr("id", "HUD");
+        
         HUD.append("rect")
-            .attr("x", 0)
+            .attr("x", params.rx)
             .attr("y", 0)
-            .attr("transform", "translate(32,0)")
             .attr("width", "312px")
             .attr("height", "92px")
             .style("fill", hudStyle.textarea)
@@ -313,30 +323,30 @@ var D3Renderer = {
             .attr("y", 0)
             .attr("width", "32px")
             .attr("height", "92px")
-            .style("fill", object_.attr("fill"))
+            .style("fill", D3Renderer.setColor(object_.attr("fill")))
             .style("fill-opacity", 0.9);
 
         HUD.append("circle")
             .attr("cx", params.x)
             .attr("cy", params.y)
-            .attr("r", object_.attr("r"))
+            .attr("r", (Number(object_.attr("r")) / HUD_SCALE))
             .attr("fill", object_.attr("fill"))
             .attr("stroke", "#FFFFFF")
             .attr("stroke-width", 2.5);
 
-
         var label = HUD.append("g")
             .attr("id", "placeholder")
-            .attr("transform", "translate(" + 40 + "," + 16 + ")");
+            .attr("transform", "translate(" + params.lx + "," + params.ly + ")");
 
-        D3Renderer.wrapLabel(label, message_, 268);
+        D3Renderer.wrapLabel(label, message_, 282);
 
         HUD.attr("opacity", 0.0)
             .transition()
             .duration(1500)
             .attr("opacity", 1.0);
 
-
+        HUD.attr("transform", "translate(" + (x_ - params.x * HUD_SCALE) + "," + (y_ - params.y * HUD_SCALE) + "),scale(" + HUD_SCALE + ")");
+        
         if (!visible_) {
             d3.selectAll("g.HUD").remove();
         }
@@ -457,6 +467,14 @@ var D3Renderer = {
             }
         }
 
+    },
+    
+    setColor : function(color_) {
+      
+        var index;
+        
+        if(colors.contains(color_)) { return color_; }
+        else { return colors[foam.getIndex(color_)]; }
     },
 
     resize: function() {

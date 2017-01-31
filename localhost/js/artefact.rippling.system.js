@@ -146,7 +146,7 @@ var ripplingSystem = {
 
     pause : function(){
         
-        //d3.selectAll("g.HUD").remove();
+        d3.selectAll("#test").remove();
         
         
         d3.select("#HUD").attr("opacity", 1.0)

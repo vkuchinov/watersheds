@@ -221,6 +221,22 @@ function toggleFullScreen(bool_) {
 
 }
 
-Array.prototype.min = function() {
-    return Math.min.apply(null, this);
-};
+Array.prototype.min = function() { return Math.min.apply(null, this); };
+Array.prototype.contains = function(element_) {
+    var i = this.length;
+    while (i--) {
+        if (this[i] == element_) {
+            return true;
+        }
+    }
+    return false;
+}
+Array.prototype.getIndex = function(element_) {
+    var i = this.length;
+    while (i--) {
+        if (this[i] == element_) {
+            return i;
+        }
+    }
+    return null;
+}
