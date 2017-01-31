@@ -3,10 +3,16 @@
 
     @artefact.D3Renderer HUD_SCALE value, by default set to 1.0
 
-[-]
-[-]
-[-]
-[-]
-[-]
+[-] There is fps lagging, so it's impossible to smooth 'explosive'
+    motion as it should be.
+    
+    However, 'freezed' state lasts for at least 6-8 seconds with FPS
+    rate above 60 frames per second, basically in 'idle'.
+    
+    It can be used to pre-calculate number of forgoing frames (position,
+    radius, color) and interpolates these data on exponential scale.
+    
+    I believe that it would be the effective solution for smoothing motions.
+    In both visualisations.
 
 -: planned x: done
