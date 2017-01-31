@@ -255,6 +255,15 @@ var D3Renderer = {
 
     HUD: function(scene_, object_, message_, x_, y_, visible_) {
 
+        var bbox = object_.node().getBBox();
+        middleX = bbox.x + (bbox.width / 2),
+        middleY = bbox.y + (bbox.height / 2);
+        
+        var absoluteXY = getScreenXY(scene, object_, middleX, middleY);
+
+        x_ = absoluteXY.x;
+        y_ = absoluteXY.y;
+        
         d3.selectAll("g.HUD").remove();
 
         var w = window.innerWidth;

@@ -65,9 +65,9 @@ var worldEnds = [
 
 var mass = [{
     nodes: [
-        [-4.4, -1.0],
+        [-4.4, -0.8],
         [-4.4, -0.1],
-        [4.4, -1.0],
+        [4.4, -0.8],
         [4.4, -0.1]
     ]
 }];
@@ -184,7 +184,7 @@ var tidalSystem = {
             var positionBuf = system.GetPositionBuffer();
 
 
-            particleGroup.enter().append("g").classed("particle", true)
+            particleGroup.enter().append("g").attr("id", "particles", true).classed("particle", true)
             particleGroup.each(function(pg) {
 
                 var dataSet = d3.select(this).selectAll("circle").data(new Array(pg.GetParticleCount()));
@@ -386,6 +386,8 @@ var tidalSystem = {
 
     pause: function() {
 
+         d3.selectAll("#test").remove();
+        
         timing.phase = 1;
         timing.interval = 25;
         timing.overall = 0;

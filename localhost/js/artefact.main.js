@@ -70,7 +70,7 @@ window.onload = function() {
     s1.add(controls, "increment", 0.001, 0.005).onChange(function(value) {
         ang_inc = value;
     });
-    s1.add(controls, "scale", 128, 256).onChange(function(value) {
+    s1.add(controls, "scale", 64, 256).onChange(function(value) {
         SCALE_RATIO = value;
     });
 
@@ -239,4 +239,16 @@ Array.prototype.getIndex = function(element_) {
         }
     }
     return null;
+}
+
+function getScreenXY(scene_, object_, x_ ,y_) {
+
+  var offset = scene_.node().getBoundingClientRect();
+
+  var matrix = object_.node().getScreenCTM();
+
+  return {
+    x: (matrix.a * x_) + (matrix.c * y_) + matrix.e - offset.left,
+    y: (matrix.b * x_) + (matrix.d * y_) + matrix.f - offset.top
+  };
 }
