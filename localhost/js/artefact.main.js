@@ -15,7 +15,7 @@ http://research.tigweb.org/wishes/raw.html?limit=5120
 */
 
 //DAT.GUI VARIABLES
-var gui, g0, s0, s1;
+var gui, controls, g0, s0, s1;
 var t;
 
 var Interface = function() {
@@ -25,6 +25,7 @@ var Interface = function() {
     this.interval = 8; //Math.floor(60.0 / this.wpm * this.average);
     this.pause = 3; //by default 6 Math.floor(60.0 / this.wpm * this.average);
     this.start = false;
+    this.fps = "";
     //this.dynamic = false;
 
     this.generator = 56;
@@ -39,7 +40,7 @@ var Interface = function() {
 
 window.onload = function() {
 
-    var controls = new Interface();
+    controls = new Interface();
     gui = new dat.GUI();
     g0 = gui.addFolder("GENERAL PARAMETERS");
     g0.add(controls, "wpm", 100, 180);
@@ -73,6 +74,8 @@ window.onload = function() {
     s1.add(controls, "scale", 64, 256).onChange(function(value) {
         SCALE_RATIO = value;
     });
+    
+    gui.add(controls, "fps").listen();
 
     if (system == ripplingSystem) {
         s1.domElement.style.pointerEvents = "none";
@@ -133,6 +136,9 @@ function render() {
     D3Renderer.render(scene);
     window.requestAnimationFrame(render);
 
+    controls.fps = t.getFPS();
+    //g0.__controllers[5].updateDisplay();
+    
     currentFrame++;
 }
 
@@ -180,6 +186,13 @@ function Timer() {
 
     }
 
+    this.getFPS = function(){
+        
+        var smooth = 0.9;
+        return (1.0 / (performance.now() - this.last) * 1000).toFixed(2);
+        
+    };
+    
     this.setLimit = function(value_) {
         this.limit = value_;
     };
