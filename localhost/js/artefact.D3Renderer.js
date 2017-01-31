@@ -109,6 +109,7 @@ var D3Renderer = {
 
                 var tag = scene.append("g")
                     .attr("id", d.name, true)
+                    .attr("class", "tags")
                     .attr("transform", "translate(" + (32 + mult(max, d.column) * 1.25) + ", " + (32 + d.index * 28) + ")")
                     .on("mouseover", function(d) {
                         d3.select(this).select("rect").attr("fill", tagStyle.over);
@@ -350,6 +351,8 @@ var D3Renderer = {
         if (!visible_) {
             d3.selectAll("g.HUD").remove();
         }
+        
+        d3.selectAll(".tags").moveToFront();
 
     },
 
