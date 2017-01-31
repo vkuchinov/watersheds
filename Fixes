@@ -3,6 +3,11 @@
 
     @artefact.D3Renderer HUD_SCALE value, by default set to 1.0
 
+[-] finding on-sreen nodes doesn't work so precise for 'breakng waves' 
+    with taking pop-up window off the screen.
+    
+    Have to use getScreenXY() method for a better result.
+    
 [-] There is fps lagging, so it's impossible to smooth 'explosive'
     motion as it should be.
     
@@ -14,5 +19,7 @@
     
     I believe that it would be the effective solution for smoothing motions.
     In both visualisations.
+
+
 
 -: planned x: done
