@@ -23,12 +23,13 @@
  *
  */
 "use strict"
+
 var SCALE_RATIO = 150;
 var TIME_RATE = 0.0165; // 1/60
 
 ///phase: 0: displaying, 1: pausing
 var timing = {
-    interval: 3000,
+    interval: 30000,
     overal: 0,
     passed: 0,
     phase: 0
@@ -135,7 +136,7 @@ var tidalSystem = {
     update: function(timer_) {
 
         if (timing.phase == 1) {
-            timing.interval = this.exponentialMap(timing.overall, 9000, 500);
+            timing.interval = this.exponentialMap(timing.overall, 10000, 3000);
         }
 
         if (timing.passed > timing.interval || !g0.__controllers[4].initialValue) {
@@ -282,8 +283,7 @@ var tidalSystem = {
                                 }));
 
                             }
-
-                            nodes[i].state = tidalSystem.setState(Number(positionBuf[(i + offset) * 2]) * SCALE_RATIO + window.innerWidth / 2, Number(positionBuf[(i + offset) * 2 + 1]) * SCALE_RATIO + window.innerHeight, 32);
+                        
                             if (Math.max.apply(null, distances) < REST_DISTANCE) {
 
                                 return nodes[i].color;
@@ -314,8 +314,24 @@ var tidalSystem = {
 
                 dataSet.exit().remove();
             });
+            
             particleGroup.attr("transform", "translate(" + globalPos.x + ", " + globalPos.y + "), rotate(" + (-globalAngle) + ")");
 
+    
+            for(var i = 0; i < nodes.length; i++){
+                
+                var bbox = d3.select("#particle_" + i).node().getBBox(),
+                middleX = bbox.x + (bbox.width / 2),
+                middleY = bbox.y + (bbox.height / 2);
+        
+                var absoluteXY = getScreenXY(scene, d3.select("#particle_" + i), middleX, middleY);
+                
+                if(absoluteXY.x > SCRREN_MARGINS || absoluteXY.x < (window.innerWidth - SCRREN_MARGINS) || absoluteXY.y < (window.innerHeight - SCRREN_MARGINS * 0.7)) { nodes[i].state = 1; } else { nodes[i].state = 0; }
+                
+            }
+      
+    
+                        
             particleGroup.exit().remove();
 
         }
@@ -456,7 +472,7 @@ var tidalSystem = {
 
         //value_ should be from 0.0 to 1.0
 
-        var b = 9.0; //coefficient
+        var b = 49.0; //coefficient
         var t = this.map(Math.min(value_, interval0_), 0.0, interval0_, 0.0, 1.0);
         var i = Math.exp(t * b);
         return this.map(i, 1.0, Math.exp(1.0 * b), 0.0, interval1_);

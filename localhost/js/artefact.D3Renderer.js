@@ -88,56 +88,56 @@ var D3Renderer = {
         var height = 400;
         var val = 0;
 
-        d3.json(TAGS_URL, function(error, tags_) {
-
-            if (error) throw error;
-
-            var max = [0, 0, 0];
-            var mult = function(array_, index_) {
-                var sum = 0;
-                for (var i = 0; i < index_; i++) {
-                    sum += array_[i];
-                }
-                return sum;
-            };
-
-            tags_.forEach(function(d) {
-                max[d.column] = Math.max(max[d.column], D3Renderer.getTextWidth(d.name));
-            });
-
-            tags_.forEach(function(d) {
-
-                var tag = scene.append("g")
-                    .attr("id", d.name, true)
-                    .attr("class", "tags")
-                    .attr("transform", "translate(" + (32 + mult(max, d.column) * 1.25) + ", " + (32 + d.index * 28) + ")")
-                    .on("mouseover", function(d) {
-                        d3.select(this).select("rect").attr("fill", tagStyle.over);
-                    })
-                    .on("mouseout", function(d) {
-
-                        d3.select(this).select("rect").attr("fill", tagStyle.active);
-                    })
-
-
-                var background = tag.append("rect")
-                    .attr("x", -6)
-                    .attr("y", -12)
-                    .attr("width", D3Renderer.getTextWidth(d.name) + 6)
-                    .attr("height", 22)
-                    .attr("fill", tagStyle.active)
-
-                var label = tag.append("text")
-                    .attr("fill", tagStyle.label)
-                    .style("font-size", tagStyle.size)
-                    .style("font-family", tagStyle.typeface)
-                    .style("text-anchor", "left")
-                    .style("alignment-baseline", "middle")
-                    .text(d.name);
-
-            });
-
-        });
+//        d3.json(TAGS_URL, function(error, tags_) {
+//
+//            if (error) throw error;
+//
+//            var max = [0, 0, 0];
+//            var mult = function(array_, index_) {
+//                var sum = 0;
+//                for (var i = 0; i < index_; i++) {
+//                    sum += array_[i];
+//                }
+//                return sum;
+//            };
+//
+//            tags_.forEach(function(d) {
+//                max[d.column] = Math.max(max[d.column], D3Renderer.getTextWidth(d.name));
+//            });
+//
+//            tags_.forEach(function(d) {
+//
+//                var tag = scene.append("g")
+//                    .attr("id", d.name, true)
+//                    .attr("class", "tags")
+//                    .attr("transform", "translate(" + (32 + mult(max, d.column) * 1.25) + ", " + (32 + d.index * 28) + ")")
+//                    .on("mouseover", function(d) {
+//                        d3.select(this).select("rect").attr("fill", tagStyle.over);
+//                    })
+//                    .on("mouseout", function(d) {
+//
+//                        d3.select(this).select("rect").attr("fill", tagStyle.active);
+//                    })
+//
+//
+//                var background = tag.append("rect")
+//                    .attr("x", -6)
+//                    .attr("y", -12)
+//                    .attr("width", D3Renderer.getTextWidth(d.name) + 6)
+//                    .attr("height", 22)
+//                    .attr("fill", tagStyle.active)
+//
+//                var label = tag.append("text")
+//                    .attr("fill", tagStyle.label)
+//                    .style("font-size", tagStyle.size)
+//                    .style("font-family", tagStyle.typeface)
+//                    .style("text-anchor", "left")
+//                    .style("alignment-baseline", "middle")
+//                    .text(d.name);
+//
+//            });
+//
+//        });
 
         //PARTICLES particles
         particles = scene.append("g").attr("id", "particles");
@@ -269,8 +269,6 @@ var D3Renderer = {
         var w = window.innerWidth;
         var h = window.innerHeight;
         
-        //Number(d3.transform(d3.select("#particles").attr("transform")).translate[0]);                   //Number(d3.transform(d3.select("#particles").attr("transform")).translate[1]);
-
         var systemX = 0, systemY = 0;
         
         var params = {
