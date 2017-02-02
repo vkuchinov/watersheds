@@ -1,55 +1,115 @@
 class Polynomial{
  
+     //for cubic polinomial
+     //should be replaced with ArrayList
+     //for (n) polynomial
+     int n, N;
+     
+     double[] a, b, c, d;
+     double[] x, y, X, Y;
+     
+     //normal matrix(augmented)
+     double[][] B;
+     
      float EPSILON = 1E-4;
-     float[] coeff = {-20, 60, -27, 5};
-     
-     Polynomial(){
-      
-      
-     }
-     
-     float[] horner(float[] a_, float t_){
+  
+     Polynomial(ArrayList<PVector> points_, int n_){
        
-         int n = a_.length - 1;
-         FloatList b = new FloatList();
-         FloatList c = new FloatList();
-         
-         for(int i = 0; i <= n; i++){ b.append(0.0); c.append(0.0); }
-         
-         b.set(n, a_[n]);
-         c.set(n, b.get(n));
-         
-         for(int k = n - 1; k >= 1; k--){
-         
-             b.set(k, a_[k] + t_ * b.get(k + 1));
-             c.set(k, b.get(k) + t_ * c.get(k + 1));
-         
-         }
-         
-         b.set(0, a_[0] + t_ * b.get(1));
-         return new float[]{b.get(0), c.get(1)};
-        
-     }
-     
-     float[] get(float eval_, float x0_){
+       n = n_; //degree
+       N = points_.size();
+              
+       x = new double[points_.size()];
+       y = new double[points_.size()];
        
-         float eps = 1E-4;
-         int max = 20;
-         
-         for (int i = 0; i < max; i++) {
-         
-           float fdf = horner(coeff, x0_);
-           float x1 = x0_ - fdf[0]/fdf[1];
+       for(int i = 0; i < points_.size(); i++){
           
-           if (abs(x1 - x0) < eps) { break; }
-           
-           x0_ = x1;
+             x[i] = points.get(i).x;
+             y[i] = points.get(i).y;
          
-         }
-         
-         return new foat[]{x1, i};
-         
+       }
+       
+       //stores values of sigma(xi), sigma(xi^2)...sigma(xi^2n)
+       X = new double[2 * n + 1 ]; 
+       
+       for (int i = 0; i < 2 * n + 1; i++) {
 
-     }
+          X[i] = 0.0;
+          
+          for (int j = 0; j < N; j++) { X[i] += Math.pow(x[j], i); }
+          
+       }
+
+       B = new double[n + 1][n + 2];
+       a = new double[n + 1];
+          
+       for (int i = 0; i <= n; i++) { for (int j = 0; j <=n ; j++) { B[i][j] = X[i + j]; }}  
+            
+
+       Y = new double[n + 1];              
+    
+       for (int i = 0; i < n + 1; i++){
+ 
+        Y[i] = 0.0;
+        for (int j = 0; j < N; j++) {  Y[i] += Math.pow(x[j], i) * y[j]; }
+        
+       }
+
+       for (int i = 0; i <= n; i++) { B[i][n + 1] = Y[i]; }  
+       
+       n++;
+
+        for(int i = 0; i < n; i++){
+          
+            for (int k = i + 1; k < n; k++){
+              
+                if (B[i][i] < B[k][i]) {
+                  
+                    for (int j = 0; j <= n; j++) {
+                      
+                        double tmp = B[i][j];
+                        B[i][j] = B[k][j];
+                        B[k][j] = tmp;
+                    
+                    }
+                }
+            }
+        }
+       
+        for (int i = 0; i < n - 1; i++){
+          
+            for (int k = i + 1; k < n; k++){ 
+            
+            double t = B[k][i] / B[i][i];
+            for (int j = 0; j <= n; j++) { B[k][j] = B[k][j] - t * B[i][j]; }
+            
+            }
+            
+        }
+     
+        for (int i = n - 1; i >= 0; i--) {                        
+        
+            a[i] = B[i][n]; 
+            
+            for (int j = 0; j < n; j++) { if (j != i)  { a[i] = a[i] - B[i][j] * a[j]; } }
+            
+            a[i] = a[i] / B[i][i];
+
+        } 
+
+        parseCoeffs(a, n);
+
+    }
+ 
+    void parseCoeffs(double[] a_, int n_){
+      
+      String o = "y = " + (float)a_[0];
+      
+      for(int i = 1; i < n_; i++){
+        o += " + " + (float)a_[i] + " * x^" + (i + 1);
+      }
+      
+      println(o);
+      
+    }
   
 }
