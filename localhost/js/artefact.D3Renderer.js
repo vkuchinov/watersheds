@@ -159,7 +159,8 @@ var D3Renderer = {
                     age: parseInt(wish.querySelector("age").textContent),
                     city: wish.querySelector("city").textContent,
                     category: parseInt(wish.querySelector("categoryid").textContent),
-                    message: wish.querySelector("text").textContent
+                    message: wish.querySelector("text").textContent,
+                    language: wish.querySelector("language").textContent
 
                 };
             });
@@ -253,7 +254,7 @@ var D3Renderer = {
 
     },
 
-    HUD: function(scene_, object_, message_, x_, y_, visible_) {
+    HUD: function(scene_, object_, message_, language_, x_, y_, visible_) {
 
         var bbox = object_.node().getBBox();
         middleX = bbox.x + (bbox.width / 2),
@@ -346,7 +347,7 @@ var D3Renderer = {
             .attr("id", "placeholder")
             .attr("transform", "translate(" + params.lx + "," + params.ly + ")");
 
-        D3Renderer.wrapLabel(label, message_, 282);
+        D3Renderer.wrapLabel(label, message_, language_, 282);
 
         HUD.attr("opacity", 0.0)
             .transition()
@@ -381,7 +382,7 @@ var D3Renderer = {
             message = "there is no comments";
         }
 
-        this.HUD(scene, obj, message, translateX, translateY, true);
+        this.HUD(scene, obj, message, dataset[id_.xmlID].language, translateX, translateY, true);
 
     },
 
@@ -440,17 +441,19 @@ var D3Renderer = {
 
     },
 
-    wrapLabel: function(group_, text_, length_) {
+    wrapLabel: function(group_, text_, language_, length_) {
 
         var MESSAGE_LIMIT = 42; //0: bypassing this feature
 
+        var formatted = D3Renderer.formatPunctuation(text_, language_);
+        
         var text = group_.append("text")
             .attr("fill", hudStyle.message)
             .attr("font-family", hudStyle.typeface)
             .attr("font-size", hudStyle.size)
             .attr("font-weight", hudStyle.weight);
 
-        var words = text_.split(/\s+/).reverse();
+        var words = formatted.split(/\s+/).reverse();
 
         //limiting option
         if (words.length > MESSAGE_LIMIT && MESSAGE_LIMIT != 0) {
@@ -477,6 +480,21 @@ var D3Renderer = {
             }
         }
 
+    },
+    
+    formatPunctuation : function(text_, language_){
+        
+        //&amp; > &
+        text_ = text_.replace(new RegExp("&amp;", "g"), "&");
+
+        //&quot; > en: “text”, fr: «text»
+        var i = 0;
+        var fr = ["«", "»"];
+        var en = ["“", "”"];
+        var quotes = (language_ == "en") ? en : fr;
+        text_ = text_.replace(/&quot;/g, function() {  var q = quotes[i]; i = 1 - i; return q; });
+        return text_;
+    
     },
     
     setColor : function(color_) {
