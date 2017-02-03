@@ -464,7 +464,7 @@ particle speed.
 	PUNCTIATION TWEAK
 	&quot;TEXT&quot; > en: “TEXT” or fr: «TEXT»
 	
-	var fr = ["«", "»"];
+        var fr = ["«", "»"];
         var en = ["“", "”"];
         var quotes = (language_ == "en") ? en : fr;
         text_ = text_.replace(/&quot;/g, function() {  var q = quotes[i]; i = 1 - i; return q; });
