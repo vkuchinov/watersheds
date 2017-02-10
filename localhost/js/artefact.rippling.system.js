@@ -16,62 +16,221 @@
 var MAX_RADIUS = 240.0;
 var MAX_NODES = 768;
 
-var GENERATOR_INTERVAL = 18200;
-var TRANSITION_INTERVAL = 84000;
+var GENERATOR_INTERVAL = 128;    //# of updates
+var GENERATOR_SPEED = 0.24;
+var TRANSITIONS = 20;
+var INTERVALS = { A: 5250, B: 5250 };
+var EXPONENTIAL_COEFFICIENTS = { A: 0.5, B: 5E3, ORDER: 3 };
+
+var nodes = [];
+var calculated = false;
 
 var ripplingSystem = {
 
-    inits: function(dataset_) {
+    inits : function(dataset_, pause_) {
 
-        //this.timer = new Timer();
-        this.generator = new Generator(GENERATOR_INTERVAL);
+        INTERVALS.A = pause_; INTERVALS.B = pause_;
+        this.generator = new Generator(GENERATOR_INTERVAL, GENERATOR_SPEED);
         
         this.feed(dataset_);
         
-      this.generator.generate(particles);
+        this.generator.generate(particles);
+        
+        //this.update();
 
     },
-
-    update: function(timer_) {
-
-        //dublicated instance from main class
-        //conflicts
+    
+    firstUpdate : function(){
         
-        //this.timer.update();
-        this.generator.update(timer_.getInterval());
-        
-        if(nodes.length == MAX_NODES){
-            
-            var ripples = [];
-            var rps = d3.selectAll("#ripple").each(function(d) { ripples.push(this.attributes.r.value); });
-
-            var node = d3.selectAll(".nodes")
-                           .each(function(d) { 
-
-                      var n = d3.select("#" + this.attributes.id.value);
-                      var id = parseInt(n.attr("id").replace("particle_", ""));
-                      var vX = this.attributes.cx.value;
-                      var vY = this.attributes.cy.value;
-                      if(vX == undefined || vY == undefined ) { console.log("Ooops, something wrong!"); }
-                      var magV = Math.sqrt(Math.pow(vX, 2) + Math.pow(vY, 2));
-
-                      for(var i = 0; i < ripples.length; i++){
-
-                            var aX = vX / magV * ripples[i];
-                            var aY = vY / magV * ripples[i];
-
-                            var dist = Math.sqrt(Math.pow((aX - vX), 2) + Math.pow((aY - vY), 2));
-                            if(dist < 8) { n.attr("fill", nodes[id].color); n.attr("r", ripplingSystem.map(dist, 0, 8, nodes[id].radius, 4)); nodes[id].state = 1; break; } 
-                            else { n.attr("fill", "none"); n.attr("r", 4); nodes[id].state = 0; }
-                      }
-
-                });
+        for(var i = 0; i < nodes.length; i++){
+        nodes[i].transition = {radius: {data: this.clear(TRANSITIONS + 1), intervals: this.clear(TRANSITIONS + 1), polynomial: null}};
         }
+        
+        this.generator.update();
 
+        //d3.selectAll(".particle").remove();
+        
+        for(var i = 0; i < nodes.length; i++){
+            
+        //nodes[i].cx_last = nodes[i].cx;
+        //nodes[i].cy_last = nodes[i].cy;
+        nodes[i].radius.dynamic0 = nodes[i].radius.dynamic1;
+         
+        var fill = nodes[i].color;
+        var rad = 0.0;
+            
+        var vX = nodes[i].cx;
+        var vY = nodes[i].cy;
+            
+        if(vX == undefined || vY == undefined ) { console.log("Ooops, something wrong!"); }
+        var magV = Math.sqrt(Math.pow(vX, 2) + Math.pow(vY, 2));
+
+        for(var j = 0; j < this.generator.children.length; j++){
+
+        var aX = vX / magV * this.generator.children[j].r;
+        var aY = vY / magV * this.generator.children[j].r;
+
+        var dist = Math.sqrt(Math.pow((aX - vX), 2) + Math.pow((aY - vY), 2));
+            
+        if(dist < 8) { rad = ripplingSystem.map(dist, 0, 8, nodes[i].radius.static, 4); nodes[i].state = 1;  break; } 
+        else { nodes[i].state = 0;  }
+        }
+        
+        nodes[i].radius.dynamic1 = rad;
+        //D3Renderer.drawParticle(d3.select("#particles"), i, nodes[i].cx, nodes[i].cy, nodes[i].radius.dynamic1, nodes[i].color);
+        if(nodes[i].state == 1){
+        //(group_, id_, x_, y_, radius_, color_) 
+        D3Renderer.drawParticle(d3.select("#particles"), i, nodes[i].cx, nodes[i].cy, rad, nodes[i].color);
+        }
+            
+        //nodes[i].transition = {radius: {data: this.clear(steps_), intervals: this.clear(steps_), polynomial: null}};
+        nodes[i].transition.radius.data[0] = rad;
+        nodes[i].transition.radius.intervals[0] = 0.0;
+        
+        }
+        
     },
+    
+    update : function(){
+        
+        for(var i = 0; i < nodes.length; i++){
+        nodes[i].radius.dynamic0 = nodes[i].transition.radius.data[TRASNITIONS]; 
+        nodes[i].transition = {radius: {data: this.clear(20), intervals: this.clear(20), polynomial: null}};
+        }
+        
+        //this.generator.update();
 
-    feed: function(dataset_) {
+        //d3.selectAll(".particle").remove();
+        
+        for(var i = 0; i < nodes.length; i++){
+            
+        //nodes[i].cx_last = nodes[i].cx;
+        //nodes[i].cy_last = nodes[i].cy;
+        //nodes[i].radius.dynamic0 = nodes[i].radius.dynamic1;
+         
+        var fill = nodes[i].color;
+        var rad = 0.0;
+            
+        var vX = nodes[i].cx;
+        var vY = nodes[i].cy;
+            
+        if(vX == undefined || vY == undefined ) { console.log("Ooops, something wrong!"); }
+        var magV = Math.sqrt(Math.pow(vX, 2) + Math.pow(vY, 2));
 
+        for(var j = 0; j < this.generator.children.length; j++){
+
+        var aX = vX / magV * this.generator.children[j].r;
+        var aY = vY / magV * this.generator.children[j].r;
+
+        var dist = Math.sqrt(Math.pow((aX - vX), 2) + Math.pow((aY - vY), 2));
+            
+        if(dist < 8) { rad = ripplingSystem.map(dist, 0, 8, nodes[i].radius.static, 4); nodes[i].state = 1;  break; } 
+        else { nodes[i].state = 0;  }
+        }
+        
+        nodes[i].radius.dynamic1 = rad;
+        //D3Renderer.drawParticle(d3.select("#particles"), i, nodes[i].cx, nodes[i].cy, nodes[i].radius.dynamic1, nodes[i].color);
+        if(nodes[i].state == 1){
+        //(group_, id_, x_, y_, radius_, color_) 
+        D3Renderer.drawParticle(d3.select("#particles"), i, nodes[i].cx, nodes[i].dynamic0, rad, nodes[i].color);
+        }
+            
+        //nodes[i].transition = {radius: {data: this.clear(steps_), intervals: this.clear(steps_), polynomial: null}};
+        nodes[i].transition.radius.data[0] = rad;
+        nodes[i].transition.radius.intervals[0] = 0.0;
+        
+        }
+        
+    },
+    
+    updateWithPolynomial : function(timing_, steps_){
+        
+        for(var s = 0; s < steps_; s++){
+            
+           this.generator.update();
+            
+            for(var i = 0; i < nodes.length; i++){
+
+            //nodes[i].cx_last = nodes[i].cx;
+            //nodes[i].cy_last = nodes[i].cy;
+            nodes[i].radius.dynamic0 = nodes[i].radius.dynamic1;
+
+            var fill = nodes[i].color;
+            var rad = 0.0;
+
+            var vX = nodes[i].cx;
+            var vY = nodes[i].cy;
+
+            if(vX == undefined || vY == undefined ) { console.log("Ooops, something wrong!"); }
+            var magV = Math.sqrt(Math.pow(vX, 2) + Math.pow(vY, 2));
+
+            for(var j = 0; j < this.generator.children.length; j++){
+
+            var aX = vX / magV * this.generator.children[j].r;
+            var aY = vY / magV * this.generator.children[j].r;
+
+            var dist = Math.sqrt(Math.pow((aX - vX), 2) + Math.pow((aY - vY), 2));
+
+            if(dist < 8) { rad = ripplingSystem.map(dist, 0, 8, nodes[i].radius.static, 4); nodes[i].state = 1;  break; } 
+            else { nodes[i].state = 0;  }
+            }
+
+            nodes[i].radius.dynamic1 = rad;
+            //D3Renderer.drawParticle(d3.select("#particles"), i, nodes[i].cx, nodes[i].cy, nodes[i].radius.dynamic1, nodes[i].color);
+            nodes[i].transition.radius.data[s + 1] = rad;
+            nodes[i].transition.radius.intervals[s + 1] = timing_ / steps_ * (s + 1);
+            
+            }
+
+        }
+        
+        
+    for(var k = 0; k < nodes.length; k++){
+
+        //if(k < 3) { console.log(nodes[k].transition.radius.intervals); }
+        //calculate polynomial
+        nodes[k].transition.radius.intervals.reverse();
+        nodes[k].transition.radius.polynomial = new Polynomial(nodes[k].transition.radius.intervals, nodes[k].transition.radius.data, EXPONENTIAL_COEFFICIENTS.ORDER);
+
+        //if(k < 3) { console.log(nodes[k].transition.radius.intervals); }
+    }
+     
+    },
+    
+    render: function(timer_){
+        
+        d3.selectAll(".particle").remove();
+        
+        var interval = timer_.passed;
+        var minInterval = this.exponentialMap(0.0);
+        var maxInterval = this.exponentialMap(1.0);
+        var smooth = Number(this.map(this.exponentialMap(this.map(interval, 0, INTERVALS.A, 1.0, 0.0)), minInterval, maxInterval, 0, INTERVALS.B));
+        
+        var datas = "";
+
+        for(var i = 0; i < nodes.length; i++){
+            
+           var rr = Number(this.limit(nodes[i].transition.radius.polynomial.get(smooth), 0, nodes[i].radius));
+            
+           if(rr < 4.0) { rr = 0.0; };
+            
+            //group_, id_, x_, y_, radius_, color_
+            D3Renderer.drawParticle(d3.select("#particles"), i, nodes[i].cx, nodes[i].cy, rr, nodes[i].color);
+            
+        }
+        
+        //console.log(datas);
+        //prerendered = false;
+    },
+    
+    getPolynomialRadius: function(parameters_, interval_){
+  
+        //console.log(parameters_);
+        return parameters_.radius.polynomial.get(interval_);
+    },
+    
+    feed : function(dataset_){
+        
         var upto = Math.min(MAX_NODES, dataset_.length);
         
         for(var i = 0; i < upto; i++){
@@ -83,80 +242,18 @@ var ripplingSystem = {
             var x = xy.x * MAX_RADIUS;
             var y = xy.y * MAX_RADIUS;
 
-            if(gup("mode") == "interactive") { 
-            var node = particles.append("circle")
-            .attr("id", "particle_" + i, true)
-            .attr("class", "nodes")
-            .attr("cx", x)
-            .attr("cy", y)
-            .attr("r", 1)
-            .attr("stroke", "#FFFFFF")
-            .attr("stroke-width", 0.0)
-            .attr("fill", "#FF00FF")
-            .on("mouseover", function(d) { d3.select(this).moveToFront(); 
-                                               d3.select(this).attr("stroke-width", particleStyle.weight); })
-            
-            .on("mouseout", function(d) { d3.select(this).attr("stroke-width", 0.0); })
-            .on("click", function(d, i) { var ii = parseInt(d3.select(this).attr("id").replace("particle_", "")); console.log(ii); ripplingSystem.click({nodeID: ii, xmlID: nodes[ii].xml}); });
-                
-            } else {
-                
-            var node = particles.append("circle")
-            .attr("id", "particle_" + i, true)
-            .attr("class", "nodes")
-            .attr("cx", x)
-            .attr("cy", y)
-            .attr("r", 1)
-            .attr("stroke", "#FFFFFF")
-            .attr("stroke-width", 0.0)
-            .attr("fill", "#FF00FF");
-                
-            }
-
-            //there are messages up to 240 words, that"s why
-            //I use "constrain" to limit length to 48 words
-            //feel free  to play with these parameters
-            
             var words = dataset_[i].message.replace(/<!\[CDATA\[(.*?)\]\]>/g, "$1").trim().split(" ").length;
             var r = this.map(Math.min(Math.max(parseInt(words), 1), 48), 1, 48, 2, 20);
 
             var c = colors[this.findByKey(categories, "id", dataset_[i].category, 0)];
             
-            //id is a reference to xml
-            nodes.push({"id" : i, "xml": i, "radius": r, "depth" : 0, "color" : c, "state" : 0});
+            //id_, xml_, cx_, cy_            
+            nodes.push(new Node(i, i, x, y));
 
         }
         
             next = nodes.length;
-
-    },
-    
-    display : function() {
-
-        //returns composite object {nodeID: n, xmlID: n}
-        var index = this.findLowestIDByKey(nodes, "state", 1);
-    
-        D3Renderer.highlight(particles, index);
-        this.takeover(index, dataset[next]);                          
         
-        console.log("node: " + index.nodeID + " xml: " + index.xmlID + " " + next);
-        if(next < dataset.length) { next++; } else { next = 0; }
-        
-    },
-
-    pause : function(){
-        
-        d3.selectAll("#test").remove();
-        
-        d3.select("#HUD").attr("opacity", 1.0)
-        .transition()
-        .duration(1500)
-        .attr("opacity", 0.0)
-        .each("end", function(d) { this.remove(); });
-        
-        //hide HUD, clear its circle
-        
-        //all nodes to next update
         
     },
     
@@ -180,34 +277,67 @@ var ripplingSystem = {
         .attr("cy", y)
         .attr("stroke-width", 0.0);
 
-        nodes[index_.nodeID] = {"id" : index_.nodeID, "xml" : next, "radius": r, "depth" : 0, "color" : c, "state" : 0};
+         //id_, xml_, cx_, cy_            
+        //nodes.push(new Node(i, i, x, y));
+        
+        nodes[index_.nodeID] = new Node(index_.nodeID, next, x, y);
+        nodes[index_.nodeID].transition = {radius: {data: this.clear(TRANSITIONS + 1), intervals: this.clear(TRANSITIONS + 1), polynomial: null}};
+        
+        nodes[index_.nodeID].transition.radius.data[0] = r;
+        nodes[index_.nodeID].transition.radius.intervals[0] = 0.0;
+        
         //this.delete(nodes, index_.nodeID);
         //nodes.push({"id" : next, "radius": r, "depth" : 0, "color" : c, "state" : 0});
 
     },
     
-     click : function(index_){
+    display : function(timing_){
         
-        d3.selectAll("#HUD").remove();
+        prerendered = false;
+        //calculate n + 2 transitions
+        //rather by creating two polynimoal (linear 1 and complex 3 or 4)
+        //or by taking first data for first phase
         
-        D3Renderer.highlight(particles, index_);
-        this.takeover(index_, dataset[next]);                          
+        d3.selectAll(".particle").remove();
         
-        //console.log("node: " + index_.nodeID + " xml: " + index_.xmlID + " " + next);
+        //linear polynomial...
+        //all 1 + 16 steps here
+        
+        if(calculated == false) { calculated == true; this.firstUpdate(); } else { this.update(); }
+        
+        var index = this.findLowestIDByKey(nodes, "state", 1);
+        
+        D3Renderer.highlight(particles, index);
+        this.takeover(index, dataset[next]);                          
+        
+        console.log("node: " + index.nodeID + " xml: " + index.xmlID + " " + next);
         if(next < dataset.length) { next++; } else { next = 0; }
+            
+        d3.select("#particle_" + index.nodeID).remove();
+        
+        this.updateWithPolynomial(timing_, TRANSITIONS);
         
     },
     
-    delete : function(array_, indices_){
+    pause : function(timing_){
+
+        prerendered = true;
+        //this.updateWithPolynomial(timing_, 16);
+        //d3.selectAll("#test").remove();
         
-        for(var j = 0; j < indices_.length; j++){
-          
-            for(var i = 0; i < array_.length; i++) { if(i === indices_[j]) { array_.splice(i, 1); } }
-            
-        }
-        
-        return array_;
-        
+        d3.select("#HUD").attr("opacity", 1.0)
+        .transition()
+        .duration(500)
+        .attr("opacity", 0.0)
+        .each("end", function(d) { this.remove(); });
+
+    },
+    
+    clear : function(size_){
+      
+        var array = [];
+        for(var i = 0; i < size_; i++){ array.push(1E-4); }
+        return array;
     },
     
     map: function(value_, min1_, max1_, min2_, max2_){ 
@@ -215,10 +345,29 @@ var ripplingSystem = {
         return min2_ + (value_ - min1_) / (max1_ - min1_) * (max2_ - min2_); 
     
     },
+    
+    exponentialMap : function(value_){
 
+        //value_ should be from 0.0 to 1.0
+        var a = EXPONENTIAL_COEFFICIENTS.A; //coefficient a
+        var b = EXPONENTIAL_COEFFICIENTS.B; //coefficient b
+    
+        return a * Math.pow(b, value_);
+
+    },
+
+    limit : function(value_, min_, max_){
+        
+        //if(value_ == NaN || value_ == "NaN") { console.log("shit happens"); return 0.0; }
+        if(Number(value_) < min_) { return min_; }
+        else if(Number(value_) > max_) { return max_; }
+        return Number(value_);
+        
+    },
+    
     uniform : function(){
         
-        var n = 1e4;
+        var n = 1E4;
         var rho = Math.sqrt(Math.random(n));
         var theta = Math.random() * 2.0 * Math.PI;
         var x = rho * Math.cos(theta);
@@ -226,22 +375,6 @@ var ripplingSystem = {
         
         return {"x" : x, "y" : y};
         
-    },
-    
-    monteCarlo: function(value_) {
-
-        while (true) {
-
-            var v0 = Math.random();
-            var v1 = Math.random();
-            var probability = v0;
-
-            if (v1 < probability) {
-                return v0 * value_;
-            }
-
-        }
-
     },
     
     findByKey: function(array_, key_, value_, default_) {
@@ -268,35 +401,51 @@ var ripplingSystem = {
         var lowest = Math.min.apply(null, keys);
         return available[this.findByKey(available, "xmlID", lowest, 0)];
     }
+
 }
 
-function Generator(theta_) {
+function Generator(theta_, speed_) {
 
     this.children = [];
     this.theta = theta_;
+    this.counter = 0;
+    this.speed = speed_;
     this.passed = 0;
 
     this.children = [];
 
-    this.update = function(interval_) {
+    this.update = function() {
 
-        this.passed += interval_;
-        if(this.passed > this.theta) { this.passed = 0; this.generate(particles) }
+        var candidates = [];
+        this.counter++;
+        if(this.counter > this.theta) { this.counter = 0; this.generate(particles) }
+        
+        var ripples = d3.selectAll("#ripple");
+        ripples.remove();
+        
+        for(var i = 0; i < this.children.length; i++){
+            
+            if(this.children[i].r < MAX_RADIUS) {
+            this.children[i].speed *= 1.005;
+            this.children[i].r += this.children[i].speed;
+                
+            //for debuggin only
+            //D3Renderer.drawCircle(d3.select("#particles"), 0, 0, this.children[i].r);
+                
+            } else {
+            candidates.push(i);                     
+            }
+            
+            
+        }
+        
+        this.delete(this.children, candidates); 
 
     }
 
     this.generate = function(scene_) { 
 
-            var circle = scene_.append("circle")
-                .attr("id", "ripple", true)
-                .attr("cx", 0)
-                .attr("cy", 0)
-                .attr("stroke", "#DEDEDE")
-                .attr("stroke-width", 0.0)
-                .attr("fill", "none");
-
-            //ripples transitons, don't do expnentials here
-            D3Renderer.bulletTime(circle, {"r": 16}, {"r": 320}, TRANSITION_INTERVAL, "sine", false);
+        this.children.push({r: 32, speed: GENERATOR_SPEED});
         
     }
     

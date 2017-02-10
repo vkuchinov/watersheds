@@ -23,7 +23,7 @@ var Interface = function() {
     this.wpm = 150;
     this.average = 24;
     this.interval = 8; //Math.floor(60.0 / this.wpm * this.average);
-    this.pause = 3; //by default 6 Math.floor(60.0 / this.wpm * this.average);
+    this.pause = 6; //by default 6 Math.floor(60.0 / this.wpm * this.average);
     this.start = false;
     this.fps = "";
     //this.dynamic = false;
@@ -101,6 +101,11 @@ inits();
 
 function inits() {
 
+    //var a1 = new Polynomial([0, 1, 2], [3.3, 7.7, 2.2], 3);
+    //console.log(a1.get(2.5));
+    //var a2 = new Polynomial([0, 1, 2], [0.3, 0.5, 1.2], 3);
+    //console.log(a2.get(2.5));
+    
     D3Renderer.init();
 
     //rippling/tidal
@@ -117,14 +122,13 @@ function inits() {
 
     window.onresize = D3Renderer.resize;
 
-
 }
 
 function render() {
 
     t.update();
-    system.update(t);
-
+    if(prerendered == true) { system.render(t); }
+    
     //not active for a while
 
     //    if(g0.__controllers[4].initialValue) {
@@ -141,12 +145,12 @@ function render() {
     
     currentFrame++;
 }
-
+    
 function waitForDataset() {
 
     if (typeof dataset !== "undefined") {
 
-        system.inits(dataset);
+        system.inits(dataset, parseInt(g0.__controllers[3].initialValue * 1000));
         render();
 
     } else {
@@ -160,7 +164,8 @@ function Timer() {
     this.current = performance.now();
     this.last = 0;
     this.passed = 0;
-    this.limit = 10000;
+    this.shift = 0;
+    this.limit = 1000;
     this.state = -1; //-1: displaying, 1: pause
 
     this.update = function() {
@@ -175,17 +180,24 @@ function Timer() {
             this.state *= -1;
 
             if (mode == 0) {
-                (this.state == -1) ? system.pause(): system.display();
+                (this.state == -1) ? system.pause(parseInt(g0.__controllers[3].initialValue * 1000)): system.display(parseInt(g0.__controllers[3].initialValue * 1000));
+                
             }
 
         } else {
 
             this.passed += this.getInterval();
-
+            this.shift = performance.now();
         }
 
     }
 
+    this.shifted = function(){
+        
+        return performance.now() - this.shift;
+        
+    }
+    
     this.getFPS = function(){
         
         var smooth = 0.9;

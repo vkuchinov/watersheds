@@ -24,6 +24,8 @@
  */
 "use strict"
 
+var xxx = 0;
+
 var SCALE_RATIO = 150;
 var TIME_RATE = 0.0165; // 1/60
 
@@ -35,12 +37,16 @@ var timing = {
     phase: 0
 };
 
+var TRANSITIONS = 32;
+var INTERVALS = { A: 5000, B: 5000 };
+var EXPONENTIAL_COEFFICIENTS = { A: 0.5, B: 5E3, ORDER: 3 };
+
 var NUM_OF_NEIGHBOURS = 8;
 var REST_DISTANCE = 0.132;
 var PARTICLE_SIZE = 0.05; //for simulatio
 
 var GROUND_OFFSET = 32;
-var SCRREN_MARGINS = 64;
+var SCRREN_MARGINS = 32;
 var zero;
 
 //wave machine parameters
@@ -73,12 +79,14 @@ var mass = [{
     ]
 }];
 
-var kdtree; //KD-Tree
+var kdtree;
 
 var tidalSystem = {
 
-    inits: function(dataset_) {
-
+    inits : function(dataset_, pause_) {
+        
+        INTERVALS.A = pause_; INTERVALS.B = pause_ * 1.1;
+        
         zero = window.innerHeight;
 
         //translate group
@@ -132,17 +140,108 @@ var tidalSystem = {
         this.feed(particleSystem, dataset_);
 
     },
+    
+    update : function(){
+        
+        for(var i = 0; i < nodes.length; i++){ this.resetTransition(nodes[i].transition, TRANSITIONS + 1); }
+        
+        //                world.Step(timeStep, velocityIterations, positionIterations);
+        //                machine.time += TIME_RATE;
+        //                machine.joint.SetMotorSpeed(0.05 * Math.cos(machine.time) * Math.PI);
+        //        
+        //                var body = world.bodies[0];
+        //                body.SetTransform(body.GetWorldCenter(), ang);
+        //        
+        //                if (ang > 0.35 || ang < -0.35) {
+        //                    ANG_INC *= -1;
+        //                }
+        //                ang += ANG_INC;
+        
+        globalPos = worldBody.GetPosition();
+        globalAngle = worldBody.GetAngle() * 180 / Math.PI;
 
-    update: function(timer_) {
+        var system = world.particleSystems[0];
 
-        if (timing.phase == 1) {
-            timing.interval = this.exponentialMap(timing.overall, 10000, 3000);
+        var points = [];
+        var buffer = system.GetPositionBuffer();
+
+        for (var i = 0; i < system.GetParticleCount(); i += 2) {
+            points.push({
+                x: buffer[i],
+                y: buffer[i + 1]
+            });
         }
 
-        if (timing.passed > timing.interval || !g0.__controllers[4].initialValue) {
+        var distance = function(a, b) {
+            return Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2);
+        }
+        var sqrtDistance = function(a, b) {
+            return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
+        }
 
-            timing.passed = 0;
+        var kd = new kdTree(points, distance, ["x", "y"]);
+        
+        var offset = 0;
+        var positionBuf = system.GetPositionBuffer();
+            
+        for(var i = 0; i < nodes.length; i++){
+            
+            nodes[i].cx = positionBuf[(i + offset) * 2] * SCALE_RATIO;
+            nodes[i].cy = positionBuf[(i + offset) * 2 + 1] * SCALE_RATIO;
+            
+            var nearest = kd.nearest({
+                                x: positionBuf[(i + offset) * 2],
+                                y: positionBuf[(i + offset) * 2 + 1]
+                          }, NUM_OF_NEIGHBOURS);
 
+            var distances = [];
+
+            for (var j = 0; j < nearest.length; j++) {
+
+                distances.push(sqrtDistance({
+                    x: Number(positionBuf[(i + offset) * 2]),
+                    y: Number(positionBuf[(i + offset) * 2 + 1])
+                }, {
+                    x: Number(nearest[j][0].x),
+                    y: Number(nearest[j][0].y)
+                }));
+
+            }
+
+            //state: -1: off-screen, 0: foam, 1: normal
+            if (Math.max.apply(null, distances) < REST_DISTANCE) {
+
+                nodes[i].state = 1;
+
+            } else {
+
+                //d3.select(this).moveToFront();
+                nodes[i].state = 0;
+                
+            }
+            
+            nodes[i].global = {x: globalPos.x, y: globalPos.y, angle: globalAngle};
+            
+            //feed transition
+            nodes[i].transition.cx.data[0] = Number(nodes[i].cx);
+            nodes[i].transition.cx.intervals[0] = 0.0;
+            nodes[i].transition.cy.data[0] = Number(nodes[i].cy);
+            nodes[i].transition.cy.intervals[0] = 0.0;
+            nodes[i].transition.color.data[0] = Number(nodes[i].state);
+            nodes[i].transition.color.intervals[0] = 0.0;
+            nodes[i].transition.global.data[0] = Number(globalAngle);
+            nodes[i].transition.global.intervals[0] = 0.0;
+            
+        }
+
+    },
+    
+    updateWithPolynomial : function(timing_, steps_){
+         
+        var t0 = performance.now();
+
+        for(var s = 0; s < steps_; s++){
+            
             world.Step(timeStep, velocityIterations, positionIterations);
             machine.time += TIME_RATE;
             machine.joint.SetMotorSpeed(0.05 * Math.cos(machine.time) * Math.PI);
@@ -155,9 +254,7 @@ var tidalSystem = {
             }
             ang += ANG_INC;
 
-            //adjusting the sun
             globalPos = worldBody.GetPosition();
-            //globalPos.y += window.innerHeight - zero;
             globalAngle = worldBody.GetAngle() * 180 / Math.PI;
 
             var system = world.particleSystems[0];
@@ -172,7 +269,6 @@ var tidalSystem = {
                 });
             }
 
-
             var distance = function(a, b) {
                 return Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2);
             }
@@ -181,168 +277,169 @@ var tidalSystem = {
             }
 
             var kd = new kdTree(points, distance, ["x", "y"]);
-            var particleGroup = particles.selectAll("g.particle").data(system.particleGroups)
+
+            var offset = 0;
             var positionBuf = system.GetPositionBuffer();
 
+            for(var i = 0; i < nodes.length; i++){
 
-            particleGroup.enter().append("g").attr("id", "particles", true).classed("particle", true)
-            particleGroup.each(function(pg) {
+                nodes[i].cx = positionBuf[(i + offset) * 2] * SCALE_RATIO;
+                nodes[i].cy = positionBuf[(i + offset) * 2 + 1] * SCALE_RATIO;
 
-                var dataSet = d3.select(this).selectAll("circle").data(new Array(pg.GetParticleCount()));
-                var offset = pg.GetBufferIndex();
+                var nearest = kd.nearest({
+                                    x: positionBuf[(i + offset) * 2],
+                                    y: positionBuf[(i + offset) * 2 + 1]
+                              }, NUM_OF_NEIGHBOURS);
 
+                var distances = [];
 
-                dataSet.enter().append("circle")
-                    .attr("id", function(d, i) {
-                        return "particle_" + nodes[i].id;
-                    });
+                for (var j = 0; j < nearest.length; j++) {
 
-                if (gup("mode") == "interactive") {
-
-                    //.attr("id", function(d, i){ return "particle_" + i; }, true)
-                    dataSet.attr("fill", function(d, i) {
-
-                            var nearest = kd.nearest({
-                                x: positionBuf[(i + offset) * 2],
-                                y: positionBuf[(i + offset) * 2 + 1]
-                            }, NUM_OF_NEIGHBOURS);
-
-                            var distances = [];
-
-                            for (var j = 0; j < nearest.length; j++) {
-
-                                distances.push(sqrtDistance({
-                                    x: Number(positionBuf[(i + offset) * 2]),
-                                    y: Number(positionBuf[(i + offset) * 2 + 1])
-                                }, {
-                                    x: Number(nearest[j][0].x),
-                                    y: Number(nearest[j][0].y)
-                                }));
-
-                            }
-
-                            if (Math.max.apply(null, distances) < REST_DISTANCE) {
-
-                                return nodes[i].color;
-
-                            } else {
-
-                                //move to front
-                                d3.select(this).moveToFront();
-                                return nodes[i].foam;
-
-                            }
-
-                        })
-                        .attr("r", function(d, i) {
-                            return nodes[i].radius;
-                        })
-                        .attr("cx", function(d, i) {
-                            return positionBuf[(i + offset) * 2] * SCALE_RATIO;
-                        }).attr("cy", function(d, i) {
-                            return positionBuf[(i + offset) * 2 + 1] * SCALE_RATIO;
-                        })
-                        .attr("stroke", "#FFFFFF")
-                        .attr("stroke-width", 0.0)
-                        .on("mouseover", function(d, i) {
-                            d3.select(this).moveToFront();
-                            d3.select(this).attr("stroke-width", particleStyle.weight);
-                        })
-
-                        .on("mouseout", function(d, i) {
-                            d3.select(this).attr("stroke-width", 0.0);
-                        })
-                        .on("click", function(d, i) {
-                            var ii = parseInt(d3.select(this).attr("id").replace("particle_", ""));
-                            console.log(ii);
-                            tidalSystem.click({
-                                nodeID: ii,
-                                xmlID: nodes[ii].xml
-                            });
-                        });
-
-                } else {
-
-                    dataSet.attr("fill", function(d, i) {
-
-                            var nearest = kd.nearest({
-                                x: positionBuf[(i + offset) * 2],
-                                y: positionBuf[(i + offset) * 2 + 1]
-                            }, NUM_OF_NEIGHBOURS);
-
-                            var distances = [];
-
-                            for (var j = 0; j < nearest.length; j++) {
-
-                                distances.push(sqrtDistance({
-                                    x: Number(positionBuf[(i + offset) * 2]),
-                                    y: Number(positionBuf[(i + offset) * 2 + 1])
-                                }, {
-                                    x: Number(nearest[j][0].x),
-                                    y: Number(nearest[j][0].y)
-                                }));
-
-                            }
-                        
-                            if (Math.max.apply(null, distances) < REST_DISTANCE) {
-
-                                return nodes[i].color;
-
-                            } else {
-
-                                //move to front
-                                d3.select(this).moveToFront();
-                                return nodes[i].foam;
-
-                            }
-
-                        })
-                        .attr("r", function(d, i) {
-                            return nodes[i].radius;
-                        })
-                        .attr("cx", function(d, i) {
-
-                            return positionBuf[(i + offset) * 2] * SCALE_RATIO;
-                        }).attr("cy", function(d, i) {
-
-                            return positionBuf[(i + offset) * 2 + 1] * SCALE_RATIO;
-                        })
-                        .attr("stroke", "#FFFFFF")
-                        .attr("stroke-width", 0.0);
+                    distances.push(sqrtDistance({
+                        x: Number(positionBuf[(i + offset) * 2]),
+                        y: Number(positionBuf[(i + offset) * 2 + 1])
+                    }, {
+                        x: Number(nearest[j][0].x),
+                        y: Number(nearest[j][0].y)
+                    }));
 
                 }
 
-                dataSet.exit().remove();
-            });
-            
-            particleGroup.attr("transform", "translate(" + globalPos.x + ", " + globalPos.y + "), rotate(" + (-globalAngle) + ")");
+                //state: -1: off-screen, 0: foam, 1: normal
+                if (Math.max.apply(null, distances) < REST_DISTANCE) {
 
-    
-            for(var i = 0; i < nodes.length; i++){
-                
-                var bbox = d3.select("#particle_" + i).node().getBBox(),
-                middleX = bbox.x + (bbox.width / 2),
-                middleY = bbox.y + (bbox.height / 2);
-        
-                var absoluteXY = getScreenXY(scene, d3.select("#particle_" + i), middleX, middleY);
-                
-                if(absoluteXY.x > SCRREN_MARGINS || absoluteXY.x < (window.innerWidth - SCRREN_MARGINS) || absoluteXY.y < (window.innerHeight - SCRREN_MARGINS * 0.7)) { nodes[i].state = 1; } else { nodes[i].state = 0; }
-                
+                    nodes[i].state = 1;
+
+                } else {
+
+                    //d3.select(this).moveToFront();
+                    nodes[i].state = 0;
+
+                }
+
+                nodes[i].global = {x: globalPos.x, y: globalPos.y, angle: globalAngle};
+
+                //feed transition
+                nodes[i].transition.cx.data[s + 1] = Number(nodes[i].cx);
+                nodes[i].transition.cx.intervals[s + 1] = timing_ / steps_ * (s + 1);
+                nodes[i].transition.cy.data[s + 1] = Number(nodes[i].cy);
+                nodes[i].transition.cy.intervals[s + 1] = timing_ / steps_ * (s + 1);
+                nodes[i].transition.color.data[s + 1] = Number(nodes[i].state);
+                nodes[i].transition.color.intervals[s + 1] = timing_ / steps_ * (s + 1);
+                nodes[i].transition.global.data[s + 1] = Number(globalAngle);
+                nodes[i].transition.global.intervals[s + 1] = timing_ / steps_ * (s + 1);
+
             }
-      
-    
-                        
-            particleGroup.exit().remove();
 
         }
+        
+        for(var k = 0; k < nodes.length; k++){
 
-        timing.passed += timer_.getInterval();
-        timing.overall += timer_.getInterval();
+        nodes[k].transition.cx.intervals.reverse();
+        nodes[k].transition.cx.polynomial = new Polynomial(nodes[k].transition.cx.intervals, nodes[k].transition.cx.data, EXPONENTIAL_COEFFICIENTS.ORDER);
+            
+        nodes[k].transition.cy.intervals.reverse();
+        nodes[k].transition.cy.polynomial = new Polynomial(nodes[k].transition.cy.intervals, nodes[k].transition.cy.data, EXPONENTIAL_COEFFICIENTS.ORDER);
+        
+        nodes[k].transition.color.intervals.reverse();
+        nodes[k].transition.color.polynomial = new Polynomial(nodes[k].transition.color.intervals, nodes[k].transition.color.data, EXPONENTIAL_COEFFICIENTS.ORDER);
+        
+       }
+        
+       nodes[0].transition.global.intervals.reverse();
+       nodes[0].transition.global.polynomial = new Polynomial(nodes[0].transition.global.intervals, nodes[0].transition.global.data, EXPONENTIAL_COEFFICIENTS.ORDER);
 
+       var t1 = performance.now();
+       console.log("Doing " + TRANSITIONS + "-steps polynomials in " + Number(t1 - t0).toFixed(2) + " ms");
+        
     },
+    
+    staticRender: function(){
+        
+        //d3.selectAll(".particle").remove();
 
-    feed: function(system_, dataset_) {
+        for(var i = 0; i < nodes.length; i++){
 
+            var c = nodes[i].calculateColor(nodes[i].state);
+
+            D3Renderer.redrawParticle(i, nodes[i].cx, nodes[i].cy, nodes[i].radius.static, c);
+            
+            var bbox = d3.select("#particle_" + i).node().getBBox(),
+            middleX = bbox.x + (bbox.width / 2),
+            middleY = bbox.y + (bbox.height / 2);
+        
+            var absoluteXY = getScreenXY(scene, d3.select("#particle_" + i), middleX, middleY);
+                
+            if(absoluteXY.x > SCRREN_MARGINS && absoluteXY.x < (window.innerWidth - SCRREN_MARGINS) && absoluteXY.y < (window.innerHeight - SCRREN_MARGINS * 0.7)) { nodes[i].offscreen = 0; } else { nodes[i].offscreen = 1; }
+                      
+        }
+        
+        
+        
+        //tilt back
+        var ps = d3.select("#particles").attr("transform", "translate(" + width / 2 + ", " + (height + GROUND_OFFSET) + "),rotate(" + (-nodes[0].global.angle) + ")");
+        
+    },
+    
+    render: function(timer_){
+        
+        var global1; 
+        var debug = "";
+        
+        //////////////////////////////////////////
+        //DON'T NEED TO KILL PARTICLES EVERY FRAME
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        
+        //d3.selectAll(".particle").remove();
+        
+        var interval = timer_.passed;
+        var minInterval = this.exponentialMap(0.0);
+        var maxInterval = this.exponentialMap(1.0);
+        var smooth = Number(this.map(this.exponentialMap(this.map(interval, 0, INTERVALS.A, 1.0, 0.0)), minInterval, maxInterval, 0, INTERVALS.B));
+        
+        global1 = Number(nodes[0].transition.global.polynomial.get(smooth));
+        
+        for(var i = 0; i < nodes.length; i++){
+            
+        if(nodes[i].transition.cx.polynomial != null) { 
+
+            //unique interval
+            //            var interval = timer_.passed + timer_.shifted();
+            //            var smooth = Number(this.map(this.exponentialMap(this.map(interval, 0, INTERVALS.A, 1.0, 0.0)), minInterval, maxInterval, 0, INTERVALS.B));
+            
+            /////////////////////////////////////////
+            ///mixColor: proper function
+            ///https://coderwall.com/p/z8uxzw/javascript-color-blender
+            /////////////////////////////////////////
+            
+            //nodes[1].transition.cx.polynomial.formula();
+            //console.log(nodes[1].transition.cx.data);
+            var cx1 = Number(nodes[i].transition.cx.polynomial.get(smooth));
+            var cy1 = Number(nodes[i].transition.cy.polynomial.get(smooth));
+            var color1 = this.limit(Number(nodes[i].transition.color.polynomial.get(smooth)),0.0, 1.0);
+            
+            //console.log(smooth + " " + cx1 + " " + cy1 + " " + color1);
+            //upgrade it to 0.0 - 1.0
+            //var c = nodes[i].calculateColor(nodes[i].state);
+            var c = nodes[i].calculateColor(color1);
+            //debug += color1 + " ";
+            
+            D3Renderer.redrawParticle(i, cx1, cy1, nodes[i].radius.static, c);
+            
+        }
+        }
+        
+        //nodes[0].transition.cx.polynomial.formula();
+        //tilt back
+        var ps = d3.select("#particles").attr("transform", "translate(" + width / 2 + ", " + (height + GROUND_OFFSET) + "),rotate(" + (-global1) + ")");
+        
+        //console.log(debug);
+        //prerendered = false;
+        xxx++;
+    },
+    
+    feed : function(system_, dataset_){
+        
         for (var i = 0; i < system_.GetParticleCount() / 2; i++) {
 
             //there are messages up to 240 words, that"s why
@@ -352,135 +449,137 @@ var tidalSystem = {
             var words = dataset_[i].message.replace(/<!\[CDATA\[(.*?)\]\]>/g, "$1").trim().split(" ").length;
             var r = this.map(Math.min(Math.max(parseInt(words), 1), 48), 1, 48, 8, 18);
 
-            var c = colors[this.findByKey(categories, "id", dataset_[i].category, 0)];
-            var f = foam[this.findByKey(categories, "id", dataset_[i].category, 0)];
+            //var c = colors[this.findByKey(categories, "id", dataset_[i].category, 0)];
+            //var f = foams[this.findByKey(categories, "id", dataset_[i].category, 0)];
 
-            nodes.push({
-                "id": i,
-                "xml": i,
-                "radius": r,
-                "depth": 0,
-                "color": c,
-                "foam": f,
-                "state": 0
-            });
+            nodes.push(new Node(i, i, 0.0, 0.0));
+            D3Renderer.drawParticle(d3.select("#particles"), i, 0, 0, 0, "none");
+            
         }
 
         console.log("# of particels in this setup: " + nodes.length);
         next = nodes.length;
+  
+    },
+    
+    takeover: function(index_, data_){
+        
+        var words = data_.message.replace(/<!\[CDATA\[(.*?)\]\]>/g, "$1").trim().split(" ").length;
+        var r = this.map(Math.min(Math.max(parseInt(words), 1), 48), 1, 48, 6, 20);
+
+        var cat = this.findByKey(categories, "id", data_.category, 0);
+        var c = colors[cat];
+        var f = foams[cat];
+        
+        var t = nodes[index_.nodeID].transition;
+        nodes[index_.nodeID] = new Node(index_.nodeID, next, nodes[index_.nodeID].cx , nodes[index_.nodeID].cy);
+        this.resetTransition(nodes[index_.nodeID].transition);
+        
+        nodes[index_.nodeID].transition = t;
 
     },
     
-    setState : function(x_, y_, offset_){
+    display : function(timing_){
+    
+        //console.log(xxx);
+        prerendered = false;
         
-        if(x_ > offset_ && x_ < window.innerWidth - offset_) { return 1; }
-        else if(y_ < window.innerHeight - offset_) { return 1; }
-        return 0;
+        this.update(timing_);
+        this.staticRender();
         
-    },
-
-    display: function() {
-
-        timing.phase = 0;
-        timing.interval = 10000;
-        timing.overall = 0;
-
-        ///returns composite object {nodeID: n, xmlID: n}
-        var index = this.findLowestIDByKey(nodes, "state", 1);
+        var index = this.findLowestIDByKey(nodes, "offscreen", 0);
 
         D3Renderer.highlight(particles, index);
         this.takeover(index, dataset[next]);
-
+        
+        this.updateWithPolynomial(timing_, TRANSITIONS);
+    
         console.log("node: " + index.nodeID + " xml: " + index.xmlID + " " + next);
         if (next < dataset.length) {
             next++;
         } else {
             next = 0;
         }
-
-    },
-
-    pause: function() {
-
-         d3.selectAll("#test").remove();
         
-        timing.phase = 1;
-        timing.interval = 25;
-        timing.overall = 0;
-
+        
+    },
+    
+    pause : function(timing_){
+    
+        xxx = 0;
+        
+        prerendered = true;
+        
         d3.select("#HUD").attr("opacity", 1.0)
-            .transition()
-            .duration(1000)
-            .attr("opacity", 0.0)
-            .each("end", function(d) {
-                this.remove();
-            });
+        .transition()
+        .duration(500)
+        .attr("opacity", 0.0)
+        .each("end", function(d) { this.remove(); });
 
     },
-
-    takeover: function(index_, data_) {
-
-        var node = d3.select("#particle_" + index_.xmlID);
-        node.attr("stroke-width", 0.0);
-
-        var words = data_.message.replace(/<!\[CDATA\[(.*?)\]\]>/g, "$1").trim().split(" ").length;
-        var r = this.map(Math.min(Math.max(parseInt(words), 1), 48), 1, 48, 6, 20);
-
-        var c = colors[this.findByKey(categories, "id", data_.category, 0)];
-        var f = foam[this.findByKey(categories, "id", data_.category, 0)];
-
-        nodes[index_.nodeID] = {
-            "id": index_.nodeID,
-            "xml": next,
-            "radius": r,
-            "depth": 0,
-            "color": c,
-            "foam": f,
-            "state": 0
-        };
-
-
-        //this.delete(nodes, index_.nodeID);
-        //nodes.push({"id" : next, "radius": r, "depth" : 0, "color" : c, "state" : 0});
-
+    
+    clear : function(size_){
+      
+        var array = [];
+        for(var i = 0; i < size_; i++){ array.push(1E-4); }
+        return array;
     },
-
-
-    click: function(index_) {
-
-        d3.selectAll("#HUD").remove();
-
-        D3Renderer.highlight(particles, index_);
-        this.takeover(index_, dataset[next]);
-
-        console.log("node: " + index_.nodeID + " xml: " + index_.xmlID + " " + next);
-        if (next < dataset.length) {
-            next++;
-        } else {
-            next = 0;
-        }
-
+    
+    resetTransition : function(transition_, n_ ){
+        
+        transition_.cx.data = this.clear(n_);
+        transition_.cx.intervals = this.clear(n_);
+        
+        transition_.cy.data = this.clear(n_);
+        transition_.cy.intervals = this.clear(n_);
+        
+        transition_.color.data = this.clear(n_);
+        transition_.color.intervals = this.clear(n_);
+        
+        transition_.global.data = this.clear(n_);
+        transition_.global.intervals = this.clear(n_);
+        
     },
-
-    map: function(value_, min1_, max1_, min2_, max2_) {
-
-        return min2_ + (value_ - min1_) / (max1_ - min1_) * (max2_ - min2_);
-
+    
+    map: function(value_, min1_, max1_, min2_, max2_){ 
+        
+        return min2_ + (value_ - min1_) / (max1_ - min1_) * (max2_ - min2_); 
+    
     },
-
-    exponentialMap: function(value_, interval0_, interval1_) {
+    
+    exponentialMap : function(value_){
 
         //value_ should be from 0.0 to 1.0
-
-        var b = 49.0; //coefficient
-        var t = this.map(Math.min(value_, interval0_), 0.0, interval0_, 0.0, 1.0);
-        var i = Math.exp(t * b);
-        return this.map(i, 1.0, Math.exp(1.0 * b), 0.0, interval1_);
+        var a = EXPONENTIAL_COEFFICIENTS.A; //coefficient a
+        var b = EXPONENTIAL_COEFFICIENTS.B; //coefficient b
+    
+        return a * Math.pow(b, value_);
 
     },
 
+    limit : function(value_, min_, max_){
+        
+        //if(value_ == NaN || value_ == "NaN") { console.log("shit happens"); return 0.0; }
+        if(Number(value_) < min_) { return min_; }
+        else if(Number(value_) > max_) { return max_; }
+        return Number(value_);
+        
+    },
+    
+    uniform : function(){
+        
+        var n = 1E4;
+        var rho = Math.sqrt(Math.random(n));
+        var theta = Math.random() * 2.0 * Math.PI;
+        var x = rho * Math.cos(theta);
+        var y = rho * Math.sin(theta);
+        
+        return {"x" : x, "y" : y};
+        
+    },
+    
     findByKey: function(array_, key_, value_, default_) {
-
+        
         for (var i = 0; i < array_.length; i++) {
             if (array_[i][key_] === value_) {
                 return i;
@@ -490,23 +589,19 @@ var tidalSystem = {
     },
 
     findLowestIDByKey: function(array_, key_, value_) {
+        
 
         var available = [];
         var keys = [];
-
+        
         for (var i = array_.length - 1; i >= 0; i--) {
-            if (array_[i][key_] === value_) {
-                available.push({
-                    nodeID: i,
-                    xmlID: array_[i]["xml"]
-                });
-                keys.push(array_[i]["xml"]);
-            }
+            if (array_[i][key_] === value_) { available.push({ nodeID: i, xmlID : array_[i]["xml"]}); 
+                                              keys.push( array_[i]["xml"]); }
         }
-
+        
         var lowest = Math.min.apply(null, keys);
         return available[this.findByKey(available, "xmlID", lowest, 0)];
     }
 
-
 }
+

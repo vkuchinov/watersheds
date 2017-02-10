@@ -1,0 +1,196 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+
+<title>POLYNOMIAL SMOOTH</title>
+
+<meta name="description" content="Two Visualizations of User-Submitted Text Using HTML/JavaScript">
+<meta name="author" content="Vladimir V. KUCHINOV">
+<meta name="contact" content="helloworld@vkuchinov.co.uk">
+
+<script src="../js/libraries/d3.v3.min.js"></script>
+<script src="artefact.polynomial.js"></script>  
+    
+    
+</head>
+
+<body>
+
+<script>
+
+var order = 4;
+    
+function exponentialMap(value_) {
+
+        //value_ should be from 0.0 to 1.0
+        var a = 0.5; //coefficient a
+        var b = 5E4; //coefficient b
+    
+        return a * Math.pow(b, value_);
+
+}
+   
+function map(value_, min1_, max1_, min2_, max2_){ 
+        
+        return min2_ + (value_ - min1_) / (max1_ - min1_) * (max2_ - min2_); 
+    
+}
+        
+function Timer() {
+
+    this.current = performance.now();
+    this.last = 0;
+    this.passed = 0;
+    this.limit = 15000;
+
+    this.update = function() {
+
+        this.last = this.current;
+        this.current = performance.now();
+
+        if (this.passed > this.limit) { this.passed = 0; 
+
+        } else {
+
+            this.passed += this.getInterval();
+            
+            //console.log(circle.transition.x.polynomial.get(this.passed));
+            var minT = exponentialMap(0.0);
+            var maxT = exponentialMap(1.0);
+            
+            //console.log(minT, maxT);
+            
+            var T = map(exponentialMap(map(this.passed, 0, 15000, 1.0, 0.0)), minT, maxT, 0, 15000);
+            
+            var c1 = d3.select("#smooth")
+                     .attr("cx", circle.transition.x.polynomial.get(T))
+                     .attr("cy", circle.transition.y.polynomial.get(T))
+
+        }
+
+    }
+
+    this.getFPS = function(){
+        
+        var smooth = 0.9;
+        return (1.0 / (performance.now() - this.last) * 1000).toFixed(2);
+        
+    };
+    
+    this.setLimit = function(value_) {
+        this.limit = value_;
+    };
+    this.getInterval = function() {
+        return performance.now() - this.last;
+    }
+
+}
+    
+function Circle(){
+    
+    this.update = function(){
+        
+        if(this.cx < 64 || this.cx > width - 64) { this.increment *= -1; }
+        this.cx += this.increment;
+        var phase = 0.0;
+        var freq = 0.8;
+        
+        this.cy = height/2 + 120.0 * Math.sin(freq * this.cx / 180 * Math.PI + phase); 
+        
+    }
+    
+    this.feedTransition = function(){
+        
+        var increment = 16.0;
+        this.transition.x.data.push(this.cx);
+        this.transition.y.data.push(this.cy);
+        this.transition.x.timing.push(0.0);
+        this.transition.y.timing.push(0.0);
+        
+        for(var i = 1; i < 32; i++){
+            
+        if(this.transition.x.data[this.transition.x.data.length - 1] < 64 || this.transition.x.data[this.transition.x.data.length - 1] > width - 64) { increment *= -1; }
+        
+        var nextX = this.transition.x.data[this.transition.x.data.length - 1] + increment;
+        this.transition.x.data.push(nextX);
+        var phase = 0.0;
+        var freq = 0.8;
+        
+        this.transition.y.data.push(height/2 + 120.0 * Math.sin(freq * nextX / 180 * Math.PI + phase)); 
+        this.transition.x.timing.push(i * 500); 
+        this.transition.y.timing.push(i * 500); 
+            
+        }
+        
+        this.transition.x.timing.reverse();
+        this.transition.y.timing.reverse();
+        
+        this.transition.x.polynomial = new Polynomial(this.transition.x.timing, this.transition.x.data, order);
+        this.transition.y.polynomial = new Polynomial(this.transition.y.timing, this.transition.y.data, order);
+        
+        //console.log(this.transition.x.data);
+        this.transition.x.polynomial.formula();
+        
+    }
+    
+    this.cx = 64;
+    this.cy = window.innerHeight / 2;
+    this.radius = 32;
+    this.increment = 2.0;
+    
+    this.transition = { x: { data: [], timing: [], polynomial: null }, y: { data: [], timing: [], polynomial: null } };
+    
+    this.feedTransition();
+    
+    
+}
+
+    
+var t = new Timer();
+        
+var width = window.innerWidth;
+var height = window.innerHeight;
+    
+var circle = new Circle();
+
+var scene = d3.select("body").append("svg").attr("id", "scene").style("width", width).style("height", height);
+
+    var c0 = scene.append("circle")
+         .attr("id", "object")
+         .attr("cx", circle.cx)
+         .attr("cy", circle.cy)
+         .attr("r", circle.radius)
+         .attr("fill", "#FF00FF")
+         .attr("stroke", "none");
+    
+    var c1 = scene.append("circle")
+         .attr("id", "smooth")
+         .attr("cx", circle.cx)
+         .attr("cy", circle.cy)
+         .attr("r", circle.radius)
+         .attr("fill", "#00FFFF")
+         .attr("stroke", "none");
+
+render();
+    
+function render(){
+    
+     t.update();
+     circle.update();
+    
+     var c0 = d3.select("#object")  
+      .attr("cx", circle.cx)
+      .attr("cy", circle.cy);
+    
+     window.requestAnimationFrame(render);
+    
+}
+        
+</script>
+    
+</body>
+</html>

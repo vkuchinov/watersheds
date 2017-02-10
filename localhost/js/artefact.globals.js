@@ -9,6 +9,8 @@ var currentFrame = 0;
 var mode = 0; //by default automous
 
 var system, tags, particles, HUD, next;
+var prerendered = false;
+
 var nodes = [];
 
 var palette = {
@@ -40,14 +42,14 @@ var bleachingA = {
     black : "#362F4A", 
 };
 
-var bleachingB = {
+var bleaching = {
     pink: "#F8E6E9",
     red : "#EBCBC9",
-    brown : "#D6CEC8 ",
-    green : "#DFEBD8 ",
-    orange : "#F3DFCB ",
-    purple : "#DCD1DC ",
-    teal : "#D6EAE6 ",
+    brown : "#D6CEC8",
+    green : "#DFEBD8",
+    orange : "#F3DFCB",
+    purple : "#DCD1DC",
+    teal : "#D6EAE6",
     blue : "#C8D6DF",
     yellow : "#F2E8CE",
     lime : "#EFF5CA",
@@ -55,7 +57,7 @@ var bleachingB = {
 };
 
 var colors = Object.values(palette).slice(0, Object.values(palette).length - 1);
-var foam = Object.values(bleachingB).slice(0, Object.values(bleachingB).length - 1);
+var foams = Object.values(bleaching).slice(0, Object.values(bleaching).length - 1);
 
 var categories = [
     

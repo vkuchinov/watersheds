@@ -90,14 +90,41 @@ void setup(){
      size(600, 600, "processing.core.PGraphicsRetina2D"); 
      background(49);
      
-     points.add(new PVector(1.0, 1.0));
-     points.add(new PVector(2.0, 1.2));
-     points.add(new PVector(3.0, 3.0));
-     points.add(new PVector(4.0, 7.0));
-     points.add(new PVector(5.0, 7.0));
+    //     points.add(new PVector(64.0, 0.0));
+    //     points.add(new PVector(68.0, 500.0));
+    //     points.add(new PVector(70.0, 1000.0));
+    //     points.add(new PVector(72.0, 1500.0));
+    //     points.add(new PVector(74.0, 2500.0));
+    //     points.add(new PVector(76.0, 3000.0));
+    //     points.add(new PVector(78.0, 3500.0));
+    //     points.add(new PVector(80.0, 4000.0));
+    //     points.add(new PVector(82.0, 4500.0));
+    //     points.add(new PVector(84.0, 5000.0));
+    //     points.add(new PVector(86.0, 5500.0));
+    //     points.add(new PVector(88.0, 6000.0));
+    //     points.add(new PVector(90.0, 6500.0));
+    //     points.add(new PVector(92.0, 7000.0));
+    //     points.add(new PVector(94.0, 7500.0));
+    
+     points.add(new PVector(0.0, 64.0));
+     points.add(new PVector(500.0, 68.0));
+     points.add(new PVector(1000.0, 70.0));
+     points.add(new PVector(1500.0, 72.0));
+     points.add(new PVector(2500.0, 74.0));
+     points.add(new PVector(3000.0, 76.0));
+     points.add(new PVector(3500.0, 78.0));
+     points.add(new PVector(4000.0, 80.0));
+     points.add(new PVector(4500.0, 82.0));
+     points.add(new PVector(5000.0, 84.0));
+     points.add(new PVector(5500.0, 86.0));
+     points.add(new PVector(6000.0, 88.0));
+     points.add(new PVector(6500.0, 90.0));
+     points.add(new PVector(7000.0, 92.0));
+     points.add(new PVector(7500.0, 94.0));
         
      interpolation = new Polynomial(points, 3);
 
+     println(interpolation.getY(3000));
      setBounds(points);
      
      for(PVector p : points){

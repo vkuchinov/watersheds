@@ -225,7 +225,7 @@ var D3Renderer = {
     drawCircle: function(scene_, x_, y_, radius_) {
 
         scene_.append("circle")
-            .attr("id", "test", true)
+            .attr("id", "ripple", true)
             .attr("cx", x_)
             .attr("cy", y_)
             .attr("r", radius_)
@@ -237,8 +237,12 @@ var D3Renderer = {
 
     drawParticle: function(group_, id_, x_, y_, radius_, color_) {
 
+        if(x_ == NaN) { console.log("Ooops, wrong X! of " + id_); x_ = width/2; }
+        if(y_ == NaN) { console.log("Ooops, wrong Y! of " + id_); y_ = height/2; }
+        
         group_.append("circle")
             .attr("id", "particle_" + id_)
+            .attr("class", "particle")
             .attr("cx", x_)
             .attr("cy", y_)
             .attr("r", radius_)
@@ -251,6 +255,79 @@ var D3Renderer = {
             .on("mouseout", function(d) {
                 d3.select(this).attr("stroke-width", 0.0);
             });
+
+    },
+    
+    redrawParticle: function(id_, x_, y_, radius_, color_) {
+
+        if(x_ == NaN) { console.log("Ooops, wrong X! of " + id_); x_ = width/2; }
+        if(y_ == NaN) { console.log("Ooops, wrong Y! of " + id_); y_ = height/2; }
+        
+        var particle = d3.select("#particle_" + id_)
+                       .attr("cx", x_)
+                       .attr("cy", y_)
+                       .attr("r", radius_)
+                       .attr("fill", color_);
+        
+        //        group_.append("circle")
+        //            .attr("id", "particle_" + id_)
+        //            .attr("class", "particle")
+        //            .attr("cx", x_)
+        //            .attr("cy", y_)
+        //            .attr("r", radius_)
+        //            .attr("stroke", particleStyle.stroke)
+        //            .attr("stroke-width", 0.0)
+        //            .attr("fill", color_)
+        //            .on("mouseover", function(d) {
+        //                d3.select(this).attr("stroke-width", particleStyle.weight);
+        //            })
+        //            .on("mouseout", function(d) {
+        //                d3.select(this).attr("stroke-width", 0.0);
+        //            });
+
+    },
+    
+    redrawParticleR: function(id_, radius_) {
+
+        //if(x_ == NaN) { console.log("Ooops, wrong X! of " + id_); x_ = width/2; }
+        //if(y_ == NaN) { console.log("Ooops, wrong Y! of " + id_); y_ = height/2; }
+        
+        var particle = d3.select("#particle_" + id_)
+                       .attr("r", radius_);
+        
+        //        group_.append("circle")
+        //            .attr("id", "particle_" + id_)
+        //            .attr("class", "particle")
+        //            .attr("cx", x_)
+        //            .attr("cy", y_)
+        //            .attr("r", radius_)
+        //            .attr("stroke", particleStyle.stroke)
+        //            .attr("stroke-width", 0.0)
+        //            .attr("fill", color_)
+        //            .on("mouseover", function(d) {
+        //                d3.select(this).attr("stroke-width", particleStyle.weight);
+        //            })
+        //            .on("mouseout", function(d) {
+        //                d3.select(this).attr("stroke-width", 0.0);
+        //            });
+
+    },
+    
+    drawParticleWithTransition: function(group_, id_, x_, y_, radius0_, radius1_, color_, timing_) {
+
+        group_.append("circle")
+            .attr("id", "particle_" + id_)
+            .attr("class", "particle")
+            .attr("cx", x_)
+            .attr("cy", y_)
+            .attr("r", radius0_)
+            .attr("stroke", particleStyle.stroke)
+            .attr("stroke-width", 0.0)
+            .attr("fill", color_)
+            .transition()
+            .duration(timing_)
+            .attr("r", radius1_)
+            .each("end", function(d) { this.remove(); });
 
     },
 
@@ -383,6 +460,7 @@ var D3Renderer = {
         }
 
         this.HUD(scene, obj, message, dataset[id_.xmlID].language, translateX, translateY, true);
+        
 
     },
 
@@ -492,6 +570,8 @@ var D3Renderer = {
         var fr = ["«", "»"];
         var en = ["“", "”"];
         var quotes = (language_ == "en") ? en : fr;
+        //var quotes = text_.match(/«|»/g);
+        //return text_.replace(/"/g, (quotes && quotes.length % 2 != 0 ? "»" : "«"));
         text_ = text_.replace(/&quot;/g, function() {  var q = quotes[i]; i = 1 - i; return q; });
         return text_;
     
@@ -502,7 +582,7 @@ var D3Renderer = {
         var index;
         
         if(colors.contains(color_)) { return color_; }
-        else { return colors[foam.getIndex(color_)]; }
+        else { return colors[foams.getIndex(color_)]; }
     },
 
     resize: function() {
