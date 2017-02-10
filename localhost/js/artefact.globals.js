@@ -2,6 +2,7 @@
 
 var width = window.innerWidth;
 var height = window.innerHeight;
+var global = {angle: 0 };
 
 var scene;
 var currentFrame = 0;

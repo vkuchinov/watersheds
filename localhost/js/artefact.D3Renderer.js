@@ -593,11 +593,13 @@ var D3Renderer = {
 
         var w = window.innerWidth,
             h = window.innerHeight;
+        
+        width = w; height = h;
         var scale = 1.0;
         var scene = d3.select("svg#scene");
         scene.style("width", "100%").style("height", h + "px");
 
-        translate = (gup("type") == "rippling") ? "translate(" + (w / 2) + ", " + (h / 2 + scale * 2) + ")" : "translate(" + w / 2 + ", " + h + ")";
+        translate = (gup("type") == "rippling") ? "translate(" + (w / 2) + ", " + (h / 2 + scale * 2) + ")" : "translate(" + w / 2 + ", " + h + "),rotate(" + (-global.angle) + ")";
 
         var scale = "scale(" + scale + ", " + (scale) + ")";
         scene.select("g").attr("transform", [translate, scale].join());

@@ -375,6 +375,7 @@ var tidalSystem = {
         
         
         //tilt back
+        global.angle = nodes[0].global.angle;
         var ps = d3.select("#particles").attr("transform", "translate(" + width / 2 + ", " + (height + GROUND_OFFSET) + "),rotate(" + (-nodes[0].global.angle) + ")");
         
     },
@@ -429,6 +430,7 @@ var tidalSystem = {
         
         //nodes[0].transition.cx.polynomial.formula();
         //tilt back
+        global.angle = global1;
         var ps = d3.select("#particles").attr("transform", "translate(" + width / 2 + ", " + (height + GROUND_OFFSET) + "),rotate(" + (-global1) + ")");
         
         //console.log(debug);
