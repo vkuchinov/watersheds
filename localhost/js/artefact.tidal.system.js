@@ -24,8 +24,6 @@
  */
 "use strict"
 
-var xxx = 0;
-
 var SCALE_RATIO = 150;
 var TIME_RATE = 0.0165; // 1/60
 
@@ -416,12 +414,12 @@ var tidalSystem = {
             //console.log(nodes[1].transition.cx.data);
             var cx1 = Number(nodes[i].transition.cx.polynomial.get(smooth));
             var cy1 = Number(nodes[i].transition.cy.polynomial.get(smooth));
-            var color1 = this.limit(Number(nodes[i].transition.color.polynomial.get(smooth)),0.0, 1.0);
-            
+            var color1 = this.limit(Number(nodes[i].transition.color.polynomial.get(smooth)),0.0, 1.0).toFixed(4);
+            debug += color1 + ", ";
             //console.log(smooth + " " + cx1 + " " + cy1 + " " + color1);
             //upgrade it to 0.0 - 1.0
             //var c = nodes[i].calculateColor(nodes[i].state);
-            var c = nodes[i].calculateColor(color1);
+            var c = nodes[i].blendColors(1.0 - color1);
             //debug += color1 + " ";
             
             D3Renderer.redrawParticle(i, cx1, cy1, nodes[i].radius.static, c);
@@ -435,7 +433,6 @@ var tidalSystem = {
         
         //console.log(debug);
         //prerendered = false;
-        xxx++;
     },
     
     feed : function(system_, dataset_){
@@ -481,7 +478,6 @@ var tidalSystem = {
     
     display : function(timing_){
     
-        //console.log(xxx);
         prerendered = false;
         
         this.update(timing_);
@@ -505,9 +501,7 @@ var tidalSystem = {
     },
     
     pause : function(timing_){
-    
-        xxx = 0;
-        
+
         prerendered = true;
         
         d3.select("#HUD").attr("opacity", 1.0)

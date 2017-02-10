@@ -20,7 +20,7 @@ var GENERATOR_INTERVAL = 92;    //# of updates
 var GENERATOR_SPEED = 0.46;
 var TRANSITIONS = 32;
 var INTERVALS = { A: 5000, B: 5000 };
-var EXPONENTIAL_COEFFICIENTS = { A: 0.5, B: 1E6, ORDER: 3 };
+var EXPONENTIAL_COEFFICIENTS = { A: 0.5, B: 1E6, ORDER: 16 };
 
 var nodes = [];
 var calculated = false;
@@ -89,6 +89,8 @@ var ripplingSystem = {
         
         }
         
+        this.generator.reverse();
+        
     },
     
     update : function(){
@@ -147,7 +149,7 @@ var ripplingSystem = {
         
         for(var s = 0; s < steps_; s++){
             
-           this.generator.update();
+            this.generator.update();
             
             for(var i = 0; i < nodes.length; i++){
 
@@ -443,6 +445,19 @@ function Generator(theta_, speed_) {
 
     }
 
+    this.reverse = function() {
+
+
+        for(var i = 0; i < this.children.length; i++){
+            
+            this.children[i].speed /= 1.005;
+            this.children[i].r -= this.children[i].speed;
+
+        }
+        
+
+    }
+    
     this.generate = function(scene_) { 
 
         this.children.push({r: 32, speed: GENERATOR_SPEED});

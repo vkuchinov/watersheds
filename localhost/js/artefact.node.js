@@ -32,12 +32,12 @@ function Node(id_, xml_, cx_, cy_){
     else
         color1_ = color1_.substring(1);   
 
-    console.log("valid: c1 => " + color0_ + ", c2 => " + color1_);
+    //console.log("valid: c1 => " + color0_ + ", c2 => " + color1_);
 
     color0_ = [parseInt(color0_[0] + color0_[1], 16), parseInt(color0_[2] + color0_[3], 16), parseInt(color0_[4] + color0_[5], 16)];
     color1_ = [parseInt(color1_[0] + color1_[1], 16), parseInt(color1_[2] + color1_[3], 16), parseInt(color1_[4] + color1_[5], 16)];
 
-    console.log("hex -> rgba: c1 => [" + color0_.join(", ") + "], c2 => [" + color1_.join(", ") + "]");
+    //console.log("hex -> rgba: c1 => [" + color0_.join(", ") + "], c2 => [" + color1_.join(", ") + "]");
 
     var result = [ 
         (1 - perc_) * color0_[0] + perc_ * color1_[0], 
@@ -45,7 +45,7 @@ function Node(id_, xml_, cx_, cy_){
         (1 - perc_) * color0_[2] + perc_ * color1_[2]
     ];
 
-    console.log("c3 => [" + result.join(", ") + "]");
+    //console.log("c3 => [" + result.join(", ") + "]");
 
     // 5: convert to hex
     result = "#" + this.Int2Hex(result[0]) + this.Int2Hex(result[1]) + this.Int2Hex(result[2]);
@@ -134,8 +134,8 @@ function Node(id_, xml_, cx_, cy_){
     
     var words = dataset[xml_].message.replace(/<!\[CDATA\[(.*?)\]\]>/g, "$1").trim().split(" ").length;
     this.radius = {static: 0, dynamic0: 0, dynamic1: 0};
-    this.radius.dynamic0 = this.map(Math.min(Math.max(parseInt(words), 1), 48), 1, 48, 8, 18);
-    this.radius.dynamic1 = this.map(Math.min(Math.max(parseInt(words), 1), 48), 1, 48, 8, 18);
+    this.radius.dynamic0 = this.map(Math.min(Math.max(parseInt(words), 1), 48), 1, 48, 10, 24);
+    this.radius.dynamic1 = this.map(Math.min(Math.max(parseInt(words), 1), 48), 1, 48, 10, 24);
     this.radius.static = this.map(Math.min(Math.max(parseInt(words), 1), 48), 1, 48, 8, 18);
 
     var cat = this.findByKey(categories, "id", dataset[xml_].category, 0);
