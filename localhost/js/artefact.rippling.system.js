@@ -29,7 +29,7 @@ var ripplingSystem = {
 
     inits : function(dataset_, pause_) {
 
-        INTERVALS.A = pause_; INTERVALS.B = pause_;
+        INTERVALS.A = pause_; INTERVALS.B = pause_ * 1.1;
         this.generator = new Generator(GENERATOR_INTERVAL, GENERATOR_SPEED);
         
         this.feed(dataset_);
