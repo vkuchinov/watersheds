@@ -356,7 +356,7 @@ var tidalSystem = {
     
     staticRender: function(){
         
-        //d3.selectAll(".particle").remove();
+        ////d3.selectAll(".particle").remove();
 
         for(var i = 0; i < nodes.length; i++){
 
