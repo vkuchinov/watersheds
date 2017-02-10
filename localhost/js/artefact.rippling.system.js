@@ -16,11 +16,11 @@
 var MAX_RADIUS = 240.0;
 var MAX_NODES = 768;
 
-var GENERATOR_INTERVAL = 128;    //# of updates
-var GENERATOR_SPEED = 0.24;
-var TRANSITIONS = 20;
-var INTERVALS = { A: 5250, B: 5250 };
-var EXPONENTIAL_COEFFICIENTS = { A: 0.5, B: 5E3, ORDER: 3 };
+var GENERATOR_INTERVAL = 92;    //# of updates
+var GENERATOR_SPEED = 0.46;
+var TRANSITIONS = 32;
+var INTERVALS = { A: 5000, B: 5000 };
+var EXPONENTIAL_COEFFICIENTS = { A: 0.5, B: 1E6, ORDER: 3 };
 
 var nodes = [];
 var calculated = false;
@@ -95,7 +95,7 @@ var ripplingSystem = {
         
         for(var i = 0; i < nodes.length; i++){
         nodes[i].radius.dynamic0 = nodes[i].transition.radius.data[TRASNITIONS]; 
-        nodes[i].transition = {radius: {data: this.clear(20), intervals: this.clear(20), polynomial: null}};
+        nodes[i].transition = {radius: {data: this.clear(TRANSITIONS + 1), intervals: this.clear(TRANSITIONS + 1), polynomial: null}};
         }
         
         //this.generator.update();
@@ -212,11 +212,11 @@ var ripplingSystem = {
             
            var rr = Number(this.limit(nodes[i].transition.radius.polynomial.get(smooth), 0, nodes[i].radius));
             
-           if(rr < 4.0) { rr = 0.0; };
+           if(rr < 4.0) { rr = 0.0; } else {
             
             //group_, id_, x_, y_, radius_, color_
             D3Renderer.drawParticle(d3.select("#particles"), i, nodes[i].cx, nodes[i].cy, rr, nodes[i].color);
-            
+           }
         }
         
         //console.log(datas);

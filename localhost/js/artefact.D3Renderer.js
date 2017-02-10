@@ -42,6 +42,10 @@ http://stackoverflow.com/questions/13595175/updating-svg-element-z-index-with-d3
 var text_element = plot.select("text");
 var textWidth = text_element.node().getBBox().width
 
+ANIMATION OPTIMIZATION
+https://www.safaribooksonline.com/blog/2014/02/20/speeding-d3-js-checklist/
+http://blog.mist.io/post/87007749461/reducing-cpu-load-in-d3js-transitions
+
 */
 var XML_LIMIT = 512;
 var XML_URL = "xml/data.xml";
@@ -246,8 +250,6 @@ var D3Renderer = {
             .attr("cx", x_)
             .attr("cy", y_)
             .attr("r", radius_)
-            .attr("stroke", particleStyle.stroke)
-            .attr("stroke-width", 0.0)
             .attr("fill", color_)
             .on("mouseover", function(d) {
                 d3.select(this).attr("stroke-width", particleStyle.weight);
