@@ -75,8 +75,8 @@ var categories = [
     {"id": 15, "en": "New Canadian & Immigration Integration", "fr": "Intégration canadienne et immigration"},
     {"id": 17, "en": "Indigenous Rights", "fr": "Droits autochtones"},
     {"id": 19, "en": "Personal & Community Development", "fr": "Développement de soi et de la communauté"}
+    //{"id": 0, "en": "not selected", "fr": "non séléctionné"} 
     
 ];
-
 
 var dataset;

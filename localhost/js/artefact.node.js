@@ -20,8 +20,8 @@ function Node(id_, xml_, cx_, cy_){
     
     this.blendColors = function(perc_) {
 	
-    color0_ = this.color;
-    color1_ = this.foam;
+    color0_ = this.foam;
+    color1_ = this.color;
         
     if (color0_.length == 4)
         color0_ = color0_[1] + color0_[1] + color0_[2] + color0_[2] + color0_[3] + color0_[3];

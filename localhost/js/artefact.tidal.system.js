@@ -22,6 +22,7 @@
  * @email  helloworld@vkuchinov.co.uk
  *
  */
+
 "use strict"
 
 var SCALE_RATIO = 150;
@@ -143,18 +144,6 @@ var tidalSystem = {
         
         for(var i = 0; i < nodes.length; i++){ this.resetTransition(nodes[i].transition, TRANSITIONS + 1); }
         
-        //                world.Step(timeStep, velocityIterations, positionIterations);
-        //                machine.time += TIME_RATE;
-        //                machine.joint.SetMotorSpeed(0.05 * Math.cos(machine.time) * Math.PI);
-        //        
-        //                var body = world.bodies[0];
-        //                body.SetTransform(body.GetWorldCenter(), ang);
-        //        
-        //                if (ang > 0.35 || ang < -0.35) {
-        //                    ANG_INC *= -1;
-        //                }
-        //                ang += ANG_INC;
-        
         globalPos = worldBody.GetPosition();
         globalAngle = worldBody.GetAngle() * 180 / Math.PI;
 
@@ -236,7 +225,7 @@ var tidalSystem = {
     
     updateWithPolynomial : function(timing_, steps_){
          
-        var t0 = performance.now();
+        //var t0 = performance.now();
 
         for(var s = 0; s < steps_; s++){
             
@@ -347,8 +336,8 @@ var tidalSystem = {
        nodes[0].transition.global.intervals.reverse();
        nodes[0].transition.global.polynomial = new Polynomial(nodes[0].transition.global.intervals, nodes[0].transition.global.data, EXPONENTIAL_COEFFICIENTS.ORDER);
 
-       var t1 = performance.now();
-       console.log("Doing " + TRANSITIONS + "-steps polynomials in " + Number(t1 - t0).toFixed(2) + " ms");
+       //var t1 = performance.now();
+       //console.log("Doing " + TRANSITIONS + "-steps polynomials in " + Number(t1 - t0).toFixed(2) + " ms");
         
     },
     
@@ -402,39 +391,29 @@ var tidalSystem = {
             
         if(nodes[i].transition.cx.polynomial != null) { 
 
-            //unique interval
-            //            var interval = timer_.passed + timer_.shifted();
-            //            var smooth = Number(this.map(this.exponentialMap(this.map(interval, 0, INTERVALS.A, 1.0, 0.0)), minInterval, maxInterval, 0, INTERVALS.B));
-            
-            /////////////////////////////////////////
-            ///mixColor: proper function
-            ///https://coderwall.com/p/z8uxzw/javascript-color-blender
-            /////////////////////////////////////////
-            
-            //nodes[1].transition.cx.polynomial.formula();
-            //console.log(nodes[1].transition.cx.data);
             var cx1 = Number(nodes[i].transition.cx.polynomial.get(smooth));
             var cy1 = Number(nodes[i].transition.cy.polynomial.get(smooth));
             var color1 = this.limit(Number(nodes[i].transition.color.polynomial.get(smooth)),0.0, 1.0).toFixed(4);
             debug += color1 + ", ";
+            
             //console.log(smooth + " " + cx1 + " " + cy1 + " " + color1);
             //upgrade it to 0.0 - 1.0
             //var c = nodes[i].calculateColor(nodes[i].state);
-            var c = nodes[i].blendColors(1.0 - color1);
-            //debug += color1 + " ";
+            
+            var c = nodes[i].blendColors(color1);
             
             D3Renderer.redrawParticle(i, cx1, cy1, nodes[i].radius.static, c);
             
         }
         }
         
-        //nodes[0].transition.cx.polynomial.formula();
         //tilt back
         global.angle = global1;
         var ps = d3.select("#particles").attr("transform", "translate(" + width / 2 + ", " + (height + GROUND_OFFSET) + "),rotate(" + (-global1) + ")");
         
         //console.log(debug);
         //prerendered = false;
+        //if(mode == 1 && interval > INTERVALS.A) { prerendered = false; }
     },
     
     feed : function(system_, dataset_){
@@ -487,7 +466,7 @@ var tidalSystem = {
         
         var index = this.findLowestIDByKey(nodes, "offscreen", 0);
 
-        D3Renderer.highlight(particles, index);
+        D3Renderer.highlight(particles, index, 2500);
         this.takeover(index, dataset[next]);
         
         this.updateWithPolynomial(timing_, TRANSITIONS);
@@ -499,20 +478,72 @@ var tidalSystem = {
             next = 0;
         }
         
-        
     },
     
     pause : function(timing_){
 
         prerendered = true;
-        
-        d3.select("#HUD").attr("opacity", 1.0)
-        .transition()
-        .duration(500)
-        .attr("opacity", 0.0)
-        .each("end", function(d) { this.remove(); });
+        D3Renderer.removeHUD(2500);
 
     },
+    
+    interactive : function(timing_){
+        
+        prerendered = false;
+        
+        this.update(timing_);
+        this.staticRender();
+        
+        var index = this.findLowestIDByKey(nodes, "offscreen", 0);
+
+        D3Renderer.highlight(particles, index, 2500);
+        this.takeover(index, dataset[next]);
+        
+        this.updateWithPolynomial(timing_, TRANSITIONS);
+    
+        console.log("node: " + index.nodeID + " xml: " + index.xmlID + " " + next);
+        if (next < dataset.length) {
+            next++;
+        } else {
+            next = 0;
+        }
+        
+    },
+    
+    interactiveClicked : function(d_){
+        
+        //var t0 = performance.now();
+        
+        D3Renderer.removeMouseEventsToAll(); 
+        
+        var id_ = parseInt(d_.attr("id").replace("particle_", ""));
+        prerendered = false;
+        
+        D3Renderer.removeHUD(2500);
+        
+        this.update(INTERVALS.A);
+        this.staticRender();
+        
+        var index = {nodeID: id_, xmlID: nodes[id_].xml };
+
+        D3Renderer.highlight(particles, index, 2500);
+        this.takeover(index, dataset[next]);
+        if(next < dataset.length) { next++; } else { next = 0; }
+        
+        this.updateWithPolynomial(INTERVALS.A, TRANSITIONS);
+    
+        t.limit = INTERVALS.A;
+        t.passed = 0;
+        
+        prerendered = true;
+        
+        //var t1 = performance.now();
+        //console.log("Doing " + TRANSITIONS + "-steps polynomials in " + Number(t1 - t0).toFixed(2) + " ms");
+
+    },
+    
+    interactivePause : function(timing_){ prerendered = true; },
+    stopPrerender : function(){ prerendered = false; D3Renderer.setMouseEventsToAll(); },
     
     clear : function(size_){
       

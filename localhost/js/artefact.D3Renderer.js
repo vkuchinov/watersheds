@@ -22,18 +22,17 @@
 	<text><![CDATA[Plus de prospérité, d'harmonie sociale et d'impact sur la justice et la paix mondiales]]></text>
 </wish>
  
-    SVG STRUCTURE
+SVG STRUCTURE
 
-    svg > scene
+svg > scene
 
-          scene > particles [group]
+scene > particles [group]
 
-                  particles > nodes [circles]
+particles > nodes [circles]
 
-                > tags [group]
+> tags [group]
 
-                > hover [group]
-            
+> hover [group]         
 
 REFERENCES:
 Z-Index @ SVG
@@ -47,6 +46,7 @@ https://www.safaribooksonline.com/blog/2014/02/20/speeding-d3-js-checklist/
 http://blog.mist.io/post/87007749461/reducing-cpu-load-in-d3js-transitions
 
 */
+
 var XML_LIMIT = 512;
 var XML_URL = "xml/data.xml";
 
@@ -74,7 +74,7 @@ var hudStyle = {
 
 var particleStyle = {
     stroke: "#FFFFFF",
-    weight: 2.5,
+    weight: 3.2,
     opacity: 0.9,
     min: 8.0,
     max: 16.0
@@ -92,56 +92,7 @@ var D3Renderer = {
         var height = 400;
         var val = 0;
 
-//        d3.json(TAGS_URL, function(error, tags_) {
-//
-//            if (error) throw error;
-//
-//            var max = [0, 0, 0];
-//            var mult = function(array_, index_) {
-//                var sum = 0;
-//                for (var i = 0; i < index_; i++) {
-//                    sum += array_[i];
-//                }
-//                return sum;
-//            };
-//
-//            tags_.forEach(function(d) {
-//                max[d.column] = Math.max(max[d.column], D3Renderer.getTextWidth(d.name));
-//            });
-//
-//            tags_.forEach(function(d) {
-//
-//                var tag = scene.append("g")
-//                    .attr("id", d.name, true)
-//                    .attr("class", "tags")
-//                    .attr("transform", "translate(" + (32 + mult(max, d.column) * 1.25) + ", " + (32 + d.index * 28) + ")")
-//                    .on("mouseover", function(d) {
-//                        d3.select(this).select("rect").attr("fill", tagStyle.over);
-//                    })
-//                    .on("mouseout", function(d) {
-//
-//                        d3.select(this).select("rect").attr("fill", tagStyle.active);
-//                    })
-//
-//
-//                var background = tag.append("rect")
-//                    .attr("x", -6)
-//                    .attr("y", -12)
-//                    .attr("width", D3Renderer.getTextWidth(d.name) + 6)
-//                    .attr("height", 22)
-//                    .attr("fill", tagStyle.active)
-//
-//                var label = tag.append("text")
-//                    .attr("fill", tagStyle.label)
-//                    .style("font-size", tagStyle.size)
-//                    .style("font-family", tagStyle.typeface)
-//                    .style("text-anchor", "left")
-//                    .style("alignment-baseline", "middle")
-//                    .text(d.name);
-//
-//            });
-//
-//        });
+        D3Renderer.showTags();
 
         //PARTICLES particles
         particles = scene.append("g").attr("id", "particles");
@@ -170,7 +121,6 @@ var D3Renderer = {
             });
 
             D3Renderer.analyse(dataset);
-            //D3Renderer.feed(particles);
 
         });
 
@@ -179,6 +129,67 @@ var D3Renderer = {
 
     },
 
+    showTags : function() {
+        
+                d3.json(TAGS_URL, function(error, tags_) {
+
+            if (error) throw error;
+
+            var max = [0, 0, 0];
+            var mult = function(array_, index_) {
+                var sum = 0;
+                for (var i = 0; i < index_; i++) {
+                    sum += array_[i];
+                }
+                return sum;
+            };
+
+            tags_.forEach(function(d) {
+                max[d.column] = Math.max(max[d.column], D3Renderer.getTextWidth(d.name));
+            });
+
+            tags_.forEach(function(d) {
+
+                var tag = scene.append("g")
+                    .attr("id", d.name, true)
+                    .attr("class", "tags")
+                    .attr("transform", "translate(" + (32 + mult(max, d.column) * 1.25) + ", " + (32 + d.index * 28) + ")")
+                    .on("mouseover", function(d) {
+                        d3.select(this).select("rect").attr("fill", tagStyle.over);
+                    })
+                    .on("mouseout", function(d) {
+
+                        d3.select(this).select("rect").attr("fill", tagStyle.active);
+                    })
+
+
+                var background = tag.append("rect")
+                    .attr("x", -6)
+                    .attr("y", -12)
+                    .attr("width", D3Renderer.getTextWidth(d.name) + 6)
+                    .attr("height", 22)
+                    .attr("fill", tagStyle.active)
+
+                var label = tag.append("text")
+                    .attr("fill", tagStyle.label)
+                    .style("font-size", tagStyle.size)
+                    .style("font-family", tagStyle.typeface)
+                    .style("text-anchor", "left")
+                    .style("alignment-baseline", "middle")
+                    .text(d.name);
+
+            });
+
+        });
+        
+    },
+    
+    hideTags : function(){
+        
+        d3.selectAll(".tags").remove();
+        
+    },
+    
     render: function(scene_) { scene = d3.select("svg#scene"); },
 
     analyse: function(data_) {
@@ -244,20 +255,43 @@ var D3Renderer = {
         if(x_ == NaN) { console.log("Ooops, wrong X! of " + id_); x_ = width/2; }
         if(y_ == NaN) { console.log("Ooops, wrong Y! of " + id_); y_ = height/2; }
         
-        group_.append("circle")
+            var particle = group_.append("circle")
             .attr("id", "particle_" + id_)
             .attr("class", "particle")
             .attr("cx", x_)
             .attr("cy", y_)
             .attr("r", radius_)
             .attr("fill", color_)
-            .on("mouseover", function(d) {
-                d3.select(this).attr("stroke-width", particleStyle.weight);
+            .attr("stroke", particleStyle.stroke)
+            .attr("stroke-width", 0.0);
+            
+        if(gup("mode") == "interactive") {
+            particle.on("mouseover", function(d) {
+            d3.select(this).attr("stroke-width", particleStyle.weight);
             })
             .on("mouseout", function(d) {
-                d3.select(this).attr("stroke-width", 0.0);
-            });
+            d3.select(this).attr("stroke-width", 0.0);
+            })
+            .on("click", function(d) { console.log("clicked!"); system.interactiveClicked(d3.select(this)); });
 
+        }
+        
+    },
+    
+    drawTestParticle: function(group_, x_, y_, radius_) {
+
+        if(x_ == NaN) { console.log("Ooops, wrong X! of " + id_); x_ = width/2; }
+        if(y_ == NaN) { console.log("Ooops, wrong Y! of " + id_); y_ = height/2; }
+        
+        group_.append("circle")
+            .attr("id", "test")
+            .attr("class", "test")
+            .attr("cx", x_)
+            .attr("cy", y_)
+            .attr("r", radius_)
+            .attr("fill", "#FF00FF")
+            .attr("opacity", 0.5);
+        
     },
     
     redrawParticle: function(id_, x_, y_, radius_, color_) {
@@ -269,23 +303,22 @@ var D3Renderer = {
                        .attr("cx", x_)
                        .attr("cy", y_)
                        .attr("r", radius_)
-                       .attr("fill", color_);
+                       .attr("fill", color_)
+                       .attr("stroke", "#FFFFFF")
+                       .attr("stroke-width", 0.0);
         
-        //        group_.append("circle")
-        //            .attr("id", "particle_" + id_)
-        //            .attr("class", "particle")
-        //            .attr("cx", x_)
-        //            .attr("cy", y_)
-        //            .attr("r", radius_)
-        //            .attr("stroke", particleStyle.stroke)
-        //            .attr("stroke-width", 0.0)
-        //            .attr("fill", color_)
-        //            .on("mouseover", function(d) {
-        //                d3.select(this).attr("stroke-width", particleStyle.weight);
-        //            })
-        //            .on("mouseout", function(d) {
-        //                d3.select(this).attr("stroke-width", 0.0);
-        //            });
+        if(gup("mode") == "interactive") {
+            
+            particle.on("mouseover", function(d) {
+            d3.select(this).attr("stroke-width", particleStyle.weight);
+            //d3.select(this).moveToFront();
+            })
+            .on("mouseout", function(d) {
+            d3.select(this).attr("stroke-width", 0.0);
+            })
+            .on("click", function(d) { console.log("clicked!"); system.interactiveClicked(d3.select(this)); });
+            
+        }
 
     },
     
@@ -297,22 +330,6 @@ var D3Renderer = {
         var particle = d3.select("#particle_" + id_)
                        .attr("r", radius_);
         
-        //        group_.append("circle")
-        //            .attr("id", "particle_" + id_)
-        //            .attr("class", "particle")
-        //            .attr("cx", x_)
-        //            .attr("cy", y_)
-        //            .attr("r", radius_)
-        //            .attr("stroke", particleStyle.stroke)
-        //            .attr("stroke-width", 0.0)
-        //            .attr("fill", color_)
-        //            .on("mouseover", function(d) {
-        //                d3.select(this).attr("stroke-width", particleStyle.weight);
-        //            })
-        //            .on("mouseout", function(d) {
-        //                d3.select(this).attr("stroke-width", 0.0);
-        //            });
-
     },
     
     drawParticleWithTransition: function(group_, id_, x_, y_, radius0_, radius1_, color_, timing_) {
@@ -333,7 +350,32 @@ var D3Renderer = {
 
     },
 
-    HUD: function(scene_, object_, message_, language_, x_, y_, visible_) {
+    setMouseEvents : function(id_){
+        
+        var p = d3.select("#particle" + id_)
+        p.on("mouseover", function(d) {
+        d3.select(this).attr("stroke-width", particleStyle.weight);
+        })
+        .on("mouseout", function(d) {
+        d3.select(this).attr("stroke-width", 0.0);
+        })
+        .on("click", function(d) { console.log("clicked!"); system.interactiveClicked(d3.select(this)); });
+
+    },
+    
+    removeMouseEvents : function(id_){
+        
+        var p = d3.select("#particle" + id_);
+        p.on("mouseover", null)
+        .on("mouseout", null)
+        .on("click", null);
+        
+    },
+    
+    setMouseEventsToAll : function(){ for(var i = 0; i < nodes.length; i++){ this.setMouseEvents(i); } },
+    removeMouseEventsToAll : function(){ for(var i = 0; i < nodes.length; i++){ this.setMouseEvents(i); } },
+    
+    HUD: function(scene_, object_, message_, language_, x_, y_, interval_, visible_) {
 
         var bbox = object_.node().getBBox();
         middleX = bbox.x + (bbox.width / 2),
@@ -430,7 +472,7 @@ var D3Renderer = {
 
         HUD.attr("opacity", 0.0)
             .transition()
-            .duration(1500)
+            .duration(interval_)
             .attr("opacity", 1.0);
 
         HUD.attr("transform", "translate(" + (x_ - params.x * HUD_SCALE) + "," + (y_ - params.y * HUD_SCALE) + "),scale(" + HUD_SCALE + ")");
@@ -443,13 +485,12 @@ var D3Renderer = {
 
     },
 
-    highlight: function(particles_, id_) {
+    highlight: function(particles_, id_, interval_) {
 
         var obj = particles_.select("#particle_" + id_.nodeID);
 
         //obj.attr("stroke-width", particleStyle.weight);
-
-        d3.selectAll("g.HUD").remove();
+        //d3.selectAll("#HUD").remove();
 
         var values = particles_.attr("transform").replace("translate(", "").replace(")", "").trim().split(",");
 
@@ -461,11 +502,20 @@ var D3Renderer = {
             message = "there is no comments";
         }
 
-        this.HUD(scene, obj, message, dataset[id_.xmlID].language, translateX, translateY, true);
+        this.HUD(scene, obj, message, dataset[id_.xmlID].language, translateX, translateY, interval_, true);
         
-
     },
 
+    removeHUD : function(interval_){
+        
+        d3.selectAll("#HUD").attr("opacity", 1.0)
+        .transition()
+        .duration(interval_)
+        .attr("opacity", 0.0)
+        .each("end", function(d) { this.remove(); });
+        
+    },
+    
     bulletTime: function(object_, parameters0_, parameters1_, duration_, type_, loop_) {
 
         if (Object.keys(parameters0_).length == Object.keys(parameters1_).length &&
@@ -616,7 +666,6 @@ d3.layout.tagmenu = function(dimensions_) {
 
     this.width = dimensions_[0];
     this.height = dimensions_[1];
-
 
 };
 

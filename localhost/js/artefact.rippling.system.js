@@ -16,7 +16,7 @@
 var MAX_RADIUS = 240.0;
 var MAX_NODES = 768;
 
-var GENERATOR_INTERVAL = 92;    //# of updates
+var GENERATOR_INTERVAL = 92;  //# of updates
 var GENERATOR_SPEED = 0.46;
 var TRANSITIONS = 32;
 var INTERVALS = { A: 5000, B: 5000 };
@@ -186,7 +186,6 @@ var ripplingSystem = {
 
         }
         
-        
     for(var k = 0; k < nodes.length; k++){
 
         //if(k < 3) { console.log(nodes[k].transition.radius.intervals); }
@@ -194,15 +193,16 @@ var ripplingSystem = {
         nodes[k].transition.radius.intervals.reverse();
         nodes[k].transition.radius.polynomial = new Polynomial(nodes[k].transition.radius.intervals, nodes[k].transition.radius.data, EXPONENTIAL_COEFFICIENTS.ORDER);
 
-        //if(k < 3) { console.log(nodes[k].transition.radius.intervals); }
     }
      
     },
     
     render: function(timer_){
         
+       if(timer_.passed < INTERVALS.A){
+                    
         d3.selectAll(".particle").remove();
-        
+            
         var interval = timer_.passed;
         var minInterval = this.exponentialMap(0.0);
         var maxInterval = this.exponentialMap(1.0);
@@ -215,10 +215,16 @@ var ripplingSystem = {
            var rr = Number(this.limit(nodes[i].transition.radius.polynomial.get(smooth), 0, nodes[i].radius));
             
            if(rr < 4.0) { rr = 0.0; } else {
-            
-            //group_, id_, x_, y_, radius_, color_
+
             D3Renderer.drawParticle(d3.select("#particles"), i, nodes[i].cx, nodes[i].cy, rr, nodes[i].color);
+               
            }
+        }
+        
+        } else {
+         
+        prerendered = false;    
+            
         }
         
         //console.log(datas);
@@ -248,15 +254,13 @@ var ripplingSystem = {
             var r = this.map(Math.min(Math.max(parseInt(words), 1), 48), 1, 48, 2, 20);
 
             var c = colors[this.findByKey(categories, "id", dataset_[i].category, 0)];
-            
-            //id_, xml_, cx_, cy_            
+        
             nodes.push(new Node(i, i, x, y));
 
         }
         
             next = nodes.length;
-        
-        
+
     },
     
     takeover: function(index_, data_){
@@ -267,7 +271,6 @@ var ripplingSystem = {
         var xy = ripplingSystem.uniform();
         var x = xy.x * MAX_RADIUS;
         var y = xy.y * MAX_RADIUS;
-
 
         var words = data_.message.replace(/<!\[CDATA\[(.*?)\]\]>/g, "$1").trim().split(" ").length;
         var r = this.map(Math.min(Math.max(parseInt(words), 1), 48), 1, 48, 6, 20);
@@ -294,22 +297,46 @@ var ripplingSystem = {
     },
     
     display : function(timing_){
-        
+            
         prerendered = false;
-        //calculate n + 2 transitions
-        //rather by creating two polynimoal (linear 1 and complex 3 or 4)
-        //or by taking first data for first phase
-        
-        d3.selectAll(".particle").remove();
-        
-        //linear polynomial...
-        //all 1 + 16 steps here
         
         if(calculated == false) { calculated == true; this.firstUpdate(); } else { this.update(); }
         
         var index = this.findLowestIDByKey(nodes, "state", 1);
         
-        D3Renderer.highlight(particles, index);
+        D3Renderer.highlight(particles, index, 1500);
+        this.takeover(index, dataset[next]);                          
+        
+        console.log("node: " + index.nodeID + " xml: " + index.xmlID + " " + next);
+        if(next < dataset.length) { next++; } else { next = 0; }
+            
+        d3.select("#particle_" + index.nodeID).remove();
+        
+        this.updateWithPolynomial(timing_, TRANSITIONS);
+        
+        //d3.selectAll(".particle").remove();
+    },
+    
+    pause : function(timing_){
+
+        prerendered = true;
+        //this.updateWithPolynomial(timing_, 16);
+        //d3.selectAll("#test").remove();
+        
+        D3Renderer.removeHUD(750);
+
+    },
+    
+    interactive : function(timing_){
+        
+        prerendered = false;
+        
+        if(calculated == false) { calculated == true; this.firstUpdate(); } else { this.update(); }
+        //this.staticRender();
+        
+        var index = this.findLowestIDByKey(nodes, "state", 1);
+        
+        D3Renderer.highlight(particles, index, 1500);
         this.takeover(index, dataset[next]);                          
         
         console.log("node: " + index.nodeID + " xml: " + index.xmlID + " " + next);
@@ -321,18 +348,41 @@ var ripplingSystem = {
         
     },
     
-    pause : function(timing_){
-
-        prerendered = true;
-        //this.updateWithPolynomial(timing_, 16);
-        //d3.selectAll("#test").remove();
+    interactiveClicked : function(d_){
         
-        d3.select("#HUD").attr("opacity", 1.0)
-        .transition()
-        .duration(500)
-        .attr("opacity", 0.0)
-        .each("end", function(d) { this.remove(); });
-
+        var id_ = parseInt(d_.attr("id").replace("particle_", ""));
+        prerendered = false;
+        
+        D3Renderer.removeHUD(750);
+        
+        var index = {nodeID: id_, xmlID: nodes[id_].xml };
+        
+        D3Renderer.highlight(particles, index, 1500);
+        this.takeover(index, dataset[next]);                          
+        
+        console.log("node: " + index.nodeID + " xml: " + index.xmlID + " " + next);
+        if(next < dataset.length) { next++; } else { next = 0; }
+            
+        d3.select("#particle_" + index.nodeID).remove();
+        
+        this.updateWithPolynomial(INTERVALS.A, TRANSITIONS);
+        
+        d3.selectAll(".particle").remove();
+        
+        for(var i = 0; i < nodes.length; i++){
+        D3Renderer.drawParticle(d3.select("#particles"), i, nodes[i].cx, nodes[i].cy, nodes[i].transition.radius.data[TRANSITIONS], nodes[i].color); 
+        D3Renderer.removeMouseEvents(i); 
+        }
+        
+        t.limit = INTERVALS.A;
+        t.passed = 0;
+        
+        prerendered = true;
+        
+    },
+    
+    stopPrerender : function(){ prerendered = false; 
+    D3Renderer.setMouseEventsToAll();                     
     },
     
     clear : function(size_){
@@ -386,11 +436,11 @@ var ripplingSystem = {
                 return i;
             }
         }
+        
         return default_;
     },
 
     findLowestIDByKey: function(array_, key_, value_) {
-        
 
         var available = [];
         var keys = [];
@@ -454,7 +504,6 @@ function Generator(theta_, speed_) {
             this.children[i].r -= this.children[i].speed;
 
         }
-        
 
     }
     

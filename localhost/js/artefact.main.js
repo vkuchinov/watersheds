@@ -23,9 +23,10 @@ var Interface = function() {
     this.wpm = 150;
     this.average = 24;
     this.interval = 8; //Math.floor(60.0 / this.wpm * this.average);
-    this.pause = 2; //by default 6 Math.floor(60.0 / this.wpm * this.average);
-    this.start = false;
-    this.fps = "";
+    this.pause = 6; 
+    this.fullScreen = false;
+    this.tags = true;
+
     //this.dynamic = false;
 
     this.generator = 56;
@@ -35,11 +36,138 @@ var Interface = function() {
     this.angle = 0.6;
     this.increment = 0.0038;
     this.scale = 150;
+    
+    this.fps = "";
 
 };
 
-window.onload = function() {
+window.onload = function() { showGUI(); };
 
+function gup(name) {
+
+    url = location.href;
+    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+    var regexS = "[\\?&]" + name + "=([^&#]*)";
+    var regex = new RegExp(regexS);
+    var results = regex.exec(url);
+    return results == null ? null : results[1];
+}
+
+inits();
+
+function inits() {
+
+    D3Renderer.init();
+
+    //rippling/tidal
+    //by default [not defined] is tidal
+    system = (gup("type") == "rippling") ? ripplingSystem : tidalSystem;
+
+    //autonomous/interactive
+    //by default [not defined] is autonomous
+    mode = (gup("mode") == "interactive") ? 1 : 0; ////back 1
+
+    t = new Timer();
+
+    waitForDataset();
+
+    window.onresize = D3Renderer.resize;
+
+}
+
+function render() {
+
+    t.update();
+    if(prerendered == true) { system.render(t); }
+
+    D3Renderer.render(scene);
+    window.requestAnimationFrame(render);
+
+    controls.fps = t.getFPS();
+
+    currentFrame++;
+}
+    
+function waitForDataset() {
+
+    if (typeof dataset !== "undefined") {
+
+        system.inits(dataset, parseInt(g0.__controllers[3].initialValue * 1000));
+        if(mode == 1) { system.interactive(parseInt(g0.__controllers[3].initialValue * 1000)); }
+        render();
+
+    } else {
+        setTimeout(waitForDataset, 50);
+    }
+
+}
+
+function Timer() {
+
+    this.current = performance.now();
+    this.last = 0;
+    this.passed = 0;
+    this.shift = 0;
+    this.limit = 1000;
+    this.state = -1; //-1: displaying, 1: pause
+
+    this.update = function() {
+
+        this.last = this.current;
+        this.current = performance.now();
+
+        if (this.passed > this.limit && mode == 0) {
+
+            this.limit = (this.state == -1) ? parseInt(g0.__controllers[2].initialValue * 1000) : parseInt(g0.__controllers[3].initialValue * 1000);
+            this.passed = 0;
+            this.state *= -1;
+
+                (this.state == -1) ? system.pause(parseInt(g0.__controllers[3].initialValue * 1000)): system.display(parseInt(g0.__controllers[3].initialValue * 1000));
+                
+
+        } else if(mode == 0) {
+
+            this.passed += this.getInterval();
+            this.shift = performance.now();
+        }
+        
+        if(this.passed > this.limit && mode == 1) {
+            
+            this.passed = 0;
+            system.stopPrerender();
+            
+        } else if(mode == 1) {
+            
+            this.passed += this.getInterval();
+            this.shift = performance.now();
+        }
+
+    }
+
+    this.shifted = function(){
+        
+        return performance.now() - this.shift;
+        
+    }
+    
+    this.getFPS = function(){
+        
+        var smooth = 0.9;
+        return (1.0 / (performance.now() - this.last) * 1000).toFixed(2);
+        
+    };
+    
+    this.setLimit = function(value_) {
+        this.limit = value_;
+    };
+    this.getInterval = function() {
+        return performance.now() - this.last;
+    }
+
+}
+
+function showGUI(){
+    
     controls = new Interface();
     gui = new dat.GUI();
     g0 = gui.addFolder("GENERAL PARAMETERS");
@@ -47,11 +175,11 @@ window.onload = function() {
     g0.add(controls, "average", 16, 32);
     g0.add(controls, "interval");
     g0.add(controls, "pause");
-    //g0.add(controls, "dynamic");
-    g0.add(controls, "start").onChange(function(value) {
+    g0.add(controls, "fullScreen").onChange(function(value) {
         this.initialValue = value;
         toggleFullScreen(value);
     });
+    g0.add(controls, "tags").onChange(function(value) { (value == true) ? D3Renderer.showTags() : D3Renderer.hideTags() });
 
     s0 = gui.addFolder("RIPPLING SYSTEM");
     s0.add(controls, "generator", 2.0, 999.0).onChange(function(value) {
@@ -84,134 +212,7 @@ window.onload = function() {
         s0.domElement.style.pointerEvents = "none";
         s0.domElement.style.opacity = .5;
     }
-
-};
-
-function gup(name) {
-
-    url = location.href;
-    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-    var regexS = "[\\?&]" + name + "=([^&#]*)";
-    var regex = new RegExp(regexS);
-    var results = regex.exec(url);
-    return results == null ? null : results[1];
-}
-
-inits();
-
-function inits() {
-
-    //var a1 = new Polynomial([0, 1, 2], [3.3, 7.7, 2.2], 3);
-    //console.log(a1.get(2.5));
-    //var a2 = new Polynomial([0, 1, 2], [0.3, 0.5, 1.2], 3);
-    //console.log(a2.get(2.5));
     
-    D3Renderer.init();
-
-    //rippling/tidal
-    //by default [not defined] is tidal
-    system = (gup("type") == "rippling") ? ripplingSystem : tidalSystem;
-
-    //autonomous/interactive
-    //by default [not defined] is autonomous
-    mode = (gup("mode") == "interactive") ? 1 : 0;
-
-    t = new Timer();
-
-    waitForDataset();
-
-    window.onresize = D3Renderer.resize;
-
-}
-
-function render() {
-
-    t.update();
-    if(prerendered == true) { system.render(t); }
-    
-    //not active for a while
-
-    //    if(g0.__controllers[4].initialValue) {
-    //        t.setLimit(parseInt(g0.__controllers[2].initialValue * 1000)); 
-    //        if(currentFrame % 60 == 0) { system.update(t); } 
-    //    }
-    //    else { t.setLimit(50); system.update(t); }
-
-    D3Renderer.render(scene);
-    window.requestAnimationFrame(render);
-
-    controls.fps = t.getFPS();
-    //g0.__controllers[5].updateDisplay();
-    
-    currentFrame++;
-}
-    
-function waitForDataset() {
-
-    if (typeof dataset !== "undefined") {
-
-        system.inits(dataset, parseInt(g0.__controllers[3].initialValue * 1000));
-        render();
-
-    } else {
-        setTimeout(waitForDataset, 50);
-    }
-
-}
-
-function Timer() {
-
-    this.current = performance.now();
-    this.last = 0;
-    this.passed = 0;
-    this.shift = 0;
-    this.limit = 1000;
-    this.state = -1; //-1: displaying, 1: pause
-
-    this.update = function() {
-
-        this.last = this.current;
-        this.current = performance.now();
-
-        if (this.passed > this.limit) {
-
-            this.limit = (this.state == -1) ? parseInt(g0.__controllers[2].initialValue * 1000) : parseInt(g0.__controllers[3].initialValue * 1000);
-            this.passed = 0;
-            this.state *= -1;
-
-            if (mode == 0) {
-                (this.state == -1) ? system.pause(parseInt(g0.__controllers[3].initialValue * 1000)): system.display(parseInt(g0.__controllers[3].initialValue * 1000));
-                
-            }
-
-        } else {
-
-            this.passed += this.getInterval();
-            this.shift = performance.now();
-        }
-
-    }
-
-    this.shifted = function(){
-        
-        return performance.now() - this.shift;
-        
-    }
-    
-    this.getFPS = function(){
-        
-        var smooth = 0.9;
-        return (1.0 / (performance.now() - this.last) * 1000).toFixed(2);
-        
-    };
-    
-    this.setLimit = function(value_) {
-        this.limit = value_;
-    };
-    this.getInterval = function() {
-        return performance.now() - this.last;
-    }
-
 }
 
 function toggleFullScreen(bool_) {
@@ -276,4 +277,5 @@ function getScreenXY(scene_, object_, x_ ,y_) {
     x: (matrix.a * x_) + (matrix.c * y_) + matrix.e - offset.left,
     y: (matrix.b * x_) + (matrix.d * y_) + matrix.f - offset.top
   };
+    
 }
