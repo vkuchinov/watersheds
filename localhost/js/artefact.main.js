@@ -71,8 +71,6 @@ function inits() {
 
     waitForDataset();
 
-    window.onresize = D3Renderer.resize;
-
 }
 
 function render() {
@@ -88,20 +86,6 @@ function render() {
     currentFrame++;
 }
     
-function waitForDataset() {
-
-    if (typeof dataset !== "undefined") {
-
-        system.inits(dataset, parseInt(g0.__controllers[3].initialValue * 1000));
-        if(mode == 1) { system.interactive(parseInt(g0.__controllers[3].initialValue * 1000)); }
-        render();
-
-    } else {
-        setTimeout(waitForDataset, 50);
-    }
-
-}
-
 function Timer() {
 
     this.current = performance.now();
@@ -165,6 +149,24 @@ function Timer() {
     }
 
 }
+
+function waitForDataset() {
+
+    console.log("waiting for data...");
+    
+    if (typeof dataset !== "undefined") {
+
+    system.inits(dataset, parseInt(g0.__controllers[3].initialValue * 1000));
+    if(mode == 1) { system.interactive(parseInt(g0.__controllers[3].initialValue * 1000)); }
+    window.onresize = D3Renderer.resize;
+    render();
+
+    } else {
+        setTimeout(waitForDataset, 50);
+    }
+
+}
+
 
 function showGUI(){
     

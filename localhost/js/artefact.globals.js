@@ -57,8 +57,19 @@ var bleaching = {
     black : "#362F4A", 
 };
 
-var colors = Object.values(palette).slice(0, Object.values(palette).length);
-var foams = Object.values(bleaching).slice(0, Object.values(bleaching).length);
+var colors = [];
+var foams = [];
+
+for(var key in palette) {
+   colors.push(palette[key]);
+}
+
+for(var key in bleaching) {
+   foams.push(palette[key]);
+}
+//var colors = 
+//var colors = Object.values(palette).slice(0, Object.values(palette).length);
+//var foams = Object.values(bleaching).slice(0, Object.values(bleaching).length);
 
 var categories = [
     

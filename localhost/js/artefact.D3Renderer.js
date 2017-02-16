@@ -710,36 +710,6 @@ var D3Renderer = {
         .each("end", function(d) { this.remove(); });
         
     },
-    
-    bulletTime: function(object_, parameters0_, parameters1_, duration_, type_, loop_) {
-
-        if (Object.keys(parameters0_).length == Object.keys(parameters1_).length &&
-            Object.keys(parameters0_).every(function(v, i) {
-                return v === Object.keys(parameters1_)[i]
-            })) {
-
-            object_.attr(parameters0_)
-                .transition()
-                .ease(type_)
-                .duration(duration_)
-                .attr(parameters1_)
-                .each("end", function(d) {
-                    if (loop_) {
-                        D3Renderer.BulletTime(object_, parameters0_, parameters1_, duration_, type_, loop_);
-                    } else {
-                        this.remove();
-                    }
-                });
-
-        } else {
-            console.log("Oooops, something wrong!");
-        }
-
-    },
-
-    removeBulletTime(object_, parameters_) {
-        object_.transition();
-    },
 
     getTextWidth: function(text_) {
 

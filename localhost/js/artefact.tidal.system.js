@@ -83,7 +83,7 @@ var kdtree;
 var tidalSystem = {
 
     inits : function(dataset_, pause_) {
-        
+
         INTERVALS.A = pause_; INTERVALS.B = pause_ * 1.1;
         
         zero = window.innerHeight;
@@ -143,7 +143,7 @@ var tidalSystem = {
     },
     
     update : function(){
-        
+
         for(var i = 0; i < nodes.length; i++){ this.resetTransition(nodes[i].transition, TRANSITIONS + 1); }
         
         globalPos = worldBody.GetPosition();
@@ -362,9 +362,7 @@ var tidalSystem = {
             if(absoluteXY.x > SCRREN_MARGINS && absoluteXY.x < (window.innerWidth - SCRREN_MARGINS) && absoluteXY.y < (window.innerHeight - SCRREN_MARGINS * 0.7)) { nodes[i].offscreen = 0; } else { nodes[i].offscreen = 1; }
                       
         }
-        
-        
-        
+
         //tilt back
         global.angle = nodes[0].global.angle;
         var ps = d3.select("#particles").attr("transform", "translate(" + width / 2 + ", " + (height + GROUND_OFFSET) + "),rotate(" + (-nodes[0].global.angle) + ")");
@@ -422,6 +420,8 @@ var tidalSystem = {
     
     feed : function(system_, dataset_){
         
+        console.log("feed");
+        
         for (var i = 0; i < system_.GetParticleCount() / 2; i++) {
 
             //there are messages up to 240 words, that"s why
@@ -439,9 +439,10 @@ var tidalSystem = {
             
         }
 
-        console.log("# of particels in this setup: " + nodes.length);
         next = nodes.length;
-  
+        
+        console.log("# of particels in this setup: " + nodes.length);
+        
     },
     
     takeover: function(index_, data_){
@@ -462,7 +463,7 @@ var tidalSystem = {
     },
     
     display : function(timing_){
-    
+        
         prerendered = false;
 
         this.update(timing_);
@@ -471,11 +472,6 @@ var tidalSystem = {
         var index = this.findLowestIDByKey(nodes, "offscreen", 0);
 
         D3Renderer.highlight(particles, index, 500);
-        
-        ////////////////////////////////////////////////
-        //TODO TODO TODO TODO TODO
-        //while next doesn't belong to selected do {...}
-        ////////////////////////////////////////////////
         
         next =this.checkNext(next);
         this.takeover(index, dataset[next]);
