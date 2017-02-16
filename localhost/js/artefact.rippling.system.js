@@ -184,6 +184,8 @@ var ripplingSystem = {
             
             var rad1 = this.limit(Number(nodes[i].transition.radius.polynomial.get(smooth)), 0, 16);
             
+            if(rad1 < 4.0) { rad1 = 0; }
+            
             D3Renderer.redrawParticle(i, nodes[i].cx, nodes[i].cy, rad1, nodes[i].color);
             
         }
