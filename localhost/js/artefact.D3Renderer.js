@@ -52,8 +52,9 @@ var XML_URL = "xml/data.xml";
 
 var TAGS_URL = "json/tags.json"
 var tagStyle = {
-    active: "#1D1D1D",
-    inactive: "#CECECE",
+    language: "fr", 
+    inactive: "#1D1D1D",
+    active: "#CECECE",
     over: "#494949",
     label: "#929497",
     typeface: "Montserrat",
@@ -91,8 +92,9 @@ var D3Renderer = {
         var width = 600;
         var height = 400;
         var val = 0;
-
+        
         D3Renderer.showTags();
+        //D3Renderer.showLangSelector();
 
         //PARTICLES particles
         particles = scene.append("g").attr("id", "particles");
@@ -129,9 +131,104 @@ var D3Renderer = {
 
     },
 
+    showLangSelector : function() {
+
+                var selector = scene.append("g")
+                    .attr("id", "selector", true)
+                    .attr("class", "languages")
+                    .attr("transform", "translate(32, 32)")
+                    .on("mouseover", function(d) {
+                        d3.select(this).select("rect").attr("fill", tagStyle.over);
+                    })
+                    .on("mouseout", function(d) {
+
+                        d3.select(this).select("rect").attr("fill", tagStyle.active);
+                    })
+
+                var background = selector.append("rect")
+                    .attr("x", 0)
+                    .attr("y", 0)
+                    .attr("width", 64)
+                    .attr("height", 22)
+                    .attr("fill", tagStyle.active)
+
+                var label = selector.append("text")
+                    .attr("fill", tagStyle.label)
+                    .style("font-size", tagStyle.size)
+                    .style("font-family", tagStyle.typeface)
+                    .style("text-anchor", "left")
+                    .style("alignment-baseline", "middle")
+                    .text("fr");
+
+    },
+    
     showTags : function() {
         
-                d3.json(TAGS_URL, function(error, tags_) {
+            var placeholder = scene.append("g");
+        
+            var fr = scene.append("g")
+            .attr("id", "French", true)
+            .attr("class", "tags")
+            .attr("transform", "translate(32, 32)")
+            .on("mouseover", function(d) {
+            d3.select(this).select("rect").attr("fill", tagStyle.over);
+            })
+            .on("mouseout", function(d) {
+            if(tagStyle.language == "fr") {
+            d3.select(this).select("rect").attr("fill", tagStyle.active); } else {
+            d3.select(this).select("rect").attr("fill", tagStyle.inactive); }
+                                                         
+            })
+            .on("click", function(d) { tagStyle.language = "fr"; D3Renderer.hideTags(); D3Renderer.showTags();});
+        
+            var fr_background = fr.append("rect")
+            .attr("x", -6)
+            .attr("y", -12)
+            .attr("width", 32)
+            .attr("height", 22)
+            .attr("fill", function(d) { if(tagStyle.language == "fr") { return tagStyle.active; } else { return tagStyle.inactive; }});
+
+            var fr_label = fr.append("text")
+            .attr("fill", tagStyle.label)
+            .attr("x", 18)
+            .style("font-size", tagStyle.size)
+            .style("font-family", tagStyle.typeface)
+            .style("text-anchor", "end")
+            .style("alignment-baseline", "middle")
+            .text("fr");
+        
+            var en = scene.append("g")
+            .attr("id", "French", true)
+            .attr("class", "tags")
+            .attr("transform", "translate(32, 60)")
+            .on("mouseover", function(d) {
+            d3.select(this).select("rect").attr("fill", tagStyle.over);
+            })
+            .on("mouseout", function(d) {
+            if(tagStyle.language == "en") {
+            d3.select(this).select("rect").attr("fill", tagStyle.active); } else {
+            d3.select(this).select("rect").attr("fill", tagStyle.inactive); }
+                                  
+            })
+            .on("click", function(d) { tagStyle.language = "en"; D3Renderer.hideTags(); D3Renderer.showTags();});
+        
+            var en_background = en.append("rect")
+            .attr("x", -6)
+            .attr("y", -12)
+            .attr("width", 32)
+            .attr("height", 22)
+            .attr("fill", function(d) { if(tagStyle.language == "en") { return tagStyle.active; } else { return tagStyle.inactive; }});
+
+            var en_label = en.append("text")
+            .attr("fill", tagStyle.label)
+            .attr("x", 18)
+            .style("font-size", tagStyle.size)
+            .style("font-family", tagStyle.typeface)
+            .style("text-anchor", "end")
+            .style("alignment-baseline", "middle")
+            .text("en");
+
+            d3.json(TAGS_URL, function(error, tags_) {
 
             if (error) throw error;
 
@@ -145,48 +242,107 @@ var D3Renderer = {
             };
 
             tags_.forEach(function(d) {
-                max[d.column] = Math.max(max[d.column], D3Renderer.getTextWidth(d.name));
+                max[d.column] = Math.max(max[d.column], D3Renderer.getTextWidth(d.name[tagStyle.language]));
             });
 
             tags_.forEach(function(d) {
 
                 var tag = scene.append("g")
-                    .attr("id", d.name, true)
+                    .attr("id", d.name[tagStyle.language], true)
                     .attr("class", "tags")
-                    .attr("transform", "translate(" + (32 + mult(max, d.column) * 1.25) + ", " + (32 + d.index * 28) + ")")
+                    .attr("transform", "translate(" + (92 + mult(max, d.column) * 0.8) + ", " + (32 + d.index * 28) + ")")
                     .on("mouseover", function(d) {
                         d3.select(this).select("rect").attr("fill", tagStyle.over);
                     })
                     .on("mouseout", function(d) {
-
-                        d3.select(this).select("rect").attr("fill", tagStyle.active);
+                        d3.select(this).select("rect").attr("fill", D3Renderer.setTag(d3.select(this).select("rect").attr("id"))); 
                     })
-
+                    .on("click", function(d) { D3Renderer.updateSelection(d3.select(this).select("rect").attr("id")); });
 
                 var background = tag.append("rect")
+                    .attr("id", d.id)
                     .attr("x", -6)
                     .attr("y", -12)
-                    .attr("width", D3Renderer.getTextWidth(d.name) + 6)
+                    .attr("width", D3Renderer.getTextWidth(d.name[tagStyle.language]) * 0.75 + 6)
                     .attr("height", 22)
-                    .attr("fill", tagStyle.active)
-
+                    .attr("fill", D3Renderer.selectedTag(categories[d.id].id))
+                
                 var label = tag.append("text")
                     .attr("fill", tagStyle.label)
                     .style("font-size", tagStyle.size)
+                    .append("svg:tspan").style("fill", colors[d.id])
+                    .style("font-family", tagStyle.typeface * 1.5)
+                    .style("text-anchor", "left")
+                    .style("alignment-baseline", "middle")
+                    .text("• ")
+                    .append("svg:tspan").style("fill", tagStyle.label)
                     .style("font-family", tagStyle.typeface)
                     .style("text-anchor", "left")
                     .style("alignment-baseline", "middle")
-                    .text(d.name);
+                    .text(d.name[tagStyle.language]);
 
             });
 
         });
         
+        d3.select("#HUD").moveToFront();
+        
     },
-    
+   
     hideTags : function(){
         
         d3.selectAll(".tags").remove();
+        
+    },
+    
+    setTag : function(d_){
+        
+        if( categories[d_] != undefined){
+            
+            var cat = parseInt(categories[d_].id);
+            if(selected.contains(cat)) { return tagStyle.active;}
+            else { return tagStyle.inactive; } 
+            
+        }
+        
+    },
+    
+    selectedTag : function(id_){
+        
+        if(selected.contains(parseInt(id_))) {
+        return tagStyle.active; } 
+        else { return tagStyle.inactive; }
+        
+    },
+    
+    updateSelection : function(category_){
+        
+        var sel = parseInt(categories[category_].id);
+        console.log(sel);
+        
+        if(selected.contains(sel)) { selected = deleteElement(selected, selected.indexOf(sel)); }
+        else { selected.push(parseInt(categories[category_].id)); }
+        
+        for(var i = 0; i < nodes.length; i++){
+            
+            var cat0 = dataset[nodes[i].xml].category;
+            if(selected.contains(parseInt(cat0))){
+                
+                var cat = nodes[i].findByKey(categories, "id", cat, 0);
+                nodes[i].color = colors[cat];
+                nodes[i].foam = foams[cat];
+                
+            } else {
+                
+                nodes[i].color = colors[10];
+                nodes[i].foam = foams[10];
+                
+            }
+            
+        }
+        
+        
+        D3Renderer.hideTags(); D3Renderer.showTags();
         
     },
     
@@ -276,6 +432,8 @@ var D3Renderer = {
 
         }
         
+        this.filterAll();
+        
     },
     
     drawTestParticle: function(group_, x_, y_, radius_) {
@@ -303,12 +461,12 @@ var D3Renderer = {
                        .attr("cx", x_)
                        .attr("cy", y_)
                        .attr("r", radius_)
-                       .attr("fill", color_)
-                       .attr("stroke", "#FFFFFF")
-                       .attr("stroke-width", 0.0);
+                       .attr("fill", color_);
         
-        if(gup("mode") == "interactive") {
+        if(gup("mode") == "interactive" ) {
             
+            if(particle.attr("fill") != colors[10] && particle.attr("fill") != foams[10]){
+                
             particle.on("mouseover", function(d) {
             d3.select(this).attr("stroke-width", particleStyle.weight);
             //d3.select(this).moveToFront();
@@ -318,6 +476,14 @@ var D3Renderer = {
             })
             .on("click", function(d) { console.log("clicked!"); system.interactiveClicked(d3.select(this)); });
             
+            }
+            else{
+            
+            particle.on("mouseover", null)
+            .on("mouseout", null)
+            .on("click", null);
+                
+            }
         }
 
     },
@@ -485,14 +651,43 @@ var D3Renderer = {
 
     },
 
+    filterAll : function(){ for(var i = 0; i < nodes.length; i++){ this.filter(i); } },
+    
+    filter : function(id_){
+        
+            if(selected.contains(parseInt(dataset[nodes[id_].xml].category))){
+               
+                //var cat = nodes[id_].findByKey(categories, "id", parseInt(dataset[nodes[id_].xml].category), 5);             
+                // 0,  1,  2,  3,  4,  5,  6,  7,  8,  9
+                // 1,  3,  5,  7,  9, 11, 13, 15, 17, 19
+                
+                var cat = Math.floor(parseInt(dataset[nodes[id_].xml].category) / 2);
+                
+                nodes[id_].color = colors[cat];
+                nodes[id_].foam = foams[cat];
+                nodes[id_].exp =  5E3;
+                d3.select("#particle_" + id_).moveToFront();
+
+               
+            } else {
+                
+                nodes[id_].color = colors[10];
+                nodes[id_].foam = foams[10];
+                nodes[id_].exp = 1E2;
+                
+            }
+  
+    },
+    
     highlight: function(particles_, id_, interval_) {
 
-        var obj = particles_.select("#particle_" + id_.nodeID);
+        var obj = d3.select("#particle_" + id_.nodeID);
 
         //obj.attr("stroke-width", particleStyle.weight);
         //d3.selectAll("#HUD").remove();
 
-        var values = particles_.attr("transform").replace("translate(", "").replace(")", "").trim().split(",");
+        var values = d3.transform(particles_.attr("transform")).translate; 
+        //.replace("translate(", "").replace(")", "").trim().split(",");
 
         var translateX = parseInt(values[0]) + parseInt(obj.attr("cx"));
         var translateY = parseInt(values[1]) + parseInt(obj.attr("cy"));
@@ -655,6 +850,13 @@ var D3Renderer = {
         scene.select("g").attr("transform", [translate, scale].join());
     }
 };
+
+function deleteElement(array_, index_){
+    
+    for(var i = 0; i < array_.length; i++) { if(i === index_) { array_.splice(i, 1); } }
+    return array_;
+        
+}
 
 d3.selection.prototype.moveToFront = function() {
     return this.each(function() {

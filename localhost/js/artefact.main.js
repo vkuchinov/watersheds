@@ -23,7 +23,7 @@ var Interface = function() {
     this.wpm = 150;
     this.average = 24;
     this.interval = 8; //Math.floor(60.0 / this.wpm * this.average);
-    this.pause = 8; 
+    this.pause = 6; 
     this.fullScreen = false;
     this.tags = true;
 

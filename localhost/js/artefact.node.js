@@ -141,6 +141,8 @@ function Node(id_, xml_, cx_, cy_){
     var cat = this.findByKey(categories, "id", dataset[xml_].category, 0);
     this.color = colors[cat];
     this.foam = foams[cat];
+    
+    this.exp = 5E3;
 
     this.normalRGB = this.hexToRGB(this.color);
     this.foamRGB = this.hexToRGB(this.foam);

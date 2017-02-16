@@ -36,13 +36,13 @@ var timing = {
     phase: 0
 };
 
-var TRANSITIONS = 32;
+var TRANSITIONS = 64;
 var INTERVALS = { A: 5000, B: 5000 };
 var EXPONENTIAL_COEFFICIENTS = { A: 0.5, B: 5E3, ORDER: 3 };
 
 var NUM_OF_NEIGHBOURS = 8;
 var REST_DISTANCE = 0.132;
-var PARTICLE_SIZE = 0.05; //for simulatio
+var PARTICLE_SIZE = 0.056; //for simulatio
 
 var GROUND_OFFSET = 32;
 var SCRREN_MARGINS = 32;
@@ -137,6 +137,8 @@ var tidalSystem = {
         });
 
         this.feed(particleSystem, dataset_);
+        
+        D3Renderer.filterAll();
 
     },
     
@@ -371,19 +373,17 @@ var tidalSystem = {
     
     render: function(timer_){
         
+        D3Renderer.filterAll();
+        
         var global1; 
         var debug = "";
-        
-        //////////////////////////////////////////
-        //DON'T NEED TO KILL PARTICLES EVERY FRAME
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
         //d3.selectAll(".particle").remove();
         
         var interval = timer_.passed;
-        var minInterval = this.exponentialMap(0.0);
-        var maxInterval = this.exponentialMap(1.0);
-        var smooth = Number(this.map(this.exponentialMap(this.map(interval, 0, INTERVALS.A, 1.0, 0.0)), minInterval, maxInterval, 0, INTERVALS.B));
+        var minInterval = this.exponentialMap(0.0, 5E3);
+        var maxInterval = this.exponentialMap(1.0, 5E3);
+        var smooth = Number(this.map(this.exponentialMap(this.map(interval, 0, INTERVALS.A, 1.0, 0.0), 5E3), minInterval, maxInterval, 0, INTERVALS.B));
         
         global1 = Number(nodes[0].transition.global.polynomial.get(smooth));
         
@@ -391,6 +391,10 @@ var tidalSystem = {
             
         if(nodes[i].transition.cx.polynomial != null) { 
 
+            var minInterval = this.exponentialMap(0.0, nodes[i].exp);
+            var maxInterval = this.exponentialMap(1.0, nodes[i].exp);
+            var smooth = Number(this.map(this.exponentialMap(this.map(interval, 0, INTERVALS.A, 1.0, 0.0), nodes[i].exp), minInterval, maxInterval, 0, INTERVALS.B));
+            
             var cx1 = Number(nodes[i].transition.cx.polynomial.get(smooth));
             var cy1 = Number(nodes[i].transition.cy.polynomial.get(smooth));
             var color1 = this.limit(Number(nodes[i].transition.color.polynomial.get(smooth)),0.0, 1.0).toFixed(4);
@@ -460,30 +464,31 @@ var tidalSystem = {
     display : function(timing_){
     
         prerendered = false;
-        
+
         this.update(timing_);
         this.staticRender();
         
         var index = this.findLowestIDByKey(nodes, "offscreen", 0);
 
-        D3Renderer.highlight(particles, index, 2500);
+        D3Renderer.highlight(particles, index, 500);
+        
+        ////////////////////////////////////////////////
+        //TODO TODO TODO TODO TODO
+        //while next doesn't belong to selected do {...}
+        ////////////////////////////////////////////////
+        
+        next =this.checkNext(next);
         this.takeover(index, dataset[next]);
+        if (next < dataset.length) { next++; } else { next = 0; }
         
         this.updateWithPolynomial(timing_, TRANSITIONS);
     
-        console.log("node: " + index.nodeID + " xml: " + index.xmlID + " " + next);
-        if (next < dataset.length) {
-            next++;
-        } else {
-            next = 0;
-        }
-        
     },
     
     pause : function(timing_){
 
         prerendered = true;
-        D3Renderer.removeHUD(2500);
+        D3Renderer.removeHUD(500);
 
     },
     
@@ -497,16 +502,12 @@ var tidalSystem = {
         var index = this.findLowestIDByKey(nodes, "offscreen", 0);
 
         D3Renderer.highlight(particles, index, 2500);
-        this.takeover(index, dataset[next]);
+        this.takeover(index, dataset[this.checkNext(next)]);
+        if (next < dataset.length) { next++; } else { next = 0; }
         
         this.updateWithPolynomial(timing_, TRANSITIONS);
     
         console.log("node: " + index.nodeID + " xml: " + index.xmlID + " " + next);
-        if (next < dataset.length) {
-            next++;
-        } else {
-            next = 0;
-        }
         
     },
     
@@ -527,8 +528,8 @@ var tidalSystem = {
         var index = {nodeID: id_, xmlID: nodes[id_].xml };
 
         D3Renderer.highlight(particles, index, 2500);
-        this.takeover(index, dataset[next]);
-        if(next < dataset.length) { next++; } else { next = 0; }
+        this.takeover(index, dataset[this.checkNext(next)]);
+        if (next < dataset.length) { next++; } else { next = 0; }
         
         this.updateWithPolynomial(INTERVALS.A, TRANSITIONS);
     
@@ -574,11 +575,11 @@ var tidalSystem = {
     
     },
     
-    exponentialMap : function(value_){
+    exponentialMap : function(value_, exp_){
 
         //value_ should be from 0.0 to 1.0
         var a = EXPONENTIAL_COEFFICIENTS.A; //coefficient a
-        var b = EXPONENTIAL_COEFFICIENTS.B; //coefficient b
+        var b = exp_; //EXPONENTIAL_COEFFICIENTS.B; //coefficient b
     
         return a * Math.pow(b, value_);
 
@@ -605,6 +606,19 @@ var tidalSystem = {
         
     },
     
+    checkNext : function(next_){
+
+    var checked = false;
+        
+    while(checked == false){
+        
+        if(selected.contains(dataset[next_].category)) { return next_; } else 
+        { if(next_ < dataset.length) { next_++; } else { next_ = 0; } }
+        
+    }
+    
+    },
+    
     findByKey: function(array_, key_, value_, default_) {
         
         for (var i = 0; i < array_.length; i++) {
@@ -621,8 +635,9 @@ var tidalSystem = {
         var available = [];
         var keys = [];
         
+        //glitchy after tweaking selected categories
         for (var i = array_.length - 1; i >= 0; i--) {
-            if (array_[i][key_] === value_) { available.push({ nodeID: i, xmlID : array_[i]["xml"]}); 
+            if (array_[i][key_] === value_ && selected.contains(dataset[nodes[i].xml].category)) { available.push({ nodeID: i, xmlID : array_[i]["xml"]}); 
                                               keys.push( array_[i]["xml"]); }
         }
         
@@ -631,4 +646,3 @@ var tidalSystem = {
     }
 
 }
-

@@ -4,7 +4,7 @@ var width = window.innerWidth;
 var height = window.innerHeight;
 var global = {angle: 0 };
 
-var scene;
+var scene, menu;
 var currentFrame = 0;
 
 var mode = 0; //by default automous
@@ -44,21 +44,21 @@ var bleachingA = {
 };
 
 var bleaching = {
-    pink: "#F8E6E9",
-    red : "#EBCBC9",
-    brown : "#D6CEC8",
-    green : "#DFEBD8",
-    orange : "#F3DFCB",
-    purple : "#DCD1DC",
-    teal : "#D6EAE6",
-    blue : "#C8D6DF",
-    yellow : "#F2E8CE",
-    lime : "#EFF5CA",
+    pink: "#F8E6E9", //1
+    red : "#EBCBC9", //3
+    brown : "#D6CEC8", //5
+    green : "#DFEBD8", //7
+    orange : "#F3DFCB", //9
+    purple : "#DCD1DC", //11
+    teal : "#D6EAE6", //13
+    blue : "#C8D6DF", //15
+    yellow : "#F2E8CE", //17
+    lime : "#EFF5CA", //19
     black : "#362F4A", 
 };
 
-var colors = Object.values(palette).slice(0, Object.values(palette).length - 1);
-var foams = Object.values(bleaching).slice(0, Object.values(bleaching).length - 1);
+var colors = Object.values(palette).slice(0, Object.values(palette).length);
+var foams = Object.values(bleaching).slice(0, Object.values(bleaching).length);
 
 var categories = [
     
@@ -78,5 +78,13 @@ var categories = [
     //{"id": 0, "en": "not selected", "fr": "non séléctionné"} 
     
 ];
+
+//possibly could be decimal/heximal value from 0 ... 1023 / 0 ... 03FF
+//which could be decrypted as bynary 1111111111
+//where 0: unselected, 1: selected
+//e.g. 0111011110 or 478 [or heximal 01DE]
+
+//var selected = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19];
+var selected = [1, 19];
 
 var dataset;
