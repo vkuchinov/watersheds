@@ -65,7 +65,7 @@ for(var key in palette) {
 }
 
 for(var key in bleaching) {
-   foams.push(palette[key]);
+   foams.push(bleaching[key]);
 }
 //var colors = 
 //var colors = Object.values(palette).slice(0, Object.values(palette).length);
