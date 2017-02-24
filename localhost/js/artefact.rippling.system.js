@@ -97,17 +97,20 @@ var ripplingSystem = {
     },
     
     updateWithPolynomial : function(timing_, steps_){
-         
-        //var t0 = performance.now();
-
+        
         for(var s = 0; s < steps_; s++){
-                
+            
             this.generator.update();
-
+            
             for(var i = 0; i < nodes.length; i++){
-                
+
+            //nodes[i].cx_last = nodes[i].cx;
+            //nodes[i].cy_last = nodes[i].cy;
+            nodes[i].radius.dynamic0 = nodes[i].radius.dynamic1;
+
+            var fill = nodes[i].color;
             var rad = 0.0;
-                
+
             var vX = nodes[i].cx;
             var vY = nodes[i].cy;
 
@@ -116,34 +119,33 @@ var ripplingSystem = {
 
             for(var j = 0; j < this.generator.children.length; j++){
 
-                var aX = vX / magV * this.generator.children[j].r;
-                var aY = vY / magV * this.generator.children[j].r;
+            var aX = vX / magV * this.generator.children[j].r;
+            var aY = vY / magV * this.generator.children[j].r;
 
-                var dist = Math.sqrt(Math.pow((aX - vX), 2) + Math.pow((aY - vY), 2));
+            var dist = Math.sqrt(Math.pow((aX - vX), 2) + Math.pow((aY - vY), 2));
 
-                if(dist < 8) { rad = ripplingSystem.map(dist, 0, 8, nodes[i].radius.static, 4); nodes[i].state = 1;  break; } 
-                else { nodes[i].state = 0;  }
-                
+            if(dist < 8) { rad = ripplingSystem.map(dist, 0, 8, nodes[i].radius.static, 4); nodes[i].state = 1;  break; } 
+            else { nodes[i].state = 0;  }
             }
 
-            nodes[i].radius.dynamic0 = rad;
-                
-            //feed transition
+            nodes[i].radius.dynamic1 = rad;
+            //D3Renderer.drawParticle(d3.select("#particles"), i, nodes[i].cx, nodes[i].cy, nodes[i].radius.dynamic1, nodes[i].color);
             nodes[i].transition.radius.data[s + 1] = rad;
             nodes[i].transition.radius.intervals[s + 1] = timing_ / steps_ * (s + 1);
-
+            
             }
 
+        }
+        
         for(var k = 0; k < nodes.length; k++){
 
+        //if(k < 3) { console.log(nodes[k].transition.radius.intervals); }
+        //calculate polynomial
         nodes[k].transition.radius.intervals.reverse();
         nodes[k].transition.radius.polynomial = new Polynomial(nodes[k].transition.radius.intervals, nodes[k].transition.radius.data, EXPONENTIAL_COEFFICIENTS.ORDER);
-        
-       }
 
-       }  
-       
-        
+    }
+     
     },
     
     staticRender: function(){
@@ -177,12 +179,9 @@ var ripplingSystem = {
             
         if(nodes[i].transition.radius.polynomial != null) { 
 
-            var minInterval = this.exponentialMap(0.0, nodes[i].exp);
-            var maxInterval = this.exponentialMap(1.0, nodes[i].exp);
+            //var smooth = Number(this.map(this.exponentialMap(this.map(interval, 0, INTERVALS.A, 1.0, 0.0), nodes[i].exp), minInterval, maxInterval, 0, INTERVALS.B));
             
-            var smooth = Number(this.map(this.exponentialMap(this.map(interval, 0, INTERVALS.A, 1.0, 0.0), nodes[i].exp), minInterval, maxInterval, 0, INTERVALS.B));
-            
-            var rad1 = this.limit(Number(nodes[i].transition.radius.polynomial.get(smooth)), 0, 16);
+            var rad1 = Number(this.limit(Number(nodes[i].transition.radius.polynomial.get(smooth)), 0, nodes[i].radius.static));
             
             if(rad1 < 4.0) { rad1 = 0; }
             
@@ -245,7 +244,7 @@ var ripplingSystem = {
         
         var index = this.findLowestIDByKey(nodes, "state", 1);
 
-        D3Renderer.highlight(particles, index, 2500);
+        D3Renderer.highlight(particles, index, 500);
         
         next =this.checkNext(next);
         this.takeover(index, dataset[next]);
@@ -258,7 +257,7 @@ var ripplingSystem = {
     pause : function(timing_){
 
         prerendered = true;
-        D3Renderer.removeHUD(2500);
+        D3Renderer.removeHUD(500);
 
     },
     
@@ -271,7 +270,7 @@ var ripplingSystem = {
         
         var index = this.findLowestIDByKey(nodes, "offscreen", 0);
 
-        D3Renderer.highlight(particles, index, 2500);
+        D3Renderer.highlight(particles, index, 500);
         this.takeover(index, dataset[this.checkNext(next)]);
         if (next < dataset.length) { next++; } else { next = 0; }
         
@@ -290,14 +289,14 @@ var ripplingSystem = {
         var id_ = parseInt(d_.attr("id").replace("particle_", ""));
         prerendered = false;
         
-        D3Renderer.removeHUD(2500);
+        D3Renderer.removeHUD(500);
         
         this.update(INTERVALS.A);
         this.staticRender();
         
         var index = {nodeID: id_, xmlID: nodes[id_].xml };
 
-        D3Renderer.highlight(particles, index, 2500);
+        D3Renderer.highlight(particles, index, 500);
         this.takeover(index, dataset[this.checkNext(next)]);
         if (next < dataset.length) { next++; } else { next = 0; }
         
