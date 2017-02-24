@@ -1,10 +1,5 @@
 <h1>Two Visualizations of User-Submitted Text Using HTML/JavaScript</h1><br>
 <i>Water Ripples & Breaking [Tidal] Waves</i><br><br>
-
-<h2>LINKS</h2>
-current releases<br>
-http://vkuchinov.github.io/watersheds/index.html?type=rippling&mode=autonomus
-http://vkuchinov.github.io/watersheds/index.html?type=tidal&mode=autonomus
 <br><br>
 [![TIDAL WAVES #1](https://img.youtube.com/vi/Da_vvlkevOw/0.jpg)]
 (https://www.youtube.com/watch?v=Da_vvlkevOw)
