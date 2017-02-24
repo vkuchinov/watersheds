@@ -2,13 +2,15 @@
 <i>Water Ripples & Breaking [Tidal] Waves</i><br><br>
 
 <h2>LINKS</h2>
-current alpha-releases<br>
+current releases<br>
 http://vkuchinov.github.io/watersheds/index.html?type=rippling&mode=autonomus
 http://vkuchinov.github.io/watersheds/index.html?type=tidal&mode=autonomus
 <br><br><br>
-![alt tag](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/tidalThumbs.png)<br>
+[![TIDAL WAVES #1](https://img.youtube.com/vi/Da_vvlkevOw/0.jpg)]
+(https://www.youtube.com/watch?v=Da_vvlkevOw)
 <br>
-![alt tag](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/ripplingThumbs.png)
+[![RIPPLING #1](https://img.youtube.com/vi/BW5XJgO4eXU/0.jpg)]
+(https://www.youtube.com/watch?v=BW5XJgO4eXU)
 <br><br>
 <b>3rd PARTY LIBRARIES:</b><br>
 <i>https://google.github.io/liquidfun</i><br>
