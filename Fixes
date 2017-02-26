@@ -55,7 +55,7 @@
         For now, let's say if would be 'white'.
         Category 0 or null.
         
-    [-] Uncaught RangeError: Maximum call stack size exceeded
+    [x] Uncaught RangeError: Maximum call stack size exceeded
         chrome-extension://kbfnbcaeplbcioakkpcpgfkobkghlhen/src/js/bundle.js:11409 
         
         function l(e) {
@@ -69,7 +69,7 @@
         }
         
         D3Renderer.drawParticle(): this.filterAll();
-
-
+        
+        DONE!
 
 -: planned x: done
