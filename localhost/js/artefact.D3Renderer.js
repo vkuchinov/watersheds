@@ -50,9 +50,9 @@ http://blog.mist.io/post/87007749461/reducing-cpu-load-in-d3js-transitions
 var XML_LIMIT = 512;
 var XML_URL = "xml/data.xml";
 
-var TAGS_URL = "json/tags.json"
+var TAGS_URL = "json/tags.json";
 var tagStyle = {
-    language: "fr", 
+    language: "fr",
     inactive: "#1D1D1D",
     active: "#CECECE",
     over: "#494949",
@@ -83,7 +83,7 @@ var particleStyle = {
 
 var D3Renderer = {
 
-    init: function() {
+    init: function () {
 
         scene = d3.select("body").append("svg").attr("id", "scene").style("width", "100%").style("height", "100%");
 
@@ -92,7 +92,7 @@ var D3Renderer = {
         var width = 600;
         var height = 400;
         var val = 0;
-        
+
         D3Renderer.showTags();
         //D3Renderer.showLangSelector();
 
@@ -101,11 +101,11 @@ var D3Renderer = {
         //console.log(d3.select("svg > scene > particles"));
 
 
-        d3.xml(XML_URL, function(error, data) {
+        d3.xml(XML_URL, function (error, data) {
 
             if (error) throw error;
 
-            dataset = [].map.call(data.querySelectorAll("wish"), function(wish) {
+            dataset = [].map.call(data.querySelectorAll("wish"), function (wish) {
 
                 return {
 
@@ -131,64 +131,76 @@ var D3Renderer = {
 
     },
 
-    showLangSelector : function() {
+    showLangSelector: function () {
 
-                var selector = scene.append("g")
-                    .attr("id", "selector", true)
-                    .attr("class", "languages")
-                    .attr("transform", "translate(32, 32)")
-                    .on("mouseover", function(d) {
-                        d3.select(this).select("rect").attr("fill", tagStyle.over);
-                    })
-                    .on("mouseout", function(d) {
+        var selector = scene.append("g")
+            .attr("id", "selector", true)
+            .attr("class", "languages")
+            .attr("transform", "translate(32, 32)")
+            .on("mouseover", function (d) {
+                d3.select(this).select("rect").attr("fill", tagStyle.over);
+            })
+            .on("mouseout", function (d) {
 
-                        d3.select(this).select("rect").attr("fill", tagStyle.active);
-                    })
+                d3.select(this).select("rect").attr("fill", tagStyle.active);
+            })
 
-                var background = selector.append("rect")
-                    .attr("x", 0)
-                    .attr("y", 0)
-                    .attr("width", 64)
-                    .attr("height", 22)
-                    .attr("fill", tagStyle.active)
+        var background = selector.append("rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", 64)
+            .attr("height", 22)
+            .attr("fill", tagStyle.active)
 
-                var label = selector.append("text")
-                    .attr("fill", tagStyle.label)
-                    .style("font-size", tagStyle.size)
-                    .style("font-family", tagStyle.typeface)
-                    .style("text-anchor", "left")
-                    .style("alignment-baseline", "middle")
-                    .text("fr");
+        var label = selector.append("text")
+            .attr("fill", tagStyle.label)
+            .style("font-size", tagStyle.size)
+            .style("font-family", tagStyle.typeface)
+            .style("text-anchor", "left")
+            .style("alignment-baseline", "middle")
+            .text("fr");
 
     },
-    
-    showTags : function() {
-        
-            var placeholder = scene.append("g");
-        
-            var fr = scene.append("g")
+
+    showTags: function () {
+
+        var placeholder = scene.append("g");
+
+        var fr = scene.append("g")
             .attr("id", "French", true)
             .attr("class", "tags")
             .attr("transform", "translate(32, 32)")
-            .on("mouseover", function(d) {
-            d3.select(this).select("rect").attr("fill", tagStyle.over);
+            .on("mouseover", function (d) {
+                d3.select(this).select("rect").attr("fill", tagStyle.over);
             })
-            .on("mouseout", function(d) {
-            if(tagStyle.language == "fr") {
-            d3.select(this).select("rect").attr("fill", tagStyle.active); } else {
-            d3.select(this).select("rect").attr("fill", tagStyle.inactive); }
-                                                         
+            .on("mouseout", function (d) {
+                if (tagStyle.language == "fr") {
+                    d3.select(this).select("rect").attr("fill", tagStyle.active);
+                } else {
+                    d3.select(this).select("rect").attr("fill", tagStyle.inactive);
+                }
+
             })
-            .on("click", function(d) { tagStyle.language = "fr"; D3Renderer.hideTags(); D3Renderer.showTags();});
-        
-            var fr_background = fr.append("rect")
+            .on("click", function (d) {
+                tagStyle.language = "fr";
+                D3Renderer.hideTags();
+                D3Renderer.showTags();
+            });
+
+        var fr_background = fr.append("rect")
             .attr("x", -6)
             .attr("y", -12)
             .attr("width", 32)
             .attr("height", 22)
-            .attr("fill", function(d) { if(tagStyle.language == "fr") { return tagStyle.active; } else { return tagStyle.inactive; }});
+            .attr("fill", function (d) {
+                if (tagStyle.language == "fr") {
+                    return tagStyle.active;
+                } else {
+                    return tagStyle.inactive;
+                }
+            });
 
-            var fr_label = fr.append("text")
+        var fr_label = fr.append("text")
             .attr("fill", tagStyle.label)
             .attr("x", 18)
             .style("font-size", tagStyle.size)
@@ -196,30 +208,42 @@ var D3Renderer = {
             .style("text-anchor", "end")
             .style("alignment-baseline", "middle")
             .text("fr");
-        
-            var en = scene.append("g")
+
+        var en = scene.append("g")
             .attr("id", "French", true)
             .attr("class", "tags")
             .attr("transform", "translate(32, 60)")
-            .on("mouseover", function(d) {
-            d3.select(this).select("rect").attr("fill", tagStyle.over);
+            .on("mouseover", function (d) {
+                d3.select(this).select("rect").attr("fill", tagStyle.over);
             })
-            .on("mouseout", function(d) {
-            if(tagStyle.language == "en") {
-            d3.select(this).select("rect").attr("fill", tagStyle.active); } else {
-            d3.select(this).select("rect").attr("fill", tagStyle.inactive); }
-                                  
+            .on("mouseout", function (d) {
+                if (tagStyle.language == "en") {
+                    d3.select(this).select("rect").attr("fill", tagStyle.active);
+                } else {
+                    d3.select(this).select("rect").attr("fill", tagStyle.inactive);
+                }
+
             })
-            .on("click", function(d) { tagStyle.language = "en"; D3Renderer.hideTags(); D3Renderer.showTags();});
-        
-            var en_background = en.append("rect")
+            .on("click", function (d) {
+                tagStyle.language = "en";
+                D3Renderer.hideTags();
+                D3Renderer.showTags();
+            });
+
+        var en_background = en.append("rect")
             .attr("x", -6)
             .attr("y", -12)
             .attr("width", 32)
             .attr("height", 22)
-            .attr("fill", function(d) { if(tagStyle.language == "en") { return tagStyle.active; } else { return tagStyle.inactive; }});
+            .attr("fill", function (d) {
+                if (tagStyle.language == "en") {
+                    return tagStyle.active;
+                } else {
+                    return tagStyle.inactive;
+                }
+            });
 
-            var en_label = en.append("text")
+        var en_label = en.append("text")
             .attr("fill", tagStyle.label)
             .attr("x", 18)
             .style("font-size", tagStyle.size)
@@ -228,12 +252,12 @@ var D3Renderer = {
             .style("alignment-baseline", "middle")
             .text("en");
 
-            d3.json(TAGS_URL, function(error, tags_) {
+        d3.json(TAGS_URL, function (error, tags_) {
 
             if (error) throw error;
 
             var max = [0, 0, 0];
-            var mult = function(array_, index_) {
+            var mult = function (array_, index_) {
                 var sum = 0;
                 for (var i = 0; i < index_; i++) {
                     sum += array_[i];
@@ -241,23 +265,25 @@ var D3Renderer = {
                 return sum;
             };
 
-            tags_.forEach(function(d) {
+            tags_.forEach(function (d) {
                 max[d.column] = Math.max(max[d.column], D3Renderer.getTextWidth(d.name[tagStyle.language]));
             });
 
-            tags_.forEach(function(d) {
+            tags_.forEach(function (d) {
 
                 var tag = scene.append("g")
                     .attr("id", d.name[tagStyle.language], true)
                     .attr("class", "tags")
                     .attr("transform", "translate(" + (92 + mult(max, d.column) * 0.8) + ", " + (32 + d.index * 28) + ")")
-                    .on("mouseover", function(d) {
+                    .on("mouseover", function (d) {
                         d3.select(this).select("rect").attr("fill", tagStyle.over);
                     })
-                    .on("mouseout", function(d) {
-                        d3.select(this).select("rect").attr("fill", D3Renderer.setTag(d3.select(this).select("rect").attr("id"))); 
+                    .on("mouseout", function (d) {
+                        d3.select(this).select("rect").attr("fill", D3Renderer.setTag(d3.select(this).select("rect").attr("id")));
                     })
-                    .on("click", function(d) { D3Renderer.updateSelection(d3.select(this).select("rect").attr("id")); });
+                    .on("click", function (d) {
+                        D3Renderer.updateSelection(d3.select(this).select("rect").attr("id"));
+                    });
 
                 var background = tag.append("rect")
                     .attr("id", d.id)
@@ -266,7 +292,7 @@ var D3Renderer = {
                     .attr("width", D3Renderer.getTextWidth(d.name[tagStyle.language]) * 0.75 + 6)
                     .attr("height", 22)
                     .attr("fill", D3Renderer.selectedTag(categories[d.id].id))
-                
+
                 var label = tag.append("text")
                     .attr("fill", tagStyle.label)
                     .style("font-size", tagStyle.size)
@@ -284,71 +310,82 @@ var D3Renderer = {
             });
 
         });
-        
+
         d3.select("#HUD").moveToFront();
-        
+
     },
-   
-    hideTags : function(){
-        
+
+    hideTags: function () {
+
         d3.selectAll(".tags").remove();
-        
+
     },
-    
-    setTag : function(d_){
-        
-        if( categories[d_] != undefined){
-            
+
+    setTag: function (d_) {
+
+        if (categories[d_] != undefined) {
+
             var cat = parseInt(categories[d_].id);
-            if(selected.contains(cat)) { return tagStyle.active;}
-            else { return tagStyle.inactive; } 
-            
+            if (selected.contains(cat)) {
+                return tagStyle.active;
+            } else {
+                return tagStyle.inactive;
+            }
+
         }
-        
+
     },
-    
-    selectedTag : function(id_){
-        
-        if(selected.contains(parseInt(id_))) {
-        return tagStyle.active; } 
-        else { return tagStyle.inactive; }
-        
+
+    selectedTag: function (id_) {
+
+        if (selected.contains(parseInt(id_))) {
+            return tagStyle.active;
+        } else {
+            return tagStyle.inactive;
+        }
+
     },
-    
-    updateSelection : function(category_){
-        
+
+    updateSelection: function (category_) {
+
         var sel = parseInt(categories[category_].id);
         console.log(sel);
-        
-        if(selected.contains(sel)) { selected = deleteElement(selected, selected.indexOf(sel)); }
-        else { selected.push(parseInt(categories[category_].id)); }
-        
-        for(var i = 0; i < nodes.length; i++){
-            
+
+        if (selected.contains(sel)) {
+            selected = deleteElement(selected, selected.indexOf(sel));
+        } else {
+            selected.push(parseInt(categories[category_].id));
+        }
+
+        for (var i = 0; i < nodes.length; i++) {
+
             var cat0 = dataset[nodes[i].xml].category;
-            if(selected.contains(parseInt(cat0))){
-                
+            if (selected.contains(parseInt(cat0))) {
+
                 var cat = nodes[i].findByKey(categories, "id", cat, 0);
                 nodes[i].color = colors[cat];
                 nodes[i].foam = foams[cat];
-                
+
             } else {
-                
+
                 nodes[i].color = colors[10];
                 nodes[i].foam = foams[10];
-                
-            }
-            
-        }
-        
-        
-        D3Renderer.hideTags(); D3Renderer.showTags();
-        
-    },
-    
-    render: function(scene_) { scene = d3.select("svg#scene"); },
 
-    analyse: function(data_) {
+            }
+
+        }
+
+
+        D3Renderer.hideTags();
+        D3Renderer.showTags();
+
+    },
+
+    render: function (scene_) {
+        scene = d3.select("svg#scene");
+    },
+
+    analyse: function (data_) {
 
         var total = 0;
         var result = {
@@ -371,11 +408,11 @@ var D3Renderer = {
 
     },
 
-    updateData: function(particles_) {
+    updateData: function (particles_) {
 
         var indices = [];
 
-        nodes.forEach(function(entry) {
+        nodes.forEach(function (entry) {
             indices.push(entry.id);
         });
         var first = Math.min.apply(Math, nodes.id);
@@ -393,7 +430,7 @@ var D3Renderer = {
 
     },
 
-    drawCircle: function(scene_, x_, y_, radius_) {
+    drawCircle: function (scene_, x_, y_, radius_) {
 
         scene_.append("circle")
             .attr("id", "ripple", true)
@@ -406,12 +443,18 @@ var D3Renderer = {
 
     },
 
-    drawParticle: function(group_, id_, x_, y_, radius_, color_) {
+    drawParticle: function (group_, id_, x_, y_, radius_, color_) {
 
-        if(x_ == NaN) { console.log("Ooops, wrong X! of " + id_); x_ = width/2; }
-        if(y_ == NaN) { console.log("Ooops, wrong Y! of " + id_); y_ = height/2; }
-        
-            var particle = group_.append("circle")
+        if (x_ == NaN) {
+            console.log("Ooops, wrong X! of " + id_);
+            x_ = width / 2;
+        }
+        if (y_ == NaN) {
+            console.log("Ooops, wrong Y! of " + id_);
+            y_ = height / 2;
+        }
+
+        var particle = group_.append("circle")
             .attr("id", "particle_" + id_)
             .attr("class", "particle")
             .attr("cx", x_)
@@ -420,27 +463,36 @@ var D3Renderer = {
             .attr("fill", color_)
             .attr("stroke", particleStyle.stroke)
             .attr("stroke-width", 0.0);
-            
-        if(gup("mode") == "interactive") {
-            particle.on("mouseover", function(d) {
-            d3.select(this).attr("stroke-width", particleStyle.weight);
-            })
-            .on("mouseout", function(d) {
-            d3.select(this).attr("stroke-width", 0.0);
-            })
-            .on("click", function(d) { console.log("clicked!"); system.interactiveClicked(d3.select(this)); });
+
+        if (gup("mode") == "interactive") {
+            particle.on("mouseover", function (d) {
+                    d3.select(this).attr("stroke-width", particleStyle.weight);
+                })
+                .on("mouseout", function (d) {
+                    d3.select(this).attr("stroke-width", 0.0);
+                })
+                .on("click", function (d) {
+                    console.log("clicked!");
+                    system.interactiveClicked(d3.select(this));
+                });
 
         }
-        
-        this.filterAll();
-        
-    },
-    
-    drawTestParticle: function(group_, x_, y_, radius_) {
 
-        if(x_ == NaN) { console.log("Ooops, wrong X! of " + id_); x_ = width/2; }
-        if(y_ == NaN) { console.log("Ooops, wrong Y! of " + id_); y_ = height/2; }
-        
+        //this.filterAll();
+
+    },
+
+    drawTestParticle: function (group_, x_, y_, radius_) {
+
+        if (x_ == NaN) {
+            console.log("Ooops, wrong X! of " + id_);
+            x_ = width / 2;
+        }
+        if (y_ == NaN) {
+            console.log("Ooops, wrong Y! of " + id_);
+            y_ = height / 2;
+        }
+
         group_.append("circle")
             .attr("id", "test")
             .attr("class", "test")
@@ -449,56 +501,64 @@ var D3Renderer = {
             .attr("r", radius_)
             .attr("fill", "#FF00FF")
             .attr("opacity", 0.5);
-        
-    },
-    
-    redrawParticle: function(id_, x_, y_, radius_, color_) {
 
-        if(x_ == NaN) { console.log("Ooops, wrong X! of " + id_); x_ = width/2; }
-        if(y_ == NaN) { console.log("Ooops, wrong Y! of " + id_); y_ = height/2; }
-        
+    },
+
+    redrawParticle: function (id_, x_, y_, radius_, color_) {
+
+        if (x_ == NaN) {
+            console.log("Ooops, wrong X! of " + id_);
+            x_ = width / 2;
+        }
+        if (y_ == NaN) {
+            console.log("Ooops, wrong Y! of " + id_);
+            y_ = height / 2;
+        }
+
         var particle = d3.select("#particle_" + id_)
-                       .attr("cx", x_)
-                       .attr("cy", y_)
-                       .attr("r", radius_)
-                       .attr("fill", color_);
-        
-        if(gup("mode") == "interactive" ) {
-            
-            if(particle.attr("fill") != colors[10] && particle.attr("fill") != foams[10]){
-                
-            particle.on("mouseover", function(d) {
-            d3.select(this).attr("stroke-width", particleStyle.weight);
-            //d3.select(this).moveToFront();
-            })
-            .on("mouseout", function(d) {
-            d3.select(this).attr("stroke-width", 0.0);
-            })
-            .on("click", function(d) { console.log("clicked!"); system.interactiveClicked(d3.select(this)); });
-            
-            }
-            else{
-            
-            particle.on("mouseover", null)
-            .on("mouseout", null)
-            .on("click", null);
-                
+            .attr("cx", x_)
+            .attr("cy", y_)
+            .attr("r", radius_)
+            .attr("fill", color_);
+
+        if (gup("mode") == "interactive") {
+
+            if (particle.attr("fill") != colors[10] && particle.attr("fill") != foams[10]) {
+
+                particle.on("mouseover", function (d) {
+                        d3.select(this).attr("stroke-width", particleStyle.weight);
+                        //d3.select(this).moveToFront();
+                    })
+                    .on("mouseout", function (d) {
+                        d3.select(this).attr("stroke-width", 0.0);
+                    })
+                    .on("click", function (d) {
+                        console.log("clicked!");
+                        system.interactiveClicked(d3.select(this));
+                    });
+
+            } else {
+
+                particle.on("mouseover", null)
+                    .on("mouseout", null)
+                    .on("click", null);
+
             }
         }
 
     },
-    
-    redrawParticleR: function(id_, radius_) {
+
+    redrawParticleR: function (id_, radius_) {
 
         //if(x_ == NaN) { console.log("Ooops, wrong X! of " + id_); x_ = width/2; }
         //if(y_ == NaN) { console.log("Ooops, wrong Y! of " + id_); y_ = height/2; }
-        
+
         var particle = d3.select("#particle_" + id_)
-                       .attr("r", radius_);
-        
+            .attr("r", radius_);
+
     },
-    
-    drawParticleWithTransition: function(group_, id_, x_, y_, radius0_, radius1_, color_, timing_) {
+
+    drawParticleWithTransition: function (group_, id_, x_, y_, radius0_, radius1_, color_, timing_) {
 
         group_.append("circle")
             .attr("id", "particle_" + id_)
@@ -512,53 +572,67 @@ var D3Renderer = {
             .transition()
             .duration(timing_)
             .attr("r", radius1_)
-            .each("end", function(d) { this.remove(); });
+            .each("end", function (d) {
+                this.remove();
+            });
 
     },
 
-    setMouseEvents : function(id_){
-        
+    setMouseEvents: function (id_) {
+
         var p = d3.select("#particle" + id_)
-        p.on("mouseover", function(d) {
-        d3.select(this).attr("stroke-width", particleStyle.weight);
-        })
-        .on("mouseout", function(d) {
-        d3.select(this).attr("stroke-width", 0.0);
-        })
-        .on("click", function(d) { console.log("clicked!"); system.interactiveClicked(d3.select(this)); });
+        p.on("mouseover", function (d) {
+                d3.select(this).attr("stroke-width", particleStyle.weight);
+            })
+            .on("mouseout", function (d) {
+                d3.select(this).attr("stroke-width", 0.0);
+            })
+            .on("click", function (d) {
+                console.log("clicked!");
+                system.interactiveClicked(d3.select(this));
+            });
 
     },
-    
-    removeMouseEvents : function(id_){
-        
+
+    removeMouseEvents: function (id_) {
+
         var p = d3.select("#particle" + id_);
         p.on("mouseover", null)
-        .on("mouseout", null)
-        .on("click", null);
-        
+            .on("mouseout", null)
+            .on("click", null);
+
     },
-    
-    setMouseEventsToAll : function(){ for(var i = 0; i < nodes.length; i++){ this.setMouseEvents(i); } },
-    removeMouseEventsToAll : function(){ for(var i = 0; i < nodes.length; i++){ this.setMouseEvents(i); } },
-    
-    HUD: function(scene_, object_, message_, language_, x_, y_, interval_, visible_) {
+
+    setMouseEventsToAll: function () {
+        for (var i = 0; i < nodes.length; i++) {
+            this.setMouseEvents(i);
+        }
+    },
+    removeMouseEventsToAll: function () {
+        for (var i = 0; i < nodes.length; i++) {
+            this.setMouseEvents(i);
+        }
+    },
+
+    HUD: function (scene_, object_, message_, language_, x_, y_, interval_, visible_) {
 
         var bbox = object_.node().getBBox();
         middleX = bbox.x + (bbox.width / 2),
-        middleY = bbox.y + (bbox.height / 2);
-        
+            middleY = bbox.y + (bbox.height / 2);
+
         var absoluteXY = getScreenXY(scene, object_, middleX, middleY);
 
         x_ = absoluteXY.x;
         y_ = absoluteXY.y;
-        
+
         d3.selectAll("g.HUD").remove();
 
         var w = window.innerWidth;
         var h = window.innerHeight;
-        
-        var systemX = 0, systemY = 0;
-        
+
+        var systemX = 0,
+            systemY = 0;
+
         var params = {
             x: x_,
             y: y_,
@@ -605,7 +679,7 @@ var D3Renderer = {
 
         var HUD = scene_.append("g")
             .attr("id", "HUD");
-        
+
         HUD.append("rect")
             .attr("x", params.rx)
             .attr("y", 0)
@@ -642,51 +716,55 @@ var D3Renderer = {
             .attr("opacity", 1.0);
 
         HUD.attr("transform", "translate(" + (x_ - params.x * HUD_SCALE) + "," + (y_ - params.y * HUD_SCALE) + "),scale(" + HUD_SCALE + ")");
-        
+
         if (!visible_) {
             d3.selectAll("g.HUD").remove();
         }
-        
+
         d3.selectAll(".tags").moveToFront();
 
     },
 
-    filterAll : function(){ for(var i = 0; i < nodes.length; i++){ this.filter(i); } },
-    
-    filter : function(id_){
-        
-            if(selected.contains(parseInt(dataset[nodes[id_].xml].category))){
-               
-                //var cat = nodes[id_].findByKey(categories, "id", parseInt(dataset[nodes[id_].xml].category), 5);             
-                // 0,  1,  2,  3,  4,  5,  6,  7,  8,  9
-                // 1,  3,  5,  7,  9, 11, 13, 15, 17, 19
-                
-                var cat = Math.floor(parseInt(dataset[nodes[id_].xml].category) / 2);
-                
-                nodes[id_].color = colors[cat];
-                nodes[id_].foam = foams[cat];
-                nodes[id_].exp =  5E3;
-                d3.select("#particle_" + id_).moveToFront();
-
-               
-            } else {
-                
-                nodes[id_].color = colors[10];
-                nodes[id_].foam = foams[10];
-                nodes[id_].exp = 1E2;
-                
-            }
-  
+    filterAll: function () {
+        for (var i = 0; i < nodes.length; i++) {
+            this.filter(i);
+        }
     },
-    
-    highlight: function(particles_, id_, interval_) {
+
+    filter: function (id_) {
+
+        if (selected.contains(parseInt(dataset[nodes[id_].xml].category))) {
+
+            //var cat = nodes[id_].findByKey(categories, "id", parseInt(dataset[nodes[id_].xml].category), 5);             
+            // 0,  1,  2,  3,  4,  5,  6,  7,  8,  9
+            // 1,  3,  5,  7,  9, 11, 13, 15, 17, 19
+
+            var cat = Math.floor(parseInt(dataset[nodes[id_].xml].category) / 2);
+
+            nodes[id_].color = colors[cat];
+            nodes[id_].foam = foams[cat];
+            nodes[id_].exp = 5E3;
+            d3.select("#particle_" + id_).moveToFront();
+
+
+        } else {
+
+            nodes[id_].color = colors[10];
+            nodes[id_].foam = foams[10];
+            nodes[id_].exp = 1E2;
+
+        }
+
+    },
+
+    highlight: function (particles_, id_, interval_) {
 
         var obj = d3.select("#particle_" + id_.nodeID);
 
         //obj.attr("stroke-width", particleStyle.weight);
         //d3.selectAll("#HUD").remove();
 
-        var values = d3.transform(particles_.attr("transform")).translate; 
+        var values = d3.transform(particles_.attr("transform")).translate;
         //.replace("translate(", "").replace(")", "").trim().split(",");
 
         var translateX = parseInt(values[0]) + parseInt(obj.attr("cx"));
@@ -698,20 +776,22 @@ var D3Renderer = {
         }
 
         this.HUD(scene, obj, message, dataset[id_.xmlID].language, translateX, translateY, interval_, true);
-        
+
     },
 
-    removeHUD : function(interval_){
-        
+    removeHUD: function (interval_) {
+
         d3.selectAll("#HUD").attr("opacity", 1.0)
-        .transition()
-        .duration(interval_)
-        .attr("opacity", 0.0)
-        .each("end", function(d) { this.remove(); });
-        
+            .transition()
+            .duration(interval_)
+            .attr("opacity", 0.0)
+            .each("end", function (d) {
+                this.remove();
+            });
+
     },
 
-    getTextWidth: function(text_) {
+    getTextWidth: function (text_) {
 
         var template = d3.select("body").append("svg").attr("id", "template").attr("width", "100%").attr("height", "100%");
 
@@ -729,19 +809,19 @@ var D3Renderer = {
 
     },
 
-    click: function(mouseX_, mouseY_) {
+    click: function (mouseX_, mouseY_) {
 
         mouseX = mouseX_;
         mouseY = mouseY_;
 
     },
 
-    wrapLabel: function(group_, text_, language_, length_) {
+    wrapLabel: function (group_, text_, language_, length_) {
 
         var MESSAGE_LIMIT = 42; //0: bypassing this feature
 
         var formatted = D3Renderer.formatPunctuation(text_, language_);
-        
+
         var text = group_.append("text")
             .attr("fill", hudStyle.message)
             .attr("font-family", hudStyle.typeface)
@@ -776,9 +856,9 @@ var D3Renderer = {
         }
 
     },
-    
-    formatPunctuation : function(text_, language_){
-        
+
+    formatPunctuation: function (text_, language_) {
+
         //&amp; > &
         text_ = text_.replace(new RegExp("&amp;", "g"), "&");
 
@@ -789,27 +869,35 @@ var D3Renderer = {
         var quotes = (language_ == "en") ? en : fr;
         //var quotes = text_.match(/«|»/g);
         //return text_.replace(/"/g, (quotes && quotes.length % 2 != 0 ? "»" : "«"));
-        text_ = text_.replace(/&quot;/g, function() {  var q = quotes[i]; i = 1 - i; return q; });
+        text_ = text_.replace(/&quot;/g, function () {
+            var q = quotes[i];
+            i = 1 - i;
+            return q;
+        });
         return text_;
-    
-    },
-    
-    setColor : function(color_) {
-      
-        var index;
-        
-        if(colors.contains(color_)) { return color_; }
-        else { return colors[foams.getIndex(color_)]; }
+
     },
 
-    resize: function() {
+    setColor: function (color_) {
+
+        var index;
+
+        if (colors.contains(color_)) {
+            return color_;
+        } else {
+            return colors[foams.getIndex(color_)];
+        }
+    },
+
+    resize: function () {
 
         var translate;
 
         var w = window.innerWidth,
             h = window.innerHeight;
-        
-        width = w; height = h;
+
+        width = w;
+        height = h;
         var scale = 1.0;
         var scene = d3.select("svg#scene");
         scene.style("width", "100%").style("height", h + "px");
@@ -821,20 +909,24 @@ var D3Renderer = {
     }
 };
 
-function deleteElement(array_, index_){
-    
-    for(var i = 0; i < array_.length; i++) { if(i === index_) { array_.splice(i, 1); } }
+function deleteElement(array_, index_) {
+
+    for (var i = 0; i < array_.length; i++) {
+        if (i === index_) {
+            array_.splice(i, 1);
+        }
+    }
     return array_;
-        
+
 }
 
-d3.selection.prototype.moveToFront = function() {
-    return this.each(function() {
+d3.selection.prototype.moveToFront = function () {
+    return this.each(function () {
         this.parentNode.appendChild(this);
     });
 };
 
-d3.layout.tagmenu = function(dimensions_) {
+d3.layout.tagmenu = function (dimensions_) {
 
     this.width = dimensions_[0];
     this.height = dimensions_[1];

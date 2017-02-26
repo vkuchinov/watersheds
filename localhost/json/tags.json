@@ -1,17 +1,15 @@
 [
-    { "id" : 0, "name" : "Canada", "column" : 0, "index" : 0, "visible" : true },
-    { "id" : 1, "name" : "Toronto", "column" : 0, "index" : 1, "visible" : true },
-    { "id" : 2, "name" : "Ottawa", "column" : 0, "index" : 2, "visible" : true },
-    { "id" : 3, "name" : "Oakville", "column" : 0, "index" : 3, "visible" : true },
-    { "id" : 4, "name" : "Montreal", "column" : 0, "index" : 4, "visible" : true },
+    { "id" : 0, "name" : {"fr" : "Inclusivité et accessibilite", "en": "Inclusivity & Accessibility"}, "column" : 0, "index" : 0, "visible" : true },
+    { "id" : 1, "name" : {"fr" : "Conservation culturelle et historique", "en": "Cultural & Historical Conservation"}, "column" : 0, "index" : 1, "visible" : true },
+    { "id" : 2, "name" : {"fr" : "Viabilité de l’environnement", "en": "Environmental Sustainability"}, "column" : 0, "index" : 2, "visible" : true },
+    { "id" : 3, "name" : {"fr" : "Droits humains", "en": "Human Rights"}, "column" : 0, "index" : 3, "visible" : true },
+      
+    { "id" : 4, "name" : {"fr" : "Santé physique et mentale", "en": "Physical & Mental Health"}, "column" : 1, "index" : 0, "visible" : true },
+    { "id" : 5, "name" : {"fr" : "Droits LGBTQ2A", "en": "LGBTQ2A Rights"}, "column" : 1, "index" : 1, "visible" : true },
+    { "id" : 6, "name" : {"fr" : "Représentation politique", "en": "Political Representation"}, "column" : 1, "index" : 2, "visible" : true },
+    { "id" : 7, "name" : {"fr" : "Intégration canadienne et immigration", "en": "New Canadian & Immigration Integration"}, "column" : 1, "index" : 3, "visible" : false },
     
-    { "id" : 5, "name" : "#health", "column" : 1, "index" : 0, "visible" : true },
-    { "id" : 6, "name" : "#culture", "column" : 1, "index" : 1, "visible" : true },
-    { "id" : 7, "name" : "#ecology", "column" : 1, "index" : 2, "visible" : false },
-    
-    { "id" : 8, "name" : "Tell us your vision about mental health?", "column" : 2, "index" : 0, "visible" : true },
-    { "id" : 9, "name" : "Tell us your vision for 2034?", "column" : 2, "index" : 1, "visible" : true },
-    { "id" : 10, "name" : "What is your wish for clean water?", "column" : 2, "index" : 2, "visible" : true },
-    { "id" : 11, "name" : "What is your wish for 2017?", "column" : 2, "index" : 3, "visible" : true }
+    { "id" : 8, "name" : {"fr" : "Droits autochtones", "en": "Indigenous Rights"}, "column" : 2, "index" : 0, "visible" : true },
+    { "id" : 9, "name" : {"fr" : "Développement de soi et de la communauté", "en": "Personal & Community Development"}, "column" : 2, "index" : 1, "visible" : true }
 
 ]

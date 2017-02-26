@@ -3,10 +3,73 @@
 
     @artefact.D3Renderer HUD_SCALE value, by default set to 1.0
 
-[-]
-[-]
-[-]
-[-]
-[-]
+[x] finding on-sreen nodes doesn't work so precise for 'breakng waves' 
+    with taking pop-up window off the screen.
+    
+    Have to use getScreenXY() method for a better result.
+    
+[-] There is fps lagging, so it's impossible to smooth 'explosive'
+    motion as it should be.
+    
+    However, 'freezed' state lasts for at least 6-8 seconds with FPS
+    rate above 60 frames per second, basically in 'idle'.
+    
+    It can be used to pre-calculate number of forgoing frames (position,
+    radius, color) and interpolates these data on exponential scale.
+    
+    I believe that it would be the effective solution for smoothing motions.
+    In both visualisations.
+
+    Estimated # of iterations is ~50!!! [debugger info]
+    Have to be reduced to 16, or in worst scenarion to 32.
+    
+    With curved-based interpolation function.
+    
+    https://en.wikipedia.org/wiki/Interpolation
+    https://en.wikipedia.org/wiki/Polynomial_interpolation
+    https://en.wikipedia.org/wiki/Curve_fitting
+    
+[-] clickable on 'interactive' mode
+    
+    [x] mockup for composite object
+    [x] composite object function embedding 
+    
+    [x] interactive scenario
+        display() keeps runing while user push another node
+                  taking over and displaying pushed wish
+        pause() exposive motion goes as background
+    
+    [x] categories highlighting
+        children: moveToFront()
+        non-children: black "#241F1F"
+        
+        non-children have category -1
+
+    Michael: Let's proceed to complete it with them! Some questions won't have categories - 
+    can you make sure it can work without categories if we choose to disable them - 
+    and make that clear how to do?
+    
+    [-] turn on/off category filter
+    [-] what about colour of those categories, which don't have category?!
+    
+        For now, let's say if would be 'white'.
+        Category 0 or null.
+        
+    [-] Uncaught RangeError: Maximum call stack size exceeded
+        chrome-extension://kbfnbcaeplbcioakkpcpgfkobkghlhen/src/js/bundle.js:11409 
+        
+        function l(e) {
+                var t, n;
+                (t = []).concat.apply(t, (0, y["default"])((n = []).concat.apply(n, (0, y["default"])(e.map(function(e) {
+                    var t = e.removedNodes;
+                    return [].concat((0, y["default"])((0, _["default"])(t))).map(function(e) {
+                        return s(e);
+                    });
+                }))))).forEach(v);
+        }
+        
+        D3Renderer.drawParticle(): this.filterAll();
+
+
 
 -: planned x: done
