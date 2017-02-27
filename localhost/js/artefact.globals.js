@@ -25,7 +25,8 @@ var palette = {
     blue: "#397BA3",
     yellow: "#ECBE42",
     lime: "#E4FC3F", 
-    black: "#241F1F"
+    black: "#241F1F",
+    white:  "#FFFFF"
 };
 
 
@@ -54,7 +55,8 @@ var bleaching = {
     blue : "#C8D6DF", //15
     yellow : "#F2E8CE", //17
     lime : "#EFF5CA", //19
-    black : "#362F4A", 
+    black : "#362F4A",
+    white: "#FFFFF",
 };
 
 var colors = [];
@@ -85,7 +87,8 @@ var categories = [
     {"id": 13, "en": "Political Representation", "fr": "Représentation politique"},
     {"id": 15, "en": "New Canadian & Immigration Integration", "fr": "Intégration canadienne et immigration"},
     {"id": 17, "en": "Indigenous Rights", "fr": "Droits autochtones"},
-    {"id": 19, "en": "Personal & Community Development", "fr": "Développement de soi et de la communauté"}
+    {"id": 19, "en": "Personal & Community Development", "fr": "Développement de soi et de la communauté"},
+    {"id": 0, "en": "_uuncategorised_", "fr": "_non-catégorisé_"}
     //{"id": 0, "en": "not selected", "fr": "non séléctionné"} 
     
 ];
@@ -96,6 +99,6 @@ var categories = [
 //e.g. 0111011110 or 478 [or heximal 01DE]
 
 //var selected = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19];
-var selected = [1, 19];
+var selected = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 0];
 
 var dataset;

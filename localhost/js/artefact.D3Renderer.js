@@ -115,7 +115,7 @@ var D3Renderer = {
                     name: wish.querySelector("name").textContent,
                     age: parseInt(wish.querySelector("age").textContent),
                     city: wish.querySelector("city").textContent,
-                    category: parseInt(wish.querySelector("categoryid").textContent),
+                    category: D3Renderer.checkCategory(wish.querySelector("categoryid").textContent),
                     message: wish.querySelector("text").textContent,
                     language: wish.querySelector("language").textContent
 
@@ -129,6 +129,13 @@ var D3Renderer = {
         //D3Renderer.HUD(scene, 0, 46, 200, true);
         D3Renderer.resize();
 
+    },
+    
+    checkCategory : function(id_){
+        
+        if(Number(id_).between(1, 19) && parseInt(id_) % 2 === 1) { return parseInt(id_); }
+        else { return 0; }
+        
     },
 
     showLangSelector: function () {
@@ -933,6 +940,13 @@ d3.layout.tagmenu = function (dimensions_) {
 
 };
 
+Number.prototype.between = function(a_, b_) {  
+    
+    var min = Math.min.apply(Math, [a_, b_]),
+    max = Math.max.apply(Math, [a_, b_]);
+    return this >= min && this <= max;
+    
+};
 
 function extractColors(colors_) {
 
