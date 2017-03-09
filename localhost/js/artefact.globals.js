@@ -93,6 +93,8 @@ var categories = [
     
 ];
 
+var footer = { intro : { en: "Made by ", fr: "Écrit par " }, anonymous: { en: "Anonymous", fr: "anonyme" }, delimiter: { en: " | ", fr: " | " }};
+
 //possibly could be decimal/heximal value from 0 ... 1023 / 0 ... 03FF
 //which could be decrypted as bynary 1111111111
 //where 0: unselected, 1: selected

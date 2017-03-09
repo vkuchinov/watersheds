@@ -112,9 +112,9 @@ var D3Renderer = {
                     id: parseInt(wish.querySelector("id").textContent),
                     partner: wish.querySelector("partnerid").textContent,
                     featured: wish.querySelector("featured").textContent,
-                    name: wish.querySelector("name").textContent,
+                    name: wish.querySelector("name").textContent.replace(/<!\[CDATA\[(.*?)\]\]>/g, '$1').trim(),
                     age: parseInt(wish.querySelector("age").textContent),
-                    city: wish.querySelector("city").textContent,
+                    city: wish.querySelector("city").textContent.replace(/<!\[CDATA\[(.*?)\]\]>/g, '$1').trim(),
                     category: D3Renderer.checkCategory(wish.querySelector("categoryid").textContent),
                     message: wish.querySelector("text").textContent,
                     language: wish.querySelector("language").textContent
@@ -621,11 +621,11 @@ var D3Renderer = {
         }
     },
 
-    HUD: function (scene_, object_, message_, language_, x_, y_, interval_, visible_) {
+    HUD: function (scene_, object_, message_, foot_, language_, x_, y_, interval_, visible_) {
 
         var bbox = object_.node().getBBox();
         middleX = bbox.x + (bbox.width / 2),
-            middleY = bbox.y + (bbox.height / 2);
+        middleY = bbox.y + (bbox.height / 2);
 
         var absoluteXY = getScreenXY(scene, object_, middleX, middleY);
 
@@ -716,7 +716,19 @@ var D3Renderer = {
             .attr("transform", "translate(" + params.lx + "," + params.ly + ")");
 
         D3Renderer.wrapLabel(label, message_, language_, 282);
-
+        
+        var lbox = label.node().getBBox();
+        var lheight = lbox.height;
+        
+        label.append("text")
+           .attr("x", 0)
+           .attr("y", lheight)
+           .attr("fill", hudStyle.message)
+           .attr("font-family", hudStyle.typeface)
+           .attr("font-size", hudStyle.size)
+           .attr("font-weight", "bolder")
+           .text(foot_);
+        
         HUD.attr("opacity", 0.0)
             .transition()
             .duration(interval_)
@@ -781,8 +793,40 @@ var D3Renderer = {
         if (message == "" || message == undefined || message == null) {
             message = "there is no comments";
         }
+        
+        var foot = "";
+        
+        if(dataset[id_.xmlID].name != ""){
+        
+            if(dataset[id_.xmlID].language == "en") { 
+                
+                foot += dataset[id_.xmlID].name; 
+                if(dataset[id_.xmlID].city != "") { foot += footer.delimiter.en + dataset[id_.xmlID].city; }
+                
+            } else {
+                
+                foot += dataset[id_.xmlID].name; 
+                if(dataset[id_.xmlID].city != "") { foot += footer.delimiter.fr + dataset[id_.xmlID].city; }
+                
+            }
+            
+            } else {
+            
+            if(dataset[id_.xmlID].language == "en") { 
+                
+                foot += footer.anonymous.en; 
+                if(dataset[id_.xmlID].city != "") { foot += footer.delimiter.en + dataset[id_.xmlID].city; }
+                
+            } else {
+                
+                foot += footer.anonymous.fr;
+                if(dataset[id_.xmlID].city != "") { foot += footer.delimiter.fr + dataset[id_.xmlID].city; }
+                
+            }
+            
+        }
 
-        this.HUD(scene, obj, message, dataset[id_.xmlID].language, translateX, translateY, interval_, true);
+        this.HUD(scene, obj, message, foot, dataset[id_.xmlID].language, translateX, translateY, interval_, true);
 
     },
 
@@ -881,7 +925,7 @@ var D3Renderer = {
             i = 1 - i;
             return q;
         });
-        return text_;
+        return quotes[0] + text_ + quotes[1];
 
     },
 
