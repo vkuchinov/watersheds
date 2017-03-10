@@ -800,12 +800,12 @@ var D3Renderer = {
         
             if(dataset[id_.xmlID].language == "en") { 
                 
-                foot += dataset[id_.xmlID].name; 
+                foot += footer.intro.en + dataset[id_.xmlID].name; 
                 if(dataset[id_.xmlID].city != "") { foot += footer.delimiter.en + dataset[id_.xmlID].city; }
                 
             } else {
                 
-                foot += dataset[id_.xmlID].name; 
+                foot += footer.intro.fr + dataset[id_.xmlID].name; 
                 if(dataset[id_.xmlID].city != "") { foot += footer.delimiter.fr + dataset[id_.xmlID].city; }
                 
             }
@@ -814,12 +814,12 @@ var D3Renderer = {
             
             if(dataset[id_.xmlID].language == "en") { 
                 
-                foot += footer.anonymous.en; 
+                foot += footer.intro.en + footer.anonymous.en; 
                 if(dataset[id_.xmlID].city != "") { foot += footer.delimiter.en + dataset[id_.xmlID].city; }
                 
             } else {
                 
-                foot += footer.anonymous.fr;
+                foot += footer.intro.fr + footer.anonymous.fr;
                 if(dataset[id_.xmlID].city != "") { foot += footer.delimiter.fr + dataset[id_.xmlID].city; }
                 
             }
