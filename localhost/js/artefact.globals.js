@@ -93,7 +93,7 @@ var categories = [
     
 ];
 
-var footer = { intro : { en: "shared by ", fr: "partagé par " }, anonymous: { en: "Anonymous", fr: "anonyme" }, delimiter: { en: " from ", fr: " de " }};
+var footer = { intro : { en: "shared by ", fr: "partagé par " }, anonymous: { en: "anonymous", fr: "anonyme" }, delimiter: { en: " from ", fr: " de " }};
 
 //possibly could be decimal/heximal value from 0 ... 1023 / 0 ... 03FF
 //which could be decrypted as bynary 1111111111
