@@ -152,7 +152,7 @@ var tidalSystem = {
 
     update: function () {
 
-        for (var i = 0; i < nodes.length; i++) {
+        for (var i = 0, l = nodes.length; i < l; i++) {
             this.resetTransition(nodes[i].transition, TRANSITIONS + 1);
         }
 
@@ -183,7 +183,7 @@ var tidalSystem = {
         var offset = 0;
         var positionBuf = system.GetPositionBuffer();
 
-        for (var i = 0; i < nodes.length; i++) {
+        for (var i = 0, l = nodes.length; i < l; i++) {
 
             nodes[i].cx = positionBuf[(i + offset) * 2] * SCALE_RATIO;
             nodes[i].cy = positionBuf[(i + offset) * 2 + 1] * SCALE_RATIO;
@@ -265,7 +265,7 @@ var tidalSystem = {
             var points = [];
             var buffer = system.GetPositionBuffer();
 
-            for (var i = 0; i < system.GetParticleCount(); i += 2) {
+            for (var i = 0, c = system.GetParticleCount(); i < c; i += 2) {
                 points.push({
                     x: buffer[i],
                     y: buffer[i + 1]
@@ -284,7 +284,7 @@ var tidalSystem = {
             var offset = 0;
             var positionBuf = system.GetPositionBuffer();
 
-            for (var i = 0; i < nodes.length; i++) {
+            for (var i = 0, l = nodes.length; i < l; i++) {
 
                 nodes[i].cx = positionBuf[(i + offset) * 2] * SCALE_RATIO;
                 nodes[i].cy = positionBuf[(i + offset) * 2 + 1] * SCALE_RATIO;
@@ -340,7 +340,7 @@ var tidalSystem = {
 
         }
 
-        for (var k = 0; k < nodes.length; k++) {
+        for (var k = 0, l = nodes.length; k < l; k++) {
 
             nodes[k].transition.cx.intervals.reverse();
             nodes[k].transition.cx.polynomial = new Polynomial(nodes[k].transition.cx.intervals, nodes[k].transition.cx.data, EXPONENTIAL_COEFFICIENTS.ORDER);
@@ -365,7 +365,7 @@ var tidalSystem = {
 
         ////d3.selectAll(".particle").remove();
 
-        for (var i = 0; i < nodes.length; i++) {
+        for (var i = 0, l = nodes.length; i < l; i++) {
 
             var c = nodes[i].calculateColor(nodes[i].state);
 
@@ -407,7 +407,7 @@ var tidalSystem = {
 
         global1 = Number(nodes[0].transition.global.polynomial.get(smooth));
 
-        for (var i = 0; i < nodes.length; i++) {
+        for (var i = 0, l = nodes.length; i < l; i++) {
 
             if (nodes[i].transition.cx.polynomial != null) {
 
@@ -442,7 +442,7 @@ var tidalSystem = {
 
     feed: function (system_, dataset_) {
 
-        for (var i = 0; i < system_.GetParticleCount() / 2; i++) {
+        for (var i = 0, c = system_.GetParticleCount() / 2; i < c; i++) {
 
             //there are messages up to 240 words, that"s why
             //I use "constrain" to limit length to 48 words
@@ -676,7 +676,7 @@ var tidalSystem = {
 
     findByKey: function (array_, key_, value_, default_) {
 
-        for (var i = 0; i < array_.length; i++) {
+        for (var i = 0, l = array_.length; i < l; i++) {
             if (array_[i][key_] === value_) {
                 return i;
             }

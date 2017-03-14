@@ -127,7 +127,7 @@ var D3Renderer = {
         });
 
         //D3Renderer.HUD(scene, 0, 46, 200, true);
-        D3Renderer.resize();
+        //D3Renderer.resize();
 
     },
     
@@ -364,7 +364,7 @@ var D3Renderer = {
             selected.push(parseInt(categories[category_].id));
         }
 
-        for (var i = 0; i < nodes.length; i++) {
+        for (var i = 0, l = nodes.length; i < l; i++) {
 
             var cat0 = dataset[nodes[i].xml].category;
             if (selected.contains(parseInt(cat0))) {
@@ -404,7 +404,7 @@ var D3Renderer = {
 
         console.log("There are " + data_.length + " wishes");
 
-        for (var i = 0; i < data_.length; i++) {
+        for (var i = 0, d = data_.length; i < d; i++) {
 
             var parsed = data_[i].message.replace(/<!\[CDATA\[(.*?)\]\]>/g, '$1').trim();
             total += parsed.length;
@@ -611,12 +611,12 @@ var D3Renderer = {
     },
 
     setMouseEventsToAll: function () {
-        for (var i = 0; i < nodes.length; i++) {
+        for (var i = 0, l = nodes.length; i < l; i++) {
             this.setMouseEvents(i);
         }
     },
     removeMouseEventsToAll: function () {
-        for (var i = 0; i < nodes.length; i++) {
+        for (var i = 0, l = nodes.length; i < l; i++) {
             this.setMouseEvents(i);
         }
     },
@@ -745,7 +745,7 @@ var D3Renderer = {
     },
 
     filterAll: function () {
-        for (var i = 0; i < nodes.length; i++) {
+        for (var i = 0, l = nodes.length; i < l; i++) {
             this.filter(i);
         }
     },
@@ -962,7 +962,7 @@ var D3Renderer = {
 
 function deleteElement(array_, index_) {
 
-    for (var i = 0; i < array_.length; i++) {
+    for (var i = 0, l = array_.length; i < l; i++) {
         if (i === index_) {
             array_.splice(i, 1);
         }

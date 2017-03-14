@@ -77,11 +77,11 @@ var ripplingSystem = {
 
         //this.generator.update();
 
-        for (var i = 0; i < nodes.length; i++) {
+        for (var i = 0, l = nodes.length; i < l; i++) {
             this.resetTransition(nodes[i].transition, TRANSITIONS + 1);
         }
 
-        for (var i = 0; i < nodes.length; i++) {
+        for (var i = 0, l = nodes.length; i < l; i++) {
 
             var fill = nodes[i].color;
             var rad = 0.0;
@@ -126,7 +126,7 @@ var ripplingSystem = {
 
             this.generator.update();
 
-            for (var i = 0; i < nodes.length; i++) {
+            for (var i = 0, l = nodes.length; i < l; i++) {
 
                 //nodes[i].cx_last = nodes[i].cx;
                 //nodes[i].cy_last = nodes[i].cy;
@@ -168,7 +168,7 @@ var ripplingSystem = {
 
         }
 
-        for (var k = 0; k < nodes.length; k++) {
+        for (var k = 0, l = nodes.length; k < l; k++) {
 
             //if(k < 3) { console.log(nodes[k].transition.radius.intervals); }
             //calculate polynomial
@@ -183,7 +183,7 @@ var ripplingSystem = {
 
         ////d3.selectAll(".particle").remove();
 
-        for (var i = 0; i < nodes.length; i++) {
+        for (var i = 0, l = nodes.length; i < l; i++) {
 
             var c = nodes[i].color;
 
@@ -206,7 +206,7 @@ var ripplingSystem = {
         var maxInterval = this.exponentialMap(1.0, 5E3);
         var smooth = Number(this.map(this.exponentialMap(this.map(interval, 0, INTERVALS.A, 1.0, 0.0), 5E3), minInterval, maxInterval, 0, INTERVALS.B));
 
-        for (var i = 0; i < nodes.length; i++) {
+        for (var i = 0, l = nodes.length; i < l; i++) {
 
             if (nodes[i].transition.radius.polynomial != null) {
 
@@ -458,7 +458,7 @@ var ripplingSystem = {
 
     findByKey: function (array_, key_, value_, default_) {
 
-        for (var i = 0; i < array_.length; i++) {
+        for (var i = 0, l = array_.length; i < l; i++) {
             if (array_[i][key_] === value_) {
                 return i;
             }

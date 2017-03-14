@@ -87,7 +87,7 @@ function Polynomial(data_, time_, order_) {
         x = [data_.length];
         y = [data_.length];
     
-        for(var i = 0; i < data_.length; i++){
+        for(var i = 0, d = data_.length; i < d; i++){
 
             x[i] = data_[i];
             y[i] = time_[i];
