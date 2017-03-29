@@ -223,8 +223,8 @@ function setBulletTime(object_, parameters0_, parameters1_, duration_, type_, lo
 [![RIPPLES #3](https://img.youtube.com/vi/92dTMAvsd6E/0.jpg)]
 (https://www.youtube.com/watch?v=92dTMAvsd6E)
 <br>
-![alt tag](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/prebuildA.png)<br>
-![alt tag](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/prebuildB.png)<br>
+![Screenshot](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/prebuildA.png)<br>
+![Screenshot](https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/prebuildB.png)<br>
 
 <br><br>
 <h2>TIMING</h2><br>
