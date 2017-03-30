@@ -3,7 +3,7 @@
 <h4>TIDAL VISUALISATION</h4>
 <a href="http://youtu.be/Da_vvlkevOw"><img src="https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/finalT.png" width="100%"/></a><br>
 click on top of this screenshot to see video ⇪ <br><br>
-<img src="https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/tidals4.png" width="100%"/><br>
+<img src="https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/tidals4.png" width="100%"/>
 <h4>WATER RIPPLING VISUALISATION</h4>
 <a href="http://youtu.be/BW5XJgO4eXU"><img src="https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/finalR.png" width="100%"/></a><br>
 click on top of this screenshot to see video ⇪ <br><br>
