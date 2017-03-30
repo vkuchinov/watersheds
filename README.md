@@ -21,3 +21,12 @@ click on top of this screenshot to see video ⇪ <br><br>
 	<text><![CDATA[Hello Canada!]]></text>
 </wish>
 ```
+<h3>DAILY TODO LIST</h3>
+<h4>January 10th, 2017</h4>
+```
+[!] D3Renderer.bulletTime() function
+[x] D3Renderer.updateData() function
+[x] D3Renderer.highlightNode(system_, id_) function
+
+[-] planned, [x] done, [!] in progress
+```
