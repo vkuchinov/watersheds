@@ -1,5 +1,5 @@
 <h1>Watersheds: Two Visualizations of User-Submitted Text Using HTML/JavaScript</h1>
-<h3>Water Ripples & Breaking [Tidal] Waves Visualisations Based on D3.JS & LiquidFun.JS</h3>
+<h3>Water Ripples & Breaking [Tidal] Waves Visualisations Based on D3.JS & LiquidFun.JS*</h3>
 <h4>TIDAL VISUALISATION</h4>
 <a href="http://youtu.be/Da_vvlkevOw"><img src="https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/finalT.png" width="100%"/></a><br>
 click on top of this screenshot to see video ⇪ <br><br>
@@ -40,3 +40,5 @@ click on top of this screenshot to see video ⇪ <br><br>
 		</tr>
 	</tbody>
 </table>
+<br>
+* - with KD-Tree optimisation
