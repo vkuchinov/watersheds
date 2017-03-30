@@ -21,6 +21,12 @@ click on top of this screenshot to see video ⇪ <br><br>
 	<text><![CDATA[Hello Canada!]]></text>
 </wish>
 ```
+
+| First Header  | Second Header |
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
+
 <h4>COLOUR SCHEME</h4>
 |                    |                      |                 |
 |--------------------|----------------------|-----------------|
