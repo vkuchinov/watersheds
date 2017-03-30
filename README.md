@@ -21,16 +21,10 @@ click on top of this screenshot to see video ⇪ <br><br>
 	<text><![CDATA[Hello Canada!]]></text>
 </wish>
 ```
-
-| First Header  | Second Header |
-| ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
-
 <h4>COLOUR SCHEME</h4>
-|                    |                      |                 |
-|--------------------|----------------------|-----------------|
-| Pink: #F59DAE      | Red: #D43D31         | Brown: #815A3D  |
-| Green: #92CA70     | Orange: #F19436      | Purple: #925E8E |
-| Teal: #6AC5B3      | Black: #241F1F       |                 |
-| Blue: #397BA3      | Yellow: #ECBE42      |                 |
+|                |                  |                 |
+| -------------- | ---------------- |---------------- |
+| Pink: #F59DAE  | Red: #D43D31     | Brown: #815A3D  |
+| Green: #92CA70 | Orange: #F19436  | Purple: #925E8E |
+| Teal: #6AC5B3  | Black: #241F1F   |                 |
+| Blue: #397BA3  | Yellow: #ECBE42  |                 |
