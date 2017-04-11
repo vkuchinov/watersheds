@@ -54,7 +54,6 @@ click on top of this screenshot to see video ⇪ <br><br>
   ]
 }
 ```
-
 <h4>COLOUR TABLE</h4>
 <table >
 	<tbody>
@@ -77,6 +76,10 @@ click on top of this screenshot to see video ⇪ <br><br>
 			<td> </td>
 		</tr>
 	</tbody>
-</table>
+</table><br>
+<img src="https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/colours2.png" width="100%"/>
 <br>
+<h2>DAILY TODO LIST</h2>
+<h3>January 10th, 2017</h3>
+
 * - with KD-Tree optimisation
