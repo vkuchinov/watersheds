@@ -77,7 +77,7 @@ click on top of this screenshot to see video ⇪ <br><br>
 		</tr>
 	</tbody>
 </table><br>
-<img src="https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/colours2.png" width="100%"/>
+<img src="https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/colours2.png"/>
 <br>
 <h2>DAILY TODO LIST</h2>
 <h3>January 10th, 2017</h3>
