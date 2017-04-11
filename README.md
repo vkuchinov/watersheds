@@ -80,7 +80,6 @@ click on top of this screenshot to see video ⇪ <br><br>
 <img src="https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/colours2.png"/>
 <h2>DAILY TODO LIST</h2>
 <h3>January 10th, 2017</h3>
-<h3>January 10th, 2017</h3>
 
 ```
 [!] D3Renderer.bulletTime() function
