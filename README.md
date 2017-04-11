@@ -79,6 +79,10 @@ click on top of this screenshot to see video ⇪ <br><br>
 </table><br>
 <img src="https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/colours2.png"/>
 <h3>MOCK-UPs</h3>
+<a href="https://youtu.be/78C9J5WWgbk"><img src="https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/mockupsR.png" width="100%"/></a><br>
+click on top of this screenshot to see video ⇪ <br><br>
+<a href="https://youtu.be/oF2WPfEOEP4"><img src="https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/mockupsT.png" width="100%"/></a><br>
+click on top of this screenshot to see video ⇪ <br><br>
 <h3>FOAM</h3>
 <img src="https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/foam.png" width="100%"/>
 <br>
