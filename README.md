@@ -168,10 +168,13 @@ function setBulletTime(object_, parameters0_, parameters1_, duration_, type_, lo
 [-] -
 ```
 <h3>January 27th, 2017</h3>
+
 ```
 [x] polynomial regression for smoothing motions
 ```
+
 ```
+
 	function Polynomial(data_, time_, order_) {
 
 	    this.get = function(value_){
@@ -295,7 +298,9 @@ function setBulletTime(object_, parameters0_, parameters1_, duration_, type_, lo
 
 	}
 ```
+
 ```
+
   PUNCTIATION TWEAK
   &quot;TEXT&quot; > en: “TEXT” or fr: «TEXT»
 
@@ -303,6 +308,8 @@ function setBulletTime(object_, parameters0_, parameters1_, duration_, type_, lo
   var en = ["“", "”"];
   var quotes = (language_ == "en") ? en : fr;
   text_ = text_.replace(/&quot;/g, function() { var q = quotes[i]; i = 1 - i; return q; });
+  
 ```
+
 [-] planning, [!] in progress, [x] done<br><br>
 &#42; - with KD-Tree optimisation
