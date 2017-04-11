@@ -78,8 +78,15 @@ click on top of this screenshot to see video ⇪ <br><br>
 	</tbody>
 </table><br>
 <img src="https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/colours2.png"/>
-<br>
 <h2>DAILY TODO LIST</h2>
 <h3>January 10th, 2017</h3>
+<h3>January 10th, 2017</h3>
 
+```
+[!] D3Renderer.bulletTime() function
+[x] D3Renderer.updateData() function
+[x] D3Renderer.highlightNode(system_, id_) function
+```
+<br>
+[-] planning, [!] in progress, [x] done<br><br>
 * - with KD-Tree optimisation
