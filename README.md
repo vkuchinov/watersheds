@@ -131,6 +131,42 @@ it would be better to work with real XML data from your server.</i><br>
 [-] fully functional 'ripples' mock-up
 [x] all bulletTime() concept have to be done on native D3.js transitions rather on my own class and methods
 ```
+<i>Developing my own paradigm of time controll was a waste of time. Instead of this I shoud use native D3 transitions.</i>
+
+```
+//method(d3_element, {"r" : 32, "cx" : width/2... }, {"r" : 128, "cx" : 0, ... }, millis, "exp" or any D3 easing, true/false)
+//where parameters could be any set of attrbutes
+
+function setBulletTime(object_, parameters0_, parameters1_, duration_, type_, loop_){
+
+  if(Object.keys(parameters0_).length==Object.keys(parameters1_).length
+  && Object.keys(parameters0_).every(function(v,i) { return v === Object.keys(parameters1_)[i]})) {
+
+  object_.attr(parameters0_)
+  .transition()
+  .ease(type_)
+  .duration(duration_)
+  .attr(parameters1_)
+  .each("end", function(d) { if(loop_) { setBulletTime(object_, parameters0_, parameters1_, duration_, type_, loop_); } else { this.remove(); } } );
+
+  } else { console.log("Oooops, something wrong!"); }
+
+  }
+
+  function removeBulletTime(object_, parameters_){ object_.transition(); }
+
+```
+
+<i>This solution is very elegant to my own.</i>
+[![RIPPLES #3](https://img.youtube.com/vi/JxC8tNoihRI/0.jpg)]
+(https://www.youtube.com/watch?v=JxC8tNoihRI)
+<br>
+
+<h3>January 14th, 2017</h3>
+
+```
+[-] -
+```
 
 [-] planning, [!] in progress, [x] done<br><br>
 &#42; - with KD-Tree optimisation
