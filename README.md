@@ -167,7 +167,48 @@ function setBulletTime(object_, parameters0_, parameters1_, duration_, type_, lo
 ```
 [-] -
 ```
-<h1>...</h1>
+
+<h3>January 18th, 2017</h3>
+
+```
+
+[x] Basically I've lost several days solving glitchy behaivour. Don't be lazy to double check for variable type.
+  It seems that D3 has some problems with taking String to numbers smoothly.
+
+  if you're using debugging console, don't be shy to do it like this
+
+  console.log(variable + " " + typeof variable)
+
+  because if you see 1.234 it doesn't mean that you're dealing with number.
+  
+```
+
+<h3>January 19th, 2017</h3>
+
+```
+
+[x] applying categories
+
+  There are 10 categories as well as there are 10 colors, so I could suggest
+  that I should keep the same order Inclusivity>pink ... Personal>black
+
+  var categories = [
+
+  {id: 1, en: "Inclusivity & Accessibility", fr: "Inclusivité et accessibilite"},
+  {id: 3, en: "Cultural & Historical Conservation", fr: "Conservation culturelle et historique"},
+  {id: 5, en: "Environmental Sustainability", fr: "Viabilité de l’environnement"},
+  {id: 7, en: "Human Rights", fr: "Droits humains"},
+  {id: 9, en: "Physical & Mental Health", fr: "Santé physique et mentale"},
+  {id: 11, en: "LGBTQ2A Rights", fr: "Droits LGBTQ2A"},
+  {id: 13, en: "Political Representation", fr: "Représentation politique"},
+  {id: 15, en: "New Canadian & Immigration Integration", fr: "Intégration canadienne et immigration"},
+  {id: 17, en: "Indigenous Rights", fr: "Droits autochtones"},
+  {id: 19, en: "Personal & Community Development", fr: "Développement de soi et de la communauté"}
+
+  ]
+  
+```
+
 <h3>January 20th, 2017</h3>
 
 ```
@@ -176,10 +217,10 @@ function setBulletTime(object_, parameters0_, parameters1_, duration_, type_, lo
   
 ```
   autonomous: shows node by node information automatically
-  interactive: user could click on desired node to get its information
+  interactive: user could click on desired node to get its information.
 
   In both cases, old nodes would be replaced with new ones automatically
-  with only two parameters timeinterval/number of nodes to replace
+  with only two parameters timeinterval/number of nodes to replace.
 
 <h3>January 21th, 2017</h3>
 
