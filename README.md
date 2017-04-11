@@ -168,6 +168,39 @@ function setBulletTime(object_, parameters0_, parameters1_, duration_, type_, lo
 [-] -
 ```
 <h1>...</h1>
+<h3>January 20th, 2017</h3>
+
+```
+[!] Two modes: self-running/autonomous [for projecting] & interactive [for users]
+  ?type=rippling/tidal & mode="autonomous/interactive
+  
+```
+  autonomous: shows node by node information automatically
+  interactive: user could click on desired node to get its information
+
+  In both cases, old nodes would be replaced with new ones automatically
+  with only two parameters timeinterval/number of nodes to replace
+
+<h3>January 21th, 2017</h3>
+
+```
+  URGENT ISSUES TO SOLVE
+[x] Eliminate bugs on window resizing, make it 100% stable and proof.
+[x] Add DAT.GUI.js or controlKit.js for adjusting parameters
+[-] Fully integrate bulletTime() for both visualization
+
+```
+  Let's say we have updates every 20 seconds. By this time visualisation
+  shoud behave like slow-mo movie, stretching only a few second movement
+  along this interval.
+
+  But, with a little trick — it wouldn't be a linear slow-motion, but with
+  exponential or anticipatory easing, making scene still-like but with rapid
+  and smooth transition to next step at the end of each period.
+
+  I hope it will work well, otherwise we should switch to less spectacular
+  series of stills.
+
 <h3>January 27th, 2017</h3>
 
 ```
