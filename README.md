@@ -89,4 +89,4 @@ click on top of this screenshot to see video ⇪ <br><br>
 ```
 
 [-] planning, [!] in progress, [x] done<br><br>
-* - with KD-Tree optimisation
+&#42; - with KD-Tree optimisation
