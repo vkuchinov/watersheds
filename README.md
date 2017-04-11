@@ -157,11 +157,6 @@ function setBulletTime(object_, parameters0_, parameters1_, duration_, type_, lo
 
 ```
 
-<i>This solution is very elegant to my own.</i>
-[![RIPPLES #3](https://img.youtube.com/vi/JxC8tNoihRI/0.jpg)]
-(https://www.youtube.com/watch?v=JxC8tNoihRI)
-<br>
-
 <h3>January 14th, 2017</h3>
 
 ```
