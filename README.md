@@ -78,6 +78,18 @@ click on top of this screenshot to see video ⇪ <br><br>
 	</tbody>
 </table><br>
 <img src="https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/colours2.png"/>
+<h3>FOAM</h3>
+<img src="https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/foam.png" width="100%"/>
+<br>
+<i>Foam could be potentially visualised by splitting node into a pack of subparticles or, it's better to say,<br>
+a flock due it should be controlled by classical Boids algorithm.<i>
+<br><br>
+<img src="https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/flock.png" width="100%"/>
+<br><br>
+<i>There is a danger that in terms of visual communications, because this foamy flock could be considered
+as several nodes, however it could visually engaging.<i>
+<br><br>
+<img src="https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/flock_v2.png" width="100%"/>
 <h2>DAILY TODO LIST</h2>
 <h3>January 10th, 2017</h3>
 
