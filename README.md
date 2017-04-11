@@ -98,5 +98,27 @@ It seems that there are only 230 items at http://research.tigweb.org/wishes/raw.
 or script is limiting it to this number. Have to sort it out, because for now I need a least
 several thousands for testing.<br>For now, I have copy-pasted same elements locally, although
 it would be better to work with real XML data from your server.</i><br>
+<h3>January 11th, 2017</h3>
+
+```
+[x] predefined color palette, by names or as array
+[!] Timer() function for bulletTime()
+```
+
+<h3>January 12th, 2017</h3>
+
+```
+[!] each moving object should have composite speed parameter { step: f/θ, interval: t, ratio: μ }
+[!] Ripple() function for <i>ripples concept</i>
+[!] Generator() function
+```
+
+<h3>January 13th, 2017</h3>
+
+```
+[-] fully functional 'ripples' mock-up
+[x] all bulletTime() concept have to be done on native D3.js transitions rather on my own class and methods
+```
+
 [-] planning, [!] in progress, [x] done<br><br>
 &#42; - with KD-Tree optimisation
