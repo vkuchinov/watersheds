@@ -311,6 +311,19 @@ function setBulletTime(object_, parameters0_, parameters1_, duration_, type_, lo
   text_ = text_.replace(/&quot;/g, function() { var q = quotes[i]; i = 1 - i; return q; });
   
 ```
+<h3>REFERENCES</h3>
+http://research.tigweb.org/wishes/raw.html<br>
+<i>?limit=value desired amount of wishes from beginning<br>
+
+<br>
+http://easings.net/<br>
+http://www.timotheegroleau.com/Flash/experiments/easing_function_generator.htm<br>
+https://github.com/jesusgollonet/processing-penner-easing/<br>
+<br>
+http://darsa.in/fpsmeter/
+<br>
+https://en.wikipedia.org/wiki/Words_per_minute<br>
+https://en.wikipedia.org/wiki/Reading_(process)#Reading_rate<br><br>
 
 [-] planning, [!] in progress, [x] done<br><br>
 &#42; - with KD-Tree optimisation
