@@ -78,6 +78,7 @@ click on top of this screenshot to see video ⇪ <br><br>
 	</tbody>
 </table><br>
 <img src="https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/colours2.png"/>
+<h3>MOCK-UPs</h3>
 <h3>FOAM</h3>
 <img src="https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/foam.png" width="100%"/>
 <br>
