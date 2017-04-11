@@ -87,6 +87,6 @@ click on top of this screenshot to see video ⇪ <br><br>
 [x] D3Renderer.updateData() function
 [x] D3Renderer.highlightNode(system_, id_) function
 ```
-<br>
+
 [-] planning, [!] in progress, [x] done<br><br>
 * - with KD-Tree optimisation
