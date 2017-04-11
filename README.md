@@ -21,20 +21,24 @@ click on top of this screenshot to see video ⇪ <br><br>
 	<text><![CDATA[Hello Canada!]]></text>
 </wish>
 ```
+<h3>COLOUR TABLE</h3>
 <table >
 	<tbody>
 		<tr>
-			<td> </td>
-			<td> </td>
-			<td> </td>
+			<td>Pink: #F59DAE</td>
+			<td>Green: #92CA70</td>
+			<td>Teal: #6AC5B3</td>
+			<td>Blue: #397BA3</td>
 		</tr>
 		<tr>
-			<td> </td>
-			<td> </td>
-			<td> </td>
+			<td>Red: #D43D31</td>
+			<td>Orange: #F19436</td>
+			<td>Black: #241F1F</td>
+			<td>Yellow: #ECBE42</td>
 		</tr>
 		<tr>
-			<td> </td>
+			<td>Brown: #815A3D</td>
+			<td>Purple: #925E8E</td>
 			<td> </td>
 			<td> </td>
 		</tr>
