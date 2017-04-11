@@ -167,6 +167,142 @@ function setBulletTime(object_, parameters0_, parameters1_, duration_, type_, lo
 ```
 [-] -
 ```
+<h3>January 27th, 2017</h3>
+```
+[x] polynomial regression for smoothing motions
+```
+```
+	function Polynomial(data_, time_, order_) {
 
+	    this.get = function(value_){
+
+		var output = a[0];
+
+		for(var  i = 1; i < n; i++){ output += a[i] * Math.pow(value_, i); }
+
+		return output;
+
+	    };
+
+	    this.create2DArray = function(size_) {
+
+		var arr = [];
+
+		for (var i = 0; i < size_; i++) { arr[i] = []; }
+		return arr;
+
+	    };
+
+	    this.create1DArray = function(size_) {
+
+		var arr = [];
+
+		for (var i = 0; i < size_; i++) { arr[i] = 0.0; }
+		return arr;
+
+	    };
+
+	    var a;
+
+	    var EPSILON = 1E-4;
+	    var n, N;
+
+	    var x, y, X, Y, B;
+
+	    if(data_.length != time_.length) { console.log("polynomial: Oooops, bad inputs!"); }
+
+		n = order_; 
+		N = data_.length;
+
+		x = [data_.length];
+		y = [data_.length];
+
+		for(var i = 0; i < data_.length; i++){
+
+		    x[i] = data_[i];
+		    y[i] = time_[i];
+
+		}
+
+		//sigma(xi^2n)
+		X = [2 * n + 1]; 
+
+		for (var i = 0; i < 2 * n + 1; i++) {
+
+		    X[i] = 0.0;
+		    for (var j = 0; j < N; j++) { X[i] += Math.pow(x[j], i); }
+
+		}
+
+		//normal matrix (augmented)
+		B = this.create2DArray(n + 2); 
+		a = this.create1DArray(n + 1);
+
+		for (var i = 0; i <= n; i++) { for (var j = 0; j <=n ; j++) { B[i][j] = X[i + j]; }}  
+
+		//sigma(yi^2n)
+		Y = [n + 1];              
+
+		for (var i = 0; i < n + 1; i++){
+
+		    Y[i] = 0.0;
+		    for (var j = 0; j < N; j++) {  Y[i] += Math.pow(x[j], i) * y[j]; }
+
+		}
+
+		for (var i = 0; i <= n; i++) { B[i][n + 1] = Y[i]; }  
+
+		n++;
+
+		for(var i = 0; i < n; i++){
+
+		    for (var k = i + 1; k < n; k++){
+
+			if (B[i][i] < B[k][i]) {
+
+			    for (var j = 0; j <= n; j++) {
+
+				tmp = B[i][j];
+				B[i][j] = B[k][j];
+				B[k][j] = tmp;
+
+			    }
+			}
+		    }
+		}
+
+
+		for (var i = 0; i < n - 1; i++){
+
+		    for (var k = i + 1; k < n; k++){ 
+
+		    t = B[k][i] / B[i][i];
+		    for (var j = 0; j <= n; j++) { B[k][j] -= t * B[i][j]; }
+
+		    }
+
+		}
+
+		for (var i = n - 1; i >= 0; i--) {                        
+
+		    a[i] = B[i][n]; 
+
+		    for (var j = 0; j < n; j++) { if (j != i)  { a[i] -= B[i][j] * a[j]; } }
+
+		    a[i] /=  B[i][i];
+
+		} 
+
+	}
+```
+```
+  PUNCTIATION TWEAK
+  &quot;TEXT&quot; > en: “TEXT” or fr: «TEXT»
+
+  var fr = ["«", "»"];
+  var en = ["“", "”"];
+  var quotes = (language_ == "en") ? en : fr;
+  text_ = text_.replace(/&quot;/g, function() { var q = quotes[i]; i = 1 - i; return q; });
+```
 [-] planning, [!] in progress, [x] done<br><br>
 &#42; - with KD-Tree optimisation
