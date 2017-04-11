@@ -86,6 +86,17 @@ click on top of this screenshot to see video ⇪ <br><br>
 [x] D3Renderer.updateData() function
 [x] D3Renderer.highlightNode(system_, id_) function
 ```
-
+<i>timelapse() should be actually custom easing transition for experimenting on the edge of still and motion.
+There is a good example of D3.js easing, however we have to do our own method very close to exponential growth.
+See https://bl.ocks.org/mbostock/248bac3b8e354a9103c4 [expIn, backIn, expInOut, backInOut]
+or https://github.com/d3/d3-ease<br>
+<br>
+expIn > exponential growth > x{t}=x{0}(1+r)^{t}, where r is a growth rate, e.g. r = 5% = 0.05 per interval<br>
+backIn > anticipatory easing > x{t}=1-(1 - t)<br>
+<br>
+It seems that there are only 230 items at http://research.tigweb.org/wishes/raw.html by now
+or script is limiting it to this number. Have to sort it out, because for now I need a least
+several thousands for testing.<br>For now, I have copy-pasted same elements locally, although
+it would be better to work with real XML data from your server.</i><br>
 [-] planning, [!] in progress, [x] done<br><br>
 &#42; - with KD-Tree optimisation
