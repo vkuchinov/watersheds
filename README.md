@@ -213,7 +213,7 @@ function setBulletTime(object_, parameters0_, parameters1_, duration_, type_, lo
 
 ```
 [!] Two modes: self-running/autonomous [for projecting] & interactive [for users]
-  ?type=rippling/tidal & mode="autonomous/interactive
+    ?type=rippling/tidal & mode="autonomous/interactive
   
 ```
   autonomous: shows node by node information automatically
