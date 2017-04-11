@@ -22,7 +22,7 @@ click on top of this screenshot to see video ⇪ <br><br>
 </wish>
 ```
 <h4>TAGS JSON</h4>
-<i>https://github.com/vkuchinov/watersheds/blob/master/localhost/json/tags.json</i><br>
+<i>https://github.com/vkuchinov/watersheds/blob/master/localhost/json/tags.json</i><br><br>
 
 ```
 {
