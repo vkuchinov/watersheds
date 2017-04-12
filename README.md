@@ -162,11 +162,75 @@ function setBulletTime(object_, parameters0_, parameters1_, duration_, type_, lo
 
 ```
 
-<h3>January 14th, 2017</h3>
+<h3>January 15th, 2017</h3>
 
 ```
-[-] -
+//method(d3_element, {"r" : 32, "cx" : width/2... }, {"r" : 128, "cx" : 0, ... }, millis, "exp" or any D3 easing, true/false)
+//where parameters could be any set of attrbutes
+
+function setBulletTime(object_, parameters0_, parameters1_, duration_, type_, loop_){
+
+  if(Object.keys(parameters0_).length==Object.keys(parameters1_).length
+  && Object.keys(parameters0_).every(function(v,i) { return v === Object.keys(parameters1_)[i]})) {
+
+  object_.attr(parameters0_)
+  .transition()
+  .ease(type_)
+  .duration(duration_)
+  .attr(parameters1_)
+  .each("end", function(d) { if(loop_) { setBulletTime(object_, parameters0_, parameters1_, duration_, type_, loop_); } else { this.remove(); } } );
+
+  } else { console.log("Oooops, something wrong!"); }
+
+  }
+
+  function removeBulletTime(object_, parameters_){ object_.transition(); }
+
 ```
+
+Adult literate people don't read by the character. They do that only for foreign languages in the first stages of learning that language, and even that mostly for languages using a script very different from the languages they do know (as an English speaker would for Arabic, but not for German). Otherwise the word registers in the brain as a whole, pretty much immediately. Perhaps for the word "encyclopedia" it would take longer than for the word "ant", but the difference is a matter of milliseconds at best, and probably not even that. Also, it's both extremely subjective (based on how frequently that person uses that word) and extremely difficult to measure.
+<br><br>
+According to Wikipedia the average reading speed from coumputer/tablet screen(English) is ~160-180 words per minute [wpm].
+Let's say that comfortable rate would be even smaller — 120 wpm.
+<br><br>
+By now there are around 240 wishes available for analyses.<br><br>
+<b>The minimal length is 8 characters or 2 words. [filtered empty wishes]<br>
+Average wish is 152 characters or 24 words.<br>
+The biggest message is 1402!!! characters or 228 words!!! [looks like anomaly]</b><br>
+```
+There are several issues that I would like to see resolved within my lifetime, much earlier than 150
+years from now, but I will discuss two. The number one issue that needs immediate attention is
+the unacceptable conditions of Indigenous communities across the country.
+Today, we still have many communities struggling with epidemics of youth suicide and domestic violence,
+substance abuse, a vast lack of employment opportunities, among many other issues.
+Culminating in the height of the emergency status that many Indigenous communities and individuals
+have existed in for decades is the issue of Missing and Murdered Indigenous women - an issue that
+I relate to, to an extent, as a young, racialized, female survivor of sexual assault.
+My feelings on the topic of Indigenous issues in our country are so powerful that I believe
+we need to actively work towards reconciliation and solutions as soon as possible, in order
+to be a genuine global leader on social justice issues. The second issue I find most pressing in Canada,
+vital to change within 150 years, is electoral reform. Our current First-Past-The-Post system is outdated,
+limited, and unfair to the diversity of issues and interests that communities have throughout the country.
+A move away from such a system that encourages strategic voting will ensure that our key democratic processes
+are renewed and that our votes start to truly count.
+```
+Looks like a small essay. Is it real or a 'stress-test' mock-up?
+<br><br>
+So, if we are dealing with average, in 20 seconds (1/3 of minute) we could confortably<br>
+show up to 5 wishes.<br><br>
+<b>Ideally, there should be extended analyses algorithm for calculating showing time for every<br>
+single wish based on its content length.</b>
+<br><br>
+
+<h3>January 17th, 2017</h3>
+
+```
+[x] timeStretching function
+
+
+```
+<img src="https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/timescales.png" width="100%"/><br>
+<img src="https://github.com/vkuchinov/watersheds/blob/master/Documentation/assets/timeStretching.png" width="100%"/><br>
 
 <h3>January 18th, 2017</h3>
 
